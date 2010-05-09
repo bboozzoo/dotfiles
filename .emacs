@@ -1,0 +1,11 @@
+(require 'font-lock)                ;syntax on
+(global-font-lock-mode t)
+(setq font-lock-verbose nil)        ;no messages
+(setq query-replace-highlight t)    ;highlight query
+(setq search-highlight t)           ;highlight incremental search
+(show-paren-mode t)                 ;show matching parentheses
+(setq blink-matching-paren-distance nil) ;search for open-paren till point-min
+(delete-selection-mode 1)           ;deleting region by typing or del (like Win)
+(setq transient-mark-mode t)        ;show selected region
+(setq inhibit-startup-screen t)     ;disable startup screen
+(setq initial-buffer-choice t)      ;show scratch buffer
