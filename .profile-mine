@@ -1,0 +1,12 @@
+# extra configuration
+
+# aliases
+echo '-- updating aliases'
+alias grep='grep --color=auto'
+alias ls='ls --color=auto'
+
+# exports
+echo '-- updating path'
+PATH=$PATH:~/bin
+
+export PATH
