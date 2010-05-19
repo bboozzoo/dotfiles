@@ -1,0 +1,5 @@
+# add this to .profile
+
+if [ -f "$HOME/.profile-mine" ]; then
+    . "$HOME/.profile-mine"
+fi
