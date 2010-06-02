@@ -221,7 +221,7 @@ def setup_logging():
 
 def print_usage():
     print '''rsync synchronizer - srync
-Usage: srync [-d lvl] <sync entry> [<sync entry>]
+Usage: srync [-d lvl] [-t] [-l] <sync entry> [<sync entry>]
     -d lvl    set debugging level, levels: debug, info, warning,
                                            error, critical
     -t        two-way synchronization
