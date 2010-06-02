@@ -1,0 +1,103 @@
+#!/usr/bin/env python
+
+import sys
+import getopt
+
+apps_list = ['srync']
+configs_list = [ 'screenrc', 
+                 'emacs',
+                 'gitconfig',
+                 'vimrc',
+                 'vim' ]
+
+deployable_objects = { 'apps' : apps_list,
+                       'config' : configs_list }
+
+class DeployError(Exception):
+    def __init__(self, what, was_error = True, show_usage = False):
+        self.__what = what
+        self.was_error = was_error
+        self.show_usage = show_usage
+    def __str__(self):
+        return str(self.__what)
+    
+def show_usage():
+    print '''deploy - config install tool
+Usage: deploy [-l] [-h] group [entry]
+    -l        list entries
+    -h        show help
+'''
+
+def list_all_entries():
+    ''' will list all entries in tree-like form'''
+    for group, entries in deployable_objects.items():
+        print '+- %s' % (group)
+        for en in entries[:-1]:
+            print '   +- %s' % (en)
+        print '   \- %s' % (entries[-1])
+
+def deploy_objects(group_name, objects_list):
+    '''will deploy the requested objects
+    the first element of list is the name of the group
+    the subsequent elements are the objects in the group'''
+
+    # first entry in args list is group
+    if not deployable_objects.has_key(group_name):
+        raise DeployError('group %s not found' % (group_name))
+    
+    to_deploy_list = [] # elements that will be deployed
+    objects_group_list = deployable_objects[group_name]
+    from_dir = group_name
+    
+    if len(objects_list) < 1:
+        # user passed only a group name
+        # deploy all objects in group
+        to_deploy_list = objects_group_list
+    else: # len >= 1
+        # user passed names of specific objects to deploy
+        to_deploy_list = []
+        for ob in objects_list:
+            if ob in objects_group_list:
+                to_deploy_list.append(ob)
+            else:
+                raise DeployError('entry %s not found in group %s' % (ob, group_name))
+    for depobj in to_deploy_list:
+        print depobj
+    
+#if __name__ != '__main__':
+#    print 'not a module'
+#    sys.exit(1)
+if __name__ == '__main__':
+    try:
+        optlist = []
+        args = []
+        try:
+            optlist, args = getopt.getopt(sys.argv[1:], 'lh')
+        except getopt.GetoptError, e:
+            raise DeployError(str(e), show_usage = True)
+        
+        list_entries = False
+        for opt, optarg in optlist:
+            if opt == '-l':
+                list_entries = True
+            elif opt == '-h':
+                raise DeployError('', was_error = False, show_usage = True)
+            
+        if not list_entries:
+            # user wants to deploy files
+            if len(args) == 0:
+                raise DeployError('no objects to deploy specified', show_usage = True)
+            deploy_objects(args[0], args[1:])
+        else:
+            # just list all entries in tree form
+            list_all_entries()
+
+    except DeployError, de:
+        if de.was_error:
+            print 'error: %s' % (str(de))
+        if de.show_usage:
+            show_usage()
+        sys.exit(1)
+        
+        
+
