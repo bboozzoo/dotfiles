@@ -1,0 +1,290 @@
+#!/usr/bin/env python
+
+import sys
+import os
+import logging
+import ConfigParser
+import getopt
+import string
+import subprocess
+
+# logger
+log = None
+# string logging level names
+LEVELS = { 'debug' : logging.DEBUG,
+           'info' : logging.INFO,
+           'warning' : logging.WARNING,
+           'error' : logging.ERROR,
+           'critical' : logging.CRITICAL }
+# config directory name
+CONFIG_DIR_NAME ='.srync'
+CONFIG_FILE_NAME = 'config'
+
+class SryncError(Exception):
+    ''' generic exception thrown in case of troubles
+    if was_error is True then an error has occurred and the what string
+    should contain a description
+    show_usage set to True should cause the program usage description 
+    to appear'''
+    def __init__(self, what, was_error = True, show_usage = False):
+        self.__value = what
+        self.was_error = was_error
+        self.show_usage = show_usage
+    def __str__(self):
+        return self.__value
+
+class SryncEntry:
+    ''' container for entry description, holds
+    such information as source/dest directories, peer address etc. '''
+    def __init__(self, name, srcdir, dstdir, method, peer_host):
+        self.name = name
+        self.srcdir = srcdir
+        self.dstdir = dstdir
+        self.method = method
+        self.peer = peer_host
+    def __str__(self):
+        return '%s\n' \
+            '\tsource directory: %s\n' \
+            '\tdestination directory: %s\n' \
+            '\tpeer host: %s\n' \
+            '\tmethod: %s\n' % (self.name, self.srcdir, self.dstdir, self.peer, self.method)
+
+def add_sep_if_missing(entry):
+    ''' helper fucntion for building command
+    will add / at the end of entry if one is missing'''
+    if entry[-1] != os.sep:
+        entry += os.sep
+    return entry
+
+class Srync:
+    ''' Class implementing the synchrnization mechanism
+    use SryncEntry as input. Will create a command and call it to
+    synchronize the directories.'''
+    def __init__(self, srync_entry, log):
+        log.debug('sync init')
+        self.__log = log
+        self.__entry = srync_entry
+        log.info('sync for entry %s' % (self.__entry.name))
+
+    def build_command(self, to_remote = True):
+        entry = self.__entry
+        cmd = ['rsync', '-a' ,'-v']
+        if entry.method == 'rsync-ssh':
+            cmd.append('-e')
+            cmd.append('ssh')
+        source = entry.srcdir
+        destination = entry.peer + ':' + entry.dstdir
+        # add a / to each entry to keep rsync from doing silly things
+        [source, destination] = map(add_sep_if_missing, [source, destination])
+        
+        if to_remote == False:
+            # synchronize from remote
+            source, destination = destination, source
+        cmd.append(source)
+        cmd.append(destination)
+
+        self.__log.debug('command: %s' % (string.join(cmd)))
+        return cmd
+
+    def sync(self, twoway = False):
+        cmd_to_remote = self.build_command()
+        self.run_sync_command(cmd_to_remote)
+        if twoway == True:
+            cmd_from_remote = self.build_command(to_remote = False)
+            self.run_sync_command(cmd_from_remote)
+
+    def run_sync_command(self, command):
+        self.__log.info('sync starting')
+        try:
+            returncode = subprocess.call(command)
+            if returncode == 0:
+                self.__log.info('sync successful')
+            else:
+                raise SryncError('subprocess failed with status: %d' % (returncode))
+        except Exception, e:
+            self.__log.error('sync failed: %s' % (str(e)))
+        self.__log.info('sync ended')
+        
+class SryncConfig:
+    ''' Wrapper for configuration handling. By default the configuration is
+    stored in the path ~/.srync/config, with the configration file of the following
+    format:
+    [entry]
+    srcdir=<source directory>
+    dstdir=<destination directory>
+    method=rsync-ssh (only supported for now)
+    peer=<peer address
+    The environment variables can be expanded, thus entries such as:
+    srcdir=$HOME/somepath
+    are allowed.
+    If the config file is missing a sample will be created. The configuration
+    wrapper will create a SryncEntry object for requested entry
+    '''
+    OPTION_METHOD = 'method'
+    OPTION_SRCDIR = 'srcdir'
+    OPTION_DSTDIR = 'dstdir'
+    OPTION_PEER_HOST = 'peer'
+
+    def __init__(self, log):
+        log.debug('sync config')
+        self.__log = log
+        self.setup_config_paths()
+        self.load_config()
+    
+    def get_srync_entry(self, entry_name):
+        ''' create SryncEntry object for given name '''
+        config = self.__config
+        entry = None
+        if config.has_section(entry_name):
+            self.__log.debug('entry %s found' % (entry_name))
+            entry = self.build_srync_entry(entry_name)
+        else:
+            self.__log.debug('entry %s not found' % (entry_name))
+        return entry
+
+    def build_srync_entry(self, entry_name):
+        config = self.__config
+        self.__log.debug('building entry %s' % (entry_name))
+        sdir = config.get(entry_name, SryncConfig.OPTION_SRCDIR)
+        ddir = config.get(entry_name, SryncConfig.OPTION_DSTDIR)
+        method = config.get(entry_name, SryncConfig.OPTION_METHOD)
+        peer = config.get(entry_name, SryncConfig.OPTION_PEER_HOST)
+        self.__log.debug('entry srcdir: %s' % (sdir))
+        self.__log.debug('entry srcdir (expanded): %s' % (os.path.expandvars(sdir)))
+        self.__log.debug('entry ddir: %s' % (ddir))
+        self.__log.debug('entry ddir (expanded): %s' % (os.path.expandvars(ddir)))
+        self.__log.debug('entry method: %s' % (method))
+        self.__log.debug('entry peer: %s' % (peer))
+        # expand environment variables if any were used
+        sdir = os.path.expandvars(sdir)
+        ddir = os.path.expandvars(ddir)
+        entry = SryncEntry(entry_name, sdir, ddir, method, peer)
+        return entry
+                
+    def setup_config_paths(self):
+        user_home = os.path.expanduser('~')
+        self.__config_dir = string.join([user_home, CONFIG_DIR_NAME], os.sep)
+        self.__config_file = string.join([self.__config_dir, CONFIG_FILE_NAME], os.sep)
+        self.check_or_create_dir()
+        self.check_or_create_config()        
+
+    def check_or_create_dir(self):
+        config_dir = self.__config_dir
+        self.__log.debug('check configuration directory: %s' % (config_dir))
+        if not os.path.exists(config_dir):
+            self.__log.info('creating configuration directory %s' % (config_dir))
+            os.mkdir(config_dir)
+        else:
+            if not os.path.isdir(config_dir):
+                self.__log.error('configuration dir path is not a directory')
+                raise SryncError('not a configuration directory?')
+
+    def check_or_create_config(self):
+        config_file = self.__config_file
+        self.__log.debug('check configuration file: %s' % (config_file))
+        if not os.path.exists(config_file):
+            self.__log.info('configuration file missing, creating sample')
+            self.create_sample_config_file()
+
+    def create_sample_config_file(self):
+        config = ConfigParser.RawConfigParser()
+        config.add_section('ExampleEntryNameSSH')
+        config.set('ExampleEntryNameSSH', SryncConfig.OPTION_SRCDIR, 'source/directory')
+        config.set('ExampleEntryNameSSH', SryncConfig.OPTION_DSTDIR, 'destination/directory')
+        config.set('ExampleEntryNameSSH', SryncConfig.OPTION_METHOD, 'rsync-ssh')
+        config.set('ExampleEntryNameSSH', SryncConfig.OPTION_PEER_HOST, '127.0.0.1')
+        configfile = open(self.__config_file, 'w')
+        config.write(configfile)
+
+    def load_config(self):
+        self.__log.debug('loading configuration')
+        config = ConfigParser.SafeConfigParser()
+        config.read(self.__config_file)
+        self.__config = config
+    def get_entries(self):
+        entries = []
+        self.__log.debug('building list of entries')
+        for section_name in self.__config.sections():
+            self.__log.debug('adding entry %s' % (section_name))
+            entries.append(self.build_srync_entry(section_name))
+        return entries
+
+def setup_logging():
+    ''' setup logger configuration '''
+    log = logging.Logger('srync')
+    f = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    sh = logging.StreamHandler()
+    sh.setFormatter(f)
+    log.addHandler(sh)
+    log.setLevel(logging.INFO)
+    return log
+
+def print_usage():
+    print '''rsync synchronizer - srync
+Usage: srync [-d lvl] <sync entry> [<sync entry>]
+    -d lvl    set debugging level, levels: debug, info, warning,
+                                           error, critical
+    -t        two-way synchronization
+    -l        list configured entries
+    -h        show help
+'''
+
+if __name__ != "__main__":
+    print 'not a module'
+    sys.exit(1)
+
+log = setup_logging()
+try:
+    # synchronize in both directions
+    two_way = False
+    # list entries found in configuration
+    list_entries = False
+    try:
+        optlist, args = getopt.getopt(sys.argv[1:], 'd:htl')
+    except getopt.GetoptError, e:
+        raise SryncError(str(e), show_usage = True)
+    
+    for opt, optarg in optlist:
+        if opt == '-d':
+            try:
+                log.setLevel(LEVELS[optarg])
+            except KeyError:
+                # logging level name was not found
+                raise SryncError('unknown logging level: %s' % (optarg), show_usage = True)
+        elif opt == '-t':
+            twoway = True
+        elif opt == '-h':
+            raise SryncError('', was_error = False, show_usage = True)
+        elif opt == '-l':
+            list_entries = True
+    if list_entries == False and len(args) == 0:
+        raise SryncError('no entries specified', show_usage = True)
+    
+    sc = SryncConfig(log)
+    if list_entries == True:
+        # user wants to see all configured entries
+        entries = sc.get_entries()
+        if len(entries) > 0:
+            print 'found %d entries' % (len(entries))
+            print
+            for e in entries:
+                print str(e)
+        else:
+            print 'no entries found'
+    else:
+        # user wants to do the synchronization
+        for e in args:
+            entry = sc.get_srync_entry(e)
+            if entry == None:
+                raise SryncError('entry %s not found' % (e))
+            s = Srync(entry, log)
+            s.sync(twoway)
+
+except SryncError, e:
+    if e.was_error == True:
+        log.error('error ocurred: %s' % (str(e)))
+    if e.show_usage == True:
+        print_usage()
+        sys.exit(1)
+        
+
