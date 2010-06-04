@@ -124,7 +124,13 @@ def deploy_objects(group_name, objects_list, prefix = None, force = False):
         if objects_group_tuple[2]:
             depobj = objects_group_tuple[2](depobj)
         to_path = prefix + os.sep + depobj
-        deploy_single_object(from_path, to_path, force)
+        try:
+            # make sure that prefix exists
+            if not os.path.exists(prefix):
+                os.makedirs(prefix)
+            deploy_single_object(from_path, to_path, force)
+        except OSError, e:
+            print '%s: ERROR (%d - %s)' % (to_path, e.errno, e.strerror)
     print 'all done'
     
 
