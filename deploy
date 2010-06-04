@@ -2,7 +2,14 @@
 
 import sys
 import getopt
+import os.path
+import shutil
 
+#####################
+# files configuration
+#####################
+
+# list of files for each group
 apps_list = ['srync']
 configs_list = [ 'screenrc', 
                  'emacs',
@@ -10,8 +17,18 @@ configs_list = [ 'screenrc',
                  'vimrc',
                  'vim' ]
 
-deployable_objects = { 'apps' : apps_list,
-                       'config' : configs_list }
+# each group descriptor
+#              list of files, prefix, function to rename
+apps_tuple = (apps_list, '~/bin', None)
+configs_tuple = (configs_list, '~', lambda x: '.' + x) # config files usually have . prefix
+
+# list of groups
+deployable_objects = { 'apps' : apps_tuple,
+                       'config' : configs_tuple }
+
+########################
+# files configuratio end
+########################
 
 class DeployError(Exception):
     def __init__(self, what, was_error = True, show_usage = False):
@@ -23,56 +40,103 @@ class DeployError(Exception):
     
 def show_usage():
     print '''deploy - config install tool
-Usage: deploy [-l] [-h] group [entry]
+Usage: deploy [-l] [-h] [-p path] group [entry]
     -l        list entries
+    -p        custom perfix, if other than $HOME
+    -f        force overwrite
     -h        show help
+
 '''
 
 def list_all_entries():
     ''' will list all entries in tree-like form'''
-    for group, entries in deployable_objects.items():
-        print '+- %s' % (group)
-        for en in entries[:-1]:
+    for group, entries_tuple in deployable_objects.items():
+        print '+- %s (default install prefix: %s)' % (group, entries_tuple[1])
+        for en in entries_tuple[0][:-1]:
             print '   +- %s' % (en)
-        print '   \- %s' % (entries[-1])
+        print '   \- %s' % (entries_tuple[0][-1])
 
-def deploy_objects(group_name, objects_list):
+def deploy_single_object(from_path, to_path, force = False):
+    '''deploy single file/directory, if destination path already
+    exists, depending on force flag it will or will not be overwritten'''
+    path_exists = os.path.exists(to_path) # check if we do not overwrite by chance
+    sys.stdout.write('deploy %s as %s: ' % (from_path, to_path))
+    try:
+        if not path_exists or (path_exists and force):
+            info_msg = ''
+            if os.path.isdir(from_path):
+                if path_exists: # force condition was checked before
+                    shutil.rmtree(to_path)
+                    info_msg = 'original target removed - '
+                shutil.copytree(from_path, to_path)
+            else:
+                shutil.copy2(from_path, to_path)
+            sys.stdout.write('OK')
+            if path_exists and force:
+                info_msg += 'overwrite' 
+                sys.stdout.write(' (%s)\n' % (info_msg))
+            else:
+                sys.stdout.write('\n')
+        else: 
+            sys.stdout.write('path exists - skip (use -f)\n')
+    except OSError, e:
+        sys.stdout.write('ERROR (%d - %s)\n' % (e.errno, e.strerror))
+
+def deploy_objects(group_name, objects_list, prefix = None, force = False):
     '''will deploy the requested objects
     the first element of list is the name of the group
-    the subsequent elements are the objects in the group'''
+    the subsequent elements are the objects in the group
+    force flag controls whether the target will be overwritten'''
 
     # first entry in args list is group
     if not deployable_objects.has_key(group_name):
         raise DeployError('group %s not found' % (group_name))
     
     to_deploy_list = [] # elements that will be deployed
-    objects_group_list = deployable_objects[group_name]
+    objects_group_tuple = deployable_objects[group_name]
     from_dir = group_name
     
     if len(objects_list) < 1:
         # user passed only a group name
         # deploy all objects in group
-        to_deploy_list = objects_group_list
+        to_deploy_list = objects_group_tuple[0]
     else: # len >= 1
         # user passed names of specific objects to deploy
+        # check if these exist
         to_deploy_list = []
         for ob in objects_list:
-            if ob in objects_group_list:
+            if ob in objects_group_tuple[0]:
                 to_deploy_list.append(ob)
             else:
                 raise DeployError('entry %s not found in group %s' % (ob, group_name))
+
+    # handle prefix
+    if prefix == None:
+        prefix = os.path.expanduser(objects_group_tuple[1])
+    # dump path separator if present
+    if prefix[-1] == os.sep:
+        prefix = prefix[:-1]
+
+    # deploy all targets, one by one
     for depobj in to_deploy_list:
-        print depobj
+        from_path = from_dir + os.sep + depobj
+        # target path can be overriden by additional function
+        if objects_group_tuple[2]:
+            depobj = objects_group_tuple[2](depobj)
+        to_path = prefix + os.sep + depobj
+        deploy_single_object(from_path, to_path, force)
+    print 'all done'
     
-#if __name__ != '__main__':
-#    print 'not a module'
-#    sys.exit(1)
+
 if __name__ == '__main__':
     try:
         optlist = []
         args = []
+        custom_prefix = None
+        force = False
+
         try:
-            optlist, args = getopt.getopt(sys.argv[1:], 'lh')
+            optlist, args = getopt.getopt(sys.argv[1:], 'lhp:f')
         except getopt.GetoptError, e:
             raise DeployError(str(e), show_usage = True)
         
@@ -82,12 +146,16 @@ if __name__ == '__main__':
                 list_entries = True
             elif opt == '-h':
                 raise DeployError('', was_error = False, show_usage = True)
+            elif opt == '-p':
+                custom_prefix = optarg
+            elif opt == '-f':
+                force = True
             
         if not list_entries:
             # user wants to deploy files
             if len(args) == 0:
                 raise DeployError('no objects to deploy specified', show_usage = True)
-            deploy_objects(args[0], args[1:])
+            deploy_objects(args[0], args[1:], custom_prefix, force)
         else:
             # just list all entries in tree form
             list_all_entries()
