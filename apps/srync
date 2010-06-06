@@ -252,7 +252,7 @@ try:
                 # logging level name was not found
                 raise SryncError('unknown logging level: %s' % (optarg), show_usage = True)
         elif opt == '-t':
-            twoway = True
+            two_way = True
         elif opt == '-h':
             raise SryncError('', was_error = False, show_usage = True)
         elif opt == '-l':
@@ -278,7 +278,7 @@ try:
             if entry == None:
                 raise SryncError('entry %s not found' % (e))
             s = Srync(entry, log)
-            s.sync(twoway)
+            s.sync(two_way)
 
 except SryncError, e:
     if e.was_error == True:
