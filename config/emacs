@@ -8,4 +8,4 @@
 (delete-selection-mode 1)           ;deleting region by typing or del (like Win)
 (setq transient-mark-mode t)        ;show selected region
 (setq inhibit-startup-screen t)     ;disable startup screen
-(setq initial-buffer-choice t)      ;show scratch buffer
+;(setq initial-buffer-choice t)      ;show scratch buffer
