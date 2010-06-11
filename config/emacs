@@ -10,5 +10,5 @@
 (setq inhibit-startup-screen t)     ;disable startup screen
 ;(setq initial-buffer-choice t)      ;show scratch buffer
 (global-hl-line-mode 1)             ;highlight current line
-(global-linum-mode 1)               ;show line numbers
+;(global-linum-mode 1)               ;show line numbers
 
