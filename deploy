@@ -4,6 +4,7 @@ import sys
 import getopt
 import os.path
 import shutil
+import subprocess
 
 #####################
 # files configuration
@@ -40,10 +41,12 @@ class DeployError(Exception):
     
 def show_usage():
     print '''deploy - config install tool
-Usage: deploy [-l] [-h] [-p path] group [entry]
+Usage: deploy [-l] [-d] [-h] [-p path] group [entry]
     -l        list entries
     -p        custom perfix, if other than $HOME
     -f        force overwrite
+    -d        check if source files and already present files in their
+              destination locations are different (only files)
     -h        show help
 
 '''
@@ -55,6 +58,35 @@ def list_all_entries():
         for en in entries_tuple[0][:-1]:
             print '   +- %s' % (en)
         print '   \- %s' % (entries_tuple[0][-1])
+
+def compare_single_entry(src_path, dst_path):
+    '''compare given paths and return True if files are the same
+    or False otherwise'''
+    cmd = ['cmp', '-s', src_path, dst_path]
+    returncode = subprocess.call(cmd)
+    if returncode != 0:
+        return False
+    return True
+    
+def compare_all_entries(prefix = None):
+    '''check if files (only files) differ by calling cmp -s
+    optional prefix should already be expanded'''
+    for group, entries_tuple in deployable_objects.items():
+        # get default prefix
+        p = os.path.expanduser(entries_tuple[1])
+        if prefix:
+            p = prefix
+        for en in entries_tuple[0]:
+            src_file = group + os.sep + en
+            dst_file = p + os.sep
+            if entries_tuple[2]: # use the file rename function that was provided
+                dst_file += entries_tuple[2](en)
+            else:
+                dst_file += en
+            if os.path.exists(dst_file) and not os.path.isdir(dst_file):
+                if not compare_single_entry(src_file, dst_file):
+                    print '%s and %s differ' % (src_file, dst_file)
+
 
 def deploy_single_object(from_path, to_path, force = False):
     '''deploy single file/directory, if destination path already
@@ -86,7 +118,8 @@ def deploy_objects(group_name, objects_list, prefix = None, force = False):
     '''will deploy the requested objects
     the first element of list is the name of the group
     the subsequent elements are the objects in the group
-    force flag controls whether the target will be overwritten'''
+    force flag controls whether the target will be overwritten
+    optional prefix should already be expanded'''
 
     # first entry in args list is group
     if not deployable_objects.has_key(group_name):
@@ -140,9 +173,10 @@ if __name__ == '__main__':
         args = []
         custom_prefix = None
         force = False
+        run_cmp = False
 
         try:
-            optlist, args = getopt.getopt(sys.argv[1:], 'lhp:f')
+            optlist, args = getopt.getopt(sys.argv[1:], 'lhp:fd')
         except getopt.GetoptError, e:
             raise DeployError(str(e), show_usage = True)
         
@@ -153,18 +187,23 @@ if __name__ == '__main__':
             elif opt == '-h':
                 raise DeployError('', was_error = False, show_usage = True)
             elif opt == '-p':
-                custom_prefix = optarg
+                custom_prefix = os.path.expanduser(optarg)
             elif opt == '-f':
                 force = True
-            
-        if not list_entries:
+            elif opt == '-d':
+                run_cmp = True
+           
+        if list_entries:
+            # just list all entries in tree form
+            list_all_entries()
+        elif run_cmp:
+            # compare of source objects and destination differ
+            compare_all_entries(custom_prefix)
+        else:
             # user wants to deploy files
             if len(args) == 0:
                 raise DeployError('no objects to deploy specified', show_usage = True)
             deploy_objects(args[0], args[1:], custom_prefix, force)
-        else:
-            # just list all entries in tree form
-            list_all_entries()
 
     except DeployError, de:
         if de.was_error:
