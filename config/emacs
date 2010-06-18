@@ -12,3 +12,5 @@
 ;(global-hl-line-mode 1)             ;highlight current line
 (global-linum-mode 1)               ;show line numbers
 
+(require 'tramp)                    ;enable TRAMP (edit through network)
+(setq tramp-default-method "ssh")
