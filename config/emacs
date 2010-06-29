@@ -24,3 +24,5 @@
 ; javascript mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode)) ;add default mode for *.js files
 (autoload 'javascript-mode "javascript" nil t) ; load javascript when javascipt-mode is needed
+
+(require 'xcscope)                  ;enable xcscope
