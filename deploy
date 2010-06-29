@@ -14,6 +14,7 @@ import subprocess
 apps_list = ['srync']
 configs_list = [ 'screenrc', 
                  'emacs',
+                 'emacs.d',
                  'gitconfig',
                  'vimrc',
                  'vim' ]

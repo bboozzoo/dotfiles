@@ -1,16 +1,26 @@
+(add-to-list 'load-path "~/.emacs.d/scripts/") ; add custom dir to load path
+
 (require 'font-lock)                ;syntax on
-(global-font-lock-mode t)
+(global-font-lock-mode t)           ;enable syntax coloring
 (setq font-lock-verbose nil)        ;no messages
 (setq query-replace-highlight t)    ;highlight query
 (setq search-highlight t)           ;highlight incremental search
 (show-paren-mode t)                 ;show matching parentheses
 (setq blink-matching-paren-distance nil) ;search for open-paren till point-min
-(delete-selection-mode 1)           ;deleting region by typing or del (like Win)
+(delete-selection-mode t)           ;deleting region by typing or del (like Win)
 (setq transient-mark-mode t)        ;show selected region
 (setq inhibit-startup-screen t)     ;disable startup screen
 ;(setq initial-buffer-choice t)      ;show scratch buffer
 ;(global-hl-line-mode 1)             ;highlight current line
-(global-linum-mode 1)               ;show line numbers
-
+(global-linum-mode t)               ;show line numbers
+(line-number-mode t)                ;show line number in status bar
+(column-number-mode t)              ;show column number in status bar
 (require 'tramp)                    ;enable TRAMP (edit through network)
-(setq tramp-default-method "ssh")
+(setq tramp-default-method "ssh")   ;TRAMP use ssh
+(tool-bar-mode nil)                 ;disable toolbar
+(require 'color-theme)              ;color theme
+(color-theme-clarity)               ;starting color theme
+
+; javascript mode
+(add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode)) ;add default mode for *.js files
+(autoload 'javascript-mode "javascript" nil t) ; load javascript when javascipt-mode is needed
