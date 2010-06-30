@@ -1,4 +1,4 @@
-(add-to-list 'load-path "~/.emacs.d/scripts/") ; add custom dir to load path
+(add-to-list 'load-path "~/.emacs.d/plugins/") ; add custom dir to load path
 
 (require 'font-lock)                ;syntax on
 (global-font-lock-mode t)           ;enable syntax coloring
@@ -19,7 +19,7 @@
 (setq tramp-default-method "ssh")   ;TRAMP use ssh
 (tool-bar-mode nil)                 ;disable toolbar
 (require 'color-theme)              ;color theme
-(color-theme-clarity)               ;starting color theme
+(color-theme-andreas)               ;starting color theme
 
 ; javascript mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode)) ;add default mode for *.js files
