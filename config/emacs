@@ -1,5 +1,6 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/") ; add custom dir to load path
 
+; settings start here
 (require 'font-lock)                ;syntax on
 (global-font-lock-mode t)           ;enable syntax coloring
 (setq font-lock-verbose nil)        ;no messages
@@ -20,6 +21,7 @@
 (tool-bar-mode nil)                 ;disable toolbar
 (require 'color-theme)              ;color theme
 (color-theme-andreas)               ;starting color theme
+(global-set-key "C-Z" nil)          ;disable ctrl + z background mode
 
 ; javascript mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode)) ;add default mode for *.js files
@@ -32,3 +34,21 @@
 (require 'yasnippet)
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/plugins/yasnippet/snippets")
+
+;indentation
+;general
+(setq-default indent-tabs-mode nil) ;use spaces instead of tabs
+;C
+(setq c-default-style "linux"
+      c-basic-offset 4)
+
+;compilation window
+(setq compilation-window-height 8)  ;compilation window to be smaller
+(setq compilation-finish-function   ;compilation window will disappear
+      (lambda (buf str)
+        (if (string-match "exited abnormally" str)
+            ;;there were errors
+            (message "compilation errors, press C-x ` to visit")
+          ;;no errors, make the compilation window go away in 0.5 seconds
+          (run-at-time 0.5 nil 'delete-windows-on buf)
+          (message "NO COMPILATION ERRORS!"))))
