@@ -22,6 +22,7 @@
 (require 'color-theme)              ;color theme
 (color-theme-andreas)               ;starting color theme
 ;(global-set-key "C-Z" nil)          ;disable ctrl + z background mode
+(set-face-attribute 'default nil :height 100) ;default font size
 
 ; javascript mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode)) ;add default mode for *.js files
