@@ -11,7 +11,8 @@ import subprocess
 #####################
 
 # list of files for each group
-apps_list = ['srync']
+apps_list = ['srync',
+             'html-escape.py']
 configs_list = [ 'screenrc', 
                  'emacs',
                  'emacs.d',
