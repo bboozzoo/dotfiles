@@ -11,11 +11,11 @@ Usage: html-escape.py [-i in-file] [-h]
 '''
     
 HTML_escape_entries = {
-    '&' : '&amp',
-    '<' : '&lt',
-    '>' : '&gt',
-    '"' : '&quot',
-    '\'' : '&apos'
+    '&' : '&amp;',
+    '<' : '&lt;',
+    '>' : '&gt;',
+    '"' : '&quot;',
+    '\'' : '&apos;'
 }
 
 def html_escape(in_str):
