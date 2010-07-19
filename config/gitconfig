@@ -8,9 +8,5 @@
 [gui]
 	fontui = -family \"DejaVu Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 	fontdiff = -family Courier -size 9 -weight normal -slant roman -underline 0 -overstrike 0
-[giggle]
-	main-window-maximized = true
-	main-window-geometry = 0x0+0+0
-	history-view-vpane-position = 317
-	file-view-vpane-position = 797
-	main-window-view = HistoryView
+[gc]
+        auto = 1
