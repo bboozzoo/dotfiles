@@ -20,9 +20,11 @@
 (setq tramp-default-method "ssh")   ;TRAMP use ssh
 (tool-bar-mode nil)                 ;disable toolbar
 (require 'color-theme)              ;color theme
-(color-theme-andreas)               ;starting color theme
+(color-theme-initialize)
+(color-theme-tty-dark)               ;starting color theme
 ;(global-set-key "C-Z" nil)          ;disable ctrl + z background mode
 (set-face-attribute 'default nil :height 100) ;default font size
+(set-face-font 'default "fixed") 
 
 ; javascript mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode)) ;add default mode for *.js files
@@ -53,3 +55,4 @@
           ;;no errors, make the compilation window go away in 0.5 seconds
           (run-at-time 0.5 nil 'delete-windows-on buf)
           (message "NO COMPILATION ERRORS!"))))
+
