@@ -24,7 +24,7 @@
 (color-theme-tty-dark)               ;starting color theme
 ;(global-set-key "C-Z" nil)          ;disable ctrl + z background mode
 (set-face-attribute 'default nil :height 100) ;default font size
-(set-face-font 'default "fixed") 
+(set-face-font 'default "-misc-fixed-medium-r-semicondensed-*-13-*-75-75-c-60-*-*") 
 
 ; javascript mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode)) ;add default mode for *.js files
@@ -56,3 +56,18 @@
           (run-at-time 0.5 nil 'delete-windows-on buf)
           (message "NO COMPILATION ERRORS!"))))
 
+;recentf - recent files
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-saved-items 500)
+(setq recentf-max-menu-items 60)
+(global-set-key [(meta f12)] 'recentf-open-files)
+
+;jump to matching parenthesis
+(global-set-key [(control ?5)] 'match-paren)
+(defun match-paren (arg)
+  "Go to the matching paren if on a paren;"
+  (interactive "p")
+  (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
+        ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
+        ))
