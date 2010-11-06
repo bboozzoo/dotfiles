@@ -3,8 +3,14 @@
 ; settings start here
 (setq inhibit-startup-screen t)     ;disable startup screen
 (setq initial-buffer-choice t)      ;show scratch buffer
-(set-face-attribute 'default nil :height 100) ;default font size
-(set-face-font 'default "-misc-fixed-medium-r-semicondensed-*-13-*-75-75-c-60-*-*")  ;fixed as in xterm
+(defun setup-fonts ()
+  (set-face-attribute 'default nil :height 100) ;default font size
+  (set-face-font 'default "-misc-fixed-medium-r-semicondensed-*-13-*-75-75-c-60-*-*") ;fixed as in xterm
+  )
+; setting font makes sense if running under X
+(if window-system
+    (setup-fonts)
+  )
 (require 'font-lock)                ;syntax on
 (global-font-lock-mode t)           ;enable syntax coloring
 (setq font-lock-verbose nil)        ;no messages
@@ -36,8 +42,14 @@
 
 ; color themes
 (require 'color-theme)              ;color theme
-(color-theme-initialize)
-(color-theme-tty-dark)               ;starting color theme
+(defun set-color-theme (f)
+  (if (not (fboundp f))
+      (color-theme-initialize))
+  (funcall f)
+)
+; try to set color-theme-tty dark, initialize if needed
+(set-color-theme 'color-theme-tty-dark)   
+
 
 ; cscope
 (require 'xcscope)                  ;enable xcscope
@@ -73,6 +85,6 @@
   (interactive "p")
   (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
         ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
-        ))
-
+        )
+  )
 
