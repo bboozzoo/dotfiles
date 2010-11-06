@@ -1,6 +1,10 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/") ; add custom dir to load path
 
 ; settings start here
+(setq inhibit-startup-screen t)     ;disable startup screen
+(setq initial-buffer-choice t)      ;show scratch buffer
+(set-face-attribute 'default nil :height 100) ;default font size
+(set-face-font 'default "-misc-fixed-medium-r-semicondensed-*-13-*-75-75-c-60-*-*")  ;fixed as in xterm
 (require 'font-lock)                ;syntax on
 (global-font-lock-mode t)           ;enable syntax coloring
 (setq font-lock-verbose nil)        ;no messages
@@ -10,8 +14,6 @@
 (setq blink-matching-paren-distance nil) ;search for open-paren till point-min
 (delete-selection-mode t)           ;deleting region by typing or del (like Win)
 (setq transient-mark-mode t)        ;show selected region
-(setq inhibit-startup-screen t)     ;disable startup screen
-;(setq initial-buffer-choice t)      ;show scratch buffer
 ;(global-hl-line-mode 1)             ;highlight current line
 (global-linum-mode t)               ;show line numbers
 (line-number-mode t)                ;show line number in status bar
@@ -19,24 +21,11 @@
 (require 'tramp)                    ;enable TRAMP (edit through network)
 (setq tramp-default-method "ssh")   ;TRAMP use ssh
 (tool-bar-mode nil)                 ;disable toolbar
-(require 'color-theme)              ;color theme
-(color-theme-initialize)
-(color-theme-tty-dark)               ;starting color theme
 ;(global-set-key "C-Z" nil)          ;disable ctrl + z background mode
-(set-face-attribute 'default nil :height 100) ;default font size
-(set-face-font 'default "-misc-fixed-medium-r-semicondensed-*-13-*-75-75-c-60-*-*") 
 
 ; javascript mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode)) ;add default mode for *.js files
 (autoload 'javascript-mode "javascript" nil t) ; load javascript when javascipt-mode is needed
-
-(require 'xcscope)                  ;enable xcscope
-
-;yasnippet
-(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-(require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/plugins/yasnippet/snippets")
 
 ;indentation
 ;general
@@ -44,6 +33,20 @@
 ;C
 (setq c-default-style "linux"
       c-basic-offset 4)
+
+; color themes
+(require 'color-theme)              ;color theme
+(color-theme-initialize)
+(color-theme-tty-dark)               ;starting color theme
+
+; cscope
+(require 'xcscope)                  ;enable xcscope
+
+;yasnippet
+(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/plugins/yasnippet/snippets")
 
 ;compilation window
 (setq compilation-window-height 8)  ;compilation window to be smaller
@@ -71,3 +74,5 @@
   (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
         ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
         ))
+
+
