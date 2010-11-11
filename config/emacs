@@ -54,6 +54,11 @@
 ; cscope
 (require 'xcscope)                  ;enable xcscope
 
+;IDO
+(require 'ido)
+(ido-mode t)
+(setq ido-enable-flex-matching t)
+
 ;yasnippet
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
 (require 'yasnippet)
