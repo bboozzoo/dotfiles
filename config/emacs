@@ -36,6 +36,8 @@
 ;indentation
 ;general
 (setq-default indent-tabs-mode nil) ;use spaces instead of tabs
+(setq default-tab-width 4)
+
 ;C
 (setq c-default-style "linux"
       c-basic-offset 4)
