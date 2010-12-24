@@ -2,7 +2,7 @@
 
 ; settings start here
 (setq inhibit-startup-screen t)     ;disable startup screen
-(setq initial-buffer-choice t)      ;show scratch buffer
+;(setq initial-buffer-choice t)      ;show scratch buffer
 (defun setup-fonts ()
   (set-face-attribute 'default nil :height 100) ;default font size
   (set-face-font 'default "-misc-fixed-medium-r-semicondensed-*-13-*-75-75-c-60-*-*") ;fixed as in xterm
@@ -86,7 +86,7 @@
 (global-set-key [(meta f12)] 'recentf-open-files)
 
 ;jump to matching parenthesis
-(global-set-key [(control ?5)] 'match-paren)
+(global-set-key (kbd "C-5") 'match-paren)
 (defun match-paren (arg)
   "Go to the matching paren if on a paren;"
   (interactive "p")
@@ -94,4 +94,9 @@
         ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
         )
   )
+
+;jumplist
+(require 'jumplist)
+(global-set-key (kbd "C-o") 'jl-jump-backward)
+(global-set-key (kbd "C-i") 'jl-jump-forward)
 
