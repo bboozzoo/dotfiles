@@ -16,7 +16,6 @@
 (setq font-lock-verbose nil)        ;no messages
 (setq query-replace-highlight t)    ;highlight query
 (setq search-highlight t)           ;highlight incremental search
-(show-paren-mode t)                 ;show matching parentheses
 (setq blink-matching-paren-distance nil) ;search for open-paren till point-min
 (delete-selection-mode t)           ;deleting region by typing or del (like Win)
 (setq transient-mark-mode t)        ;show selected region
@@ -26,8 +25,13 @@
 (column-number-mode t)              ;show column number in status bar
 (require 'tramp)                    ;enable TRAMP (edit through network)
 (setq tramp-default-method "ssh")   ;TRAMP use ssh
-(tool-bar-mode nil)                 ;disable toolbar
-;(global-set-key "C-Z" nil)          ;disable ctrl + z background mode
+(tool-bar-mode -1)                  ;disable toolbar
+(set-scroll-bar-mode 'right)        ;scroll bar on right
+
+; highlight matching parenthesis
+(setq show-paren-delay 0)
+(setq show-paren-syle 'mixed)
+(show-paren-mode t)
 
 ; javascript mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode)) ;add default mode for *.js files
@@ -36,7 +40,8 @@
 ;indentation
 ;general
 (setq-default indent-tabs-mode nil) ;use spaces instead of tabs
-(setq default-tab-width 4)
+(setq tab-width 4)
+(setq stardard-indent 4)
 
 ;C
 (setq c-default-style "linux"
@@ -51,7 +56,6 @@
 )
 ; try to set color-theme-tty dark, initialize if needed
 (set-color-theme 'color-theme-tty-dark)   
-
 
 ; cscope
 (require 'xcscope)                  ;enable xcscope
@@ -83,20 +87,28 @@
 (recentf-mode 1)
 (setq recentf-max-saved-items 500)
 (setq recentf-max-menu-items 60)
-(global-set-key [(meta f12)] 'recentf-open-files)
 
 ;jump to matching parenthesis
-(global-set-key (kbd "C-5") 'match-paren)
-(defun match-paren (arg)
-  "Go to the matching paren if on a paren;"
+(defun goto-match-paren (arg)
+  "Go to the matching  if on (){}[], similar to vi style of % "
   (interactive "p")
-  (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
-        ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
-        )
-  )
+  ;; first, check for "outside of bracket" positions expected by forward-sexp, etc.
+  (cond ((looking-at "[\[\(\{]") (forward-sexp))
+        ((looking-back "[\]\)\}]" 1) (backward-sexp))
+        ;; now, try to succeed from inside of a bracket
+        ((looking-at "[\]\)\}]") (forward-char) (backward-sexp))
+        ((looking-back "[\[\(\{]" 1) (backward-char) (forward-sexp))
+        (t nil)))
 
 ;jumplist
 (require 'jumplist)   
+
+; key bindings
+(global-set-key (kbd "C-<tab>") 'other-frame)
+(global-set-key (kbd "C-<prior>") 'select-previous-window) ; ctr+pg_up
+(global-set-key (kbd "C-<next>") 'select-next-window) ; ctr+pg_down
+(global-set-key (kbd "M-<f12>") 'recentf-open-files)
 (global-set-key (kbd "s-o") 'jl-jump-backward)
 (global-set-key (kbd "s-i") 'jl-jump-forward)
-
+(global-set-key (kbd "C-5") 'goto-match-paren)
+(global-set-key (kbd "C-Z") nil) ;disable ctrl + z background mode
