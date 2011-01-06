@@ -96,7 +96,7 @@
   )
 
 ;jumplist
-(require 'jumplist)
-(global-set-key (kbd "C-o") 'jl-jump-backward)
-(global-set-key (kbd "C-i") 'jl-jump-forward)
+(require 'jumplist)   
+(global-set-key (kbd "s-o") 'jl-jump-backward)
+(global-set-key (kbd "s-i") 'jl-jump-forward)
 
