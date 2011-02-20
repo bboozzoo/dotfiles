@@ -100,6 +100,12 @@
         ((looking-back "[\[\(\{]" 1) (backward-char) (forward-sexp))
         (t nil)))
 
+; add refresh file 
+(defun refresh-file ()
+  (interactive)
+  (revert-buffer t (not (buffer-modified-p)) t)
+  )
+
 ;jumplist
 (require 'jumplist)   
 
@@ -112,3 +118,4 @@
 (global-set-key (kbd "s-i") 'jl-jump-forward)
 (global-set-key (kbd "C-5") 'goto-match-paren)
 (global-set-key (kbd "C-Z") nil) ;disable ctrl + z background mode
+(global-set-key (kbd "<f5>") 'refresh-file)
