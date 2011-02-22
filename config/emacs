@@ -109,6 +109,13 @@
 ;jumplist
 (require 'jumplist)   
 
+; set frame title manually
+(defun set-frame-title (title)
+  "Set current frame title"
+  (interactive "sNew frame title: ")
+  (setq frame-title-format title)
+)
+
 ; key bindings
 (global-set-key (kbd "C-<tab>") 'other-frame)
 (global-set-key (kbd "C-<prior>") 'select-previous-window) ; ctr+pg_up
