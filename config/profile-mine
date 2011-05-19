@@ -1,5 +1,9 @@
 # extra configuration
 
+term-title() {
+    export PROMPT_COMMAND="printf \"\033]0;$1\007\""
+}
+
 # aliases
 echo '-- updating aliases'
 alias grep='grep --color=auto'

@@ -18,7 +18,8 @@ configs_list = [ 'screenrc',
                  'emacs.d',
                  'gitconfig',
                  'vimrc',
-                 'vim' ]
+                 'vim' ,
+                 'profile-mine']
 
 # each group descriptor
 #              list of files, prefix, function to rename
