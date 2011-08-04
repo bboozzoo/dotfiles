@@ -10,6 +10,11 @@
     "jl-jump-backward"
     "jl-jump-forward"
 
+    "gtags-find-tag"
+    "gtags-find-rtag"
+    "gtags-find-file"
+    "gtags-find-symbol"
+
     "cscope-find-global-definition"
     "cscope-select-entry-other-window"
     "cscope-find-functions-calling-this-function"
