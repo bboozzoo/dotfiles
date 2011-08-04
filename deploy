@@ -12,7 +12,8 @@ import subprocess
 
 # list of files for each group
 apps_list = ['srync',
-             'html-escape.py']
+             'html-escape.py',
+             'dump-ssh-known-host']
 configs_list = [ 'screenrc', 
                  'emacs',
                  'emacs.d',
