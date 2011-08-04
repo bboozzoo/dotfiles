@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+import sys, os.path
+
+SSH_KNOWN_HOSTS = os.path.expanduser('~/.ssh/known_hosts')
+TEMP_FILE_NAME = SSH_KNOWN_HOSTS + ".dump"
+
+def usage():
+    """show usage
+    """
+    print "usage: dump-ssh-known-host <host number>"
+
+def main():
+    """main
+    """
+    if len(sys.argv) < 2:
+        usage()
+        sys.exit(1)
+
+    try:
+        skip_line = int(sys.argv[1])
+    except ValueError:
+        print "incorrect host number"
+        sys.exit(1)
+
+    if not os.path.exists(SSH_KNOWN_HOSTS):
+        print 'no ssh known_hosts file'
+        sys.exit(0)
+
+    inf = open(SSH_KNOWN_HOSTS, 'r')
+    outf = open(TEMP_FILE_NAME, 'w')
+    i = 0
+    for line in inf:
+        i += 1
+        if i == skip_line:
+            print 'skip host %d' % (i)
+            continue
+        outf.write(line)
+    inf.close()
+    outf.close()
+
+    os.rename(TEMP_FILE_NAME, SSH_KNOWN_HOSTS)
+    
+if __name__ == '__main__':
+    main()
+
+
+
