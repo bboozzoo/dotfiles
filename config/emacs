@@ -1,4 +1,11 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/") ; add custom dir to load path
+(setq local-cache-dir (expand-file-name "~/.emacs.d/cache/")) ; local save path
+
+; create cache dir if one does not exist
+(if (not (file-exists-p local-cache-dir))
+    (progn
+      (message "creating cache directory at %s" local-cache-dir)
+      (make-directory local-cache-dir)))
 
 ; settings start here
 (setq inhibit-startup-screen t)     ;disable startup screen
@@ -125,7 +132,7 @@
 (require 'ido)
 (ido-mode 'both)
 (setq 
-  ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
+  ido-save-directory-list-file (concat local-cache-dir "ido.last")
   ido-ignore-buffers ;; ignore these guys
   '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
      "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
@@ -166,7 +173,7 @@
 ;recentf - recent files
 (require 'recentf)
 (setq 
-    recentf-save-file "~/.emacs.d/cache/recentf"
+    recentf-save-file (concat local-cache-dir "recentf")
     recentf-max-saved-items 100
     recentf-max-menu-items 15)
 (recentf-mode t)
