@@ -1,0 +1,15 @@
+URxvt.background: black
+URxvt.foreground: white
+URxvt.font: xft:ProggyCleanTT:antialias=false:size=12
+URxvt.boldFont:
+URxvt.italicFont:
+URxvt.boldItalicFont:
+!URxvt.boldFont: xft:ProggyCleanTT:bold:antialias=false:size=12
+!URxvt.italicFont: xft:ProggyCleanTT:antialias=false:size=12
+!URxvt.boldItalicFont: xft:ProggyCleanTT:bold:antialias=false:size=12
+URxvt.scrollBar: false
+URxvt.scrollTtyOutput: false
+URxvt.scrollWithBuffer: true
+URxvt.saveLines: 1000
+URxvt.termName: xterm
+URxvt.intensityStyles: false

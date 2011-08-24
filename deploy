@@ -20,7 +20,8 @@ configs_list = [ 'screenrc',
                  'gitconfig',
                  'vimrc',
                  'vim' ,
-                 'profile-mine']
+                 'profile-mine',
+                 'Xresources']
 
 # each group descriptor
 #              list of files, prefix, function to rename
