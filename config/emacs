@@ -18,6 +18,10 @@
 ;(if window-system
 ;    (setup-fonts)
 ;  )
+;; use ProggyClean
+(custom-set-faces
+ '(default ((t (:family "ProggyCleanTT" :height 122)))))
+
 (require 'font-lock)                ;syntax on
 (global-font-lock-mode t)           ;enable syntax coloring
 (setq font-lock-verbose nil)        ;no messages
@@ -213,7 +217,7 @@
 (global-set-key (kbd "C-<tab>") 'other-frame)
 (global-set-key (kbd "C-<prior>") 'select-previous-window) ; ctr+pg_up
 (global-set-key (kbd "C-<next>") 'select-next-window) ; ctr+pg_down
-(global-set-key (kbd "M-<f12>") 'recentf-open-files)
+(global-set-key (kbd "C-<f12>") 'recentf-open-files)
 (global-set-key (kbd "s-o") 'jl-jump-backward)
 (global-set-key (kbd "s-i") 'jl-jump-forward)
 (global-set-key (kbd "C-5") 'goto-match-paren)
@@ -228,17 +232,9 @@
 (add-hook 'gtags-mode-hook 
   (lambda()
     (local-set-key (kbd "M-.") 'gtags-find-tag)   ; find a tag, also M-.
-    (local-set-key (kbd "M-,") 'gtags-find-rtag)))  ; reverse tag
+    (local-set-key (kbd "M-,") 'gtags-find-rtag)
+    (local-set-key (kbd "C-S-<f5>") 'gtags-create-or-update)
+    (local-set-key (kbd "C-c s s") 'gtags-find-tag-from-here)
+    (local-set-key (kbd "C-c s e") 'gtags-find-with-grep)
+    (local-set-key (kbd "C-c s f") 'gtags-find-file)))  ; reverse tag
 
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(safe-local-variable-values (quote ((js2-basic-offset . 4)))))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- )
