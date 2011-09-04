@@ -10,3 +10,6 @@
 	fontdiff = -family Courier -size 9 -weight normal -slant roman -underline 0 -overstrike 0
 [gc]
         auto = 1
+[alias]
+    fp = format-patch --full-index
+

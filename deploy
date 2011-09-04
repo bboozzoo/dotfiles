@@ -21,7 +21,8 @@ configs_list = [ 'screenrc',
                  'vimrc',
                  'vim' ,
                  'profile-mine',
-                 'Xresources']
+                 'Xresources',
+                 'inputrc']
 
 # each group descriptor
 #              list of files, prefix, function to rename
