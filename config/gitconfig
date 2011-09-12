@@ -12,4 +12,5 @@
         auto = 1
 [alias]
     fp = format-patch --full-index
+    lod = log --oneline --decorate
 
