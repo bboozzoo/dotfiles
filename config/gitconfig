@@ -13,4 +13,6 @@
 [alias]
     fp = format-patch --full-index
     lod = log --oneline --decorate
+    really-clean = clean -fdx
+    sstatus = status -sb
 
