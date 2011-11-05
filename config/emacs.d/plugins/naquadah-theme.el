@@ -295,7 +295,7 @@
 (provide-theme 'naquadah)
 
 ;; Local Variables:
-;; no-byte-compile: t
+;; no-byte-compile: nil
 ;; End:
 
 ;;; naquadah-theme.el ends here
