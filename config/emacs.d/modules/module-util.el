@@ -73,5 +73,19 @@
     )
   )
 
+;; check if running in terminal
+(defun bozo-in-terminal-p ()
+  "Return t if running in terminal"
+  (not (display-graphic-p))
+  )
+
+;; set color theme from color-theme package
+(defun bozo-set-color-theme (f)
+  (if (not (fboundp f))
+      (progn (require 'color-theme)
+             (color-theme-initialize)))
+  (funcall f)
+  )
+
 (provide 'module-util)
 ;; module-util.el ends here

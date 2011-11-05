@@ -1,3 +1,6 @@
+;; need some utility functions
+(require 'module-util)
+
 ;; disable startup screen
 (setq inhibit-startup-screen t) 
 
@@ -60,15 +63,14 @@
 (set-scroll-bar-mode nil)
 
 ;; color themes
-(require 'color-theme nil t)              ;color theme
-(defun set-color-theme (f)
-  (if (not (fboundp f))
-      (color-theme-initialize))
-  (funcall f)
-)
-; try to set color-theme-tty dark, initialize if needed
-;(set-color-theme 'color-theme-tty-dark)   
-(require 'naquadah-theme)
+;; use naquadah if running under X
+;; for terminal prefer color-theme-tty-dark
+(setq terminal-color-theme 'color-theme-tty-dark)
+
+(if (bozo-in-terminal-p)
+    (bozo-set-color-theme terminal-color-theme)
+  (require 'naquadah-theme))
+
 
 (provide 'module-ui)
 ;; module-ui.el ends here
