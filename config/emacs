@@ -1,11 +1,1 @@
-;(setq initial-buffer-choice t)      ;show scratch buffer
-;(defun setup-fonts ()
-;  (set-face-attribute 'default nil :height 100) ;default font size
-;  (set-face-font 'default "-misc-fixed-medium-r-semicondensed-*-13-*-75-75-c-60-*-*") ;fixed as in xterm
-;  )
-; setting font makes sense if running under X
-;(if window-system
-;    (setup-fonts)
-;  )
-
-(load "~/.emacs.d/init.el")
+\(load "~/.emacs.d/init.el")

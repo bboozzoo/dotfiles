@@ -1,9 +1,9 @@
 ;; disable startup screen
 (setq inhibit-startup-screen t) 
 
-;; use ProggyClean
-;;(custom-set-faces
-;; '(default ((t (:family "ProggyCleanTT" :height 122)))))
+;; set font
+(set-default-font "ProggyCleanTT-12")
+
 
 ;; syntax coloring
 (require 'font-lock)
