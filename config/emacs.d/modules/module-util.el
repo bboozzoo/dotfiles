@@ -87,5 +87,13 @@
   (funcall f)
   )
 
+;; create directory if not present
+(defun bozo-make-dir (f)
+  (if (not (file-exists-p f))
+      (progn
+        (message "creating directory at %s" f)
+        (make-directory f)))
+  )
+
 (provide 'module-util)
 ;; module-util.el ends here
