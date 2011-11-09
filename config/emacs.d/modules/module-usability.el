@@ -60,5 +60,8 @@
 ;speedbar in frame
 (require 'sr-speedbar)
 
+;; autocompletions
+(require 'module-autocompletion)
+
 (provide 'module-usability)
 ;; module-usability.el ends here
