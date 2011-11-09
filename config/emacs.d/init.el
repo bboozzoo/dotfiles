@@ -11,6 +11,7 @@
 
 (add-to-list 'load-path local-modules-dir)
 (add-to-list 'load-path "~/.emacs.d/plugins/")
+(add-to-list 'load-path "~/.emacs.d/elpa/")
 
 ;; local cache path (for recentf, IDO, etc.)
 ; create cache dir if one does not exist
@@ -22,6 +23,7 @@
 (setq bozo-color-theme-x 'color-theme-tty-dark)
 (setq bozo-color-theme-terminal 'color-theme-tty-dark)
 
+(require 'module-elpa)
 (require 'module-ui)
 (require 'module-usability)
 (require 'module-util)
