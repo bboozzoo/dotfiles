@@ -5,7 +5,11 @@
 (setq inhibit-startup-screen t) 
 
 ;; set font
-(set-default-font "ProggyCleanTT-12")
+;;(set-default-font "ProggyCleanTT-12")
+(setq default-frame-alist '((font . "ProggyCleanTT-12")
+                            (menu-bar-lines . 0)
+                            (vertical-scroll-bars . nil)
+                            ))
 
 
 ;; syntax coloring
@@ -63,14 +67,13 @@
 (set-scroll-bar-mode nil)
 
 ;; color themes
-;; use naquadah if running under X
-;; for terminal prefer color-theme-tty-dark
 (setq terminal-color-theme 'color-theme-tty-dark)
 
-(if (bozo-in-terminal-p)
-    (bozo-set-color-theme terminal-color-theme)
-  (require 'naquadah-theme))
-
+(if (bozo-in-terminal-p) 
+    (if (boundp 'bozo-color-theme-terminal)
+        (bozo-set-color-theme bozo-color-theme-terminal))
+    (if (boundp 'bozo-color-theme-x)
+        (bozo-set-color-theme bozo-color-theme-x)))
 
 (provide 'module-ui)
 ;; module-ui.el ends here
