@@ -67,13 +67,8 @@
 (set-scroll-bar-mode nil)
 
 ;; color themes
-(setq terminal-color-theme 'color-theme-tty-dark)
-
-(if (bozo-in-terminal-p) 
-    (if (boundp 'bozo-color-theme-terminal)
-        (bozo-set-color-theme bozo-color-theme-terminal))
-    (if (boundp 'bozo-color-theme-x)
-        (bozo-set-color-theme bozo-color-theme-x)))
+(require 'color-theme-zenburn)
+(color-theme-zenburn)
 
 (provide 'module-ui)
 ;; module-ui.el ends here
