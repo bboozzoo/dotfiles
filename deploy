@@ -6,26 +6,24 @@ import os.path
 import shutil
 import subprocess
 
+def get_files(dire):
+    """list files from directory, skipping backup files
+    Arguments:
+    - `dire`:
+    """
+    import re
+    return [x for x in os.listdir(dire) if not re.match(r'[#]?.*[#~]', x)]
+
 #####################
 # files configuration
 #####################
 
 # list of files for each group
-apps_list = ['srync',
-             'html-escape.py',
-             'dump-ssh-known-host']
-configs_list = [ 'screenrc', 
-                 'emacs',
-                 'emacs.d',
-                 'gitconfig',
-                 'vimrc',
-                 'vim' ,
-                 'profile-mine',
-                 'Xresources',
-                 'inputrc']
+apps_list = get_files('apps')
+configs_list = get_files('config')
 
 # each group descriptor
-#              list of files, prefix, function to rename
+# list of files, prefix, function to rename
 apps_tuple = (apps_list, '~/bin', None)
 configs_tuple = (configs_list, '~', lambda x: '.' + x) # config files usually have . prefix
 
