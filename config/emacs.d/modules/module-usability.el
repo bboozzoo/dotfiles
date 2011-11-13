@@ -63,5 +63,8 @@
 ;; autocompletions
 (require 'module-autocompletion)
 
+;; terminal
+(require 'multi-term)
+
 (provide 'module-usability)
 ;; module-usability.el ends here

@@ -30,10 +30,11 @@
 (setq transient-mark-mode t)
 
 ;; highlight current line
-(global-hl-line-mode 1)
+(global-hl-line-mode -1)
 
  ;show line numbers
-(global-linum-mode t)
+(global-linum-mode -1)
+(require 'hl-line+)
 
 ;; show line number in status bar
 (line-number-mode t)

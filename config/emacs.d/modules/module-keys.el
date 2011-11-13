@@ -18,7 +18,10 @@
 (global-set-key (kbd "C-<f12>") 'recentf-open-files)
 ;; autocompltion - remap default M-/ if auto-complete is available
 (when (fboundp 'auto-complete)
-    (global-set-key (kbd "M-/") 'auto-complete))
+  (global-set-key (kbd "M-/") 'auto-complete))
+;; flash current line
+(when (fboundp 'hl-line-flash)
+  (global-set-key (kbd "C-c l") 'hl-line-flash))
 
 (provide 'module-keys)
 ;; module-keys.el ends here
