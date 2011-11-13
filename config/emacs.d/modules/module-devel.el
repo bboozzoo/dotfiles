@@ -3,15 +3,12 @@
 ;; use cscope
 (require 'xcscope)
 
-;; style for C
+;;;;;;;;;;;;;;;;;;;;
+;; C
+;;;;;;;;;;;;;;;;;;;;
 (setq c-default-style "linux"
       c-basic-offset 4)
 
-;; javascript mode
-;; enable for all *.js files
-(add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode)) 
-; load javascript when javascipt-mode is needed
-(autoload 'javascript-mode "javascript" nil t) 
 
 ; gnu global
 ;; (require 'gtags)
@@ -66,6 +63,51 @@
 ;;     (local-set-key (kbd "C-c s s") 'gtags-find-tag-from-here)
 ;;     (local-set-key (kbd "C-c s e") 'gtags-find-with-grep)
 ;;     (local-set-key (kbd "C-c s f") 'gtags-find-file)))  ; reverse tag
+
+;;;;;;;;;;;;;;;;;
+;; python
+;;;;;;;;;;;;;;;;;
+
+;; load ropemacs on demand
+;; (defun bozo-devel-python-load-ropemacs ()
+;;   (if (not (fboundp 'ropemacs-mode))
+;;       (pymacs-load "ropemacs" "rope-"))
+;;   )
+;; ;; to be called from python-mode-hook
+;; (defun bozo-devel-python-ropemacs-ac ()
+;;   (bozo-devel-python-load-ropemacs)
+;;   (ac-ropemacs-initialize)
+;;   (add-to-list 'ac-sources 'ac-source-ropemacs)
+;;   )
+;; load pymacs and setup hooks
+;;(require 'pymacs)
+;;(bozo-devel-python-ropemacs-ac)
+
+;; ipython as python shell
+;; (require 'ipython)
+
+;; simple completion for python
+(defvar ac-source-python '((candidates .
+                                       (lambda ()
+                                         (mapcar '(lambda (completion)
+                                                    (first (last (split-string completion "\\." t))))
+                                                 (python-symbol-completions (python-partial-symbol)))))))
+(add-hook 'python-mode-hook
+          (lambda() (setq ac-sources '(ac-source-python))))
+;; eldoc mode
+(add-hook 'python-mode-hook 'turn-on-eldoc-mode)
+
+;; pdb
+(setq gud-pdb-command-name "python -m pdb")
+
+;;;;;;;;;;;;;;;;;;;
+;; *LISP
+;;;;;;;;;;;;;;;;;;;
+
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+
 
 (require 'module-snippets)
 (require 'module-net)

@@ -4,5 +4,7 @@
   (add-to-list 'ac-dictionary-directories (concat default-dict-dir "/dict")))
 
 (ac-config-default)
+(setq ac-delay 0)
+(setq ac-auto-show-menu t)
 
 (provide 'module-autocompletion)

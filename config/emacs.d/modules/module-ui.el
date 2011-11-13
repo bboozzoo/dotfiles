@@ -6,10 +6,10 @@
 
 ;; set font
 ;;(set-default-font "ProggyCleanTT-12")
-(setq default-frame-alist '((font . "ProggyCleanTT-12")
-                            (menu-bar-lines . 0)
-                            (vertical-scroll-bars . nil)
-                            ))
+(setq default-frame-alist '((font . "ProggyCleanTT-12")))
+                            ;; (menu-bar-lines . 0)
+                            ;; (vertical-scroll-bars . nil)
+                            ;; ))
 
 
 ;; syntax coloring
@@ -67,8 +67,8 @@
 (set-scroll-bar-mode nil)
 
 ;; color themes
-(require 'color-theme-zenburn)
-(color-theme-zenburn)
+(require 'color-theme-tangotango)
+(color-theme-tangotango)
 
 (provide 'module-ui)
 ;; module-ui.el ends here
