@@ -71,5 +71,8 @@
 (require 'color-theme-tangotango)
 (color-theme-tangotango)
 
+;; mark at 80 columns
+(require 'fill-column-indicator)
+
 (provide 'module-ui)
 ;; module-ui.el ends here

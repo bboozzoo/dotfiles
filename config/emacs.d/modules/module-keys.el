@@ -22,6 +22,9 @@
 ;; flash current line
 (when (fboundp 'hl-line-flash)
   (global-set-key (kbd "C-c l") 'hl-line-flash))
+;; show 80 columns mark
+(when (fboundp 'fci-mode)
+  (global-set-key (kbd "C-<f7>") 'fci-mode))
 
 (provide 'module-keys)
 ;; module-keys.el ends here
