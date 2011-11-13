@@ -36,7 +36,7 @@
  ido-ignore-buffers 
  '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
    "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
- ido-work-directory-list '("~/" "~/Desktop" "~/Documents" "~code")
+ ido-work-directory-list '("~/" "~/Desktop" "~/Documents" "~/code")
  ido-case-fold  t                 ; be case-insensitive
  ido-enable-last-directory-history t ; remember last used dirs
  ido-max-work-directory-list 30   ; should be enough
