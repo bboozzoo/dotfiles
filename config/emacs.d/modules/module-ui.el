@@ -1,16 +1,12 @@
 ;; need some utility functions
 (require 'module-util)
-
+(message "Module util loading")
 ;; disable startup screen
 (setq inhibit-startup-screen t) 
 
 ;; set font
 ;;(set-default-font "ProggyCleanTT-12")
 (setq default-frame-alist '((font . "ProggyCleanTT-12")))
-                            ;; (menu-bar-lines . 0)
-                            ;; (vertical-scroll-bars . nil)
-                            ;; ))
-
 
 ;; syntax coloring
 (require 'font-lock)
@@ -33,7 +29,9 @@
 (global-hl-line-mode -1)
 
  ;show line numbers
-(global-linum-mode -1)
+(global-linum-mode 1)
+
+;; line highlight
 (require 'hl-line+)
 
 ;; show line number in status bar
