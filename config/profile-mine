@@ -29,6 +29,10 @@ PS1="[\u@\h:\w$GREEN\$($____git_info)$RESET]\$ "
 # path
 PATH=$PATH:~/bin
 
+# editor
+EDITOR='emacs -nw'
+ALTERNATE_EDITOR='vim'
+
 # exports
 
-export PATH PS1
+export PATH PS1 EDITOR ALTERNATE_EDITOR
