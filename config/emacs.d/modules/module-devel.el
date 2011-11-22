@@ -91,7 +91,7 @@
                                        (lambda ()
                                          (mapcar '(lambda (completion)
                                                     (first (last (split-string completion "\\." t))))
-                                                 (python-symbol-completions (python-partial-symbol)))))))
+                                                 (python-symbol-completions (python-completion-at-point)))))))
 (add-hook 'python-mode-hook
           (lambda() (setq ac-sources '(ac-source-python))))
 ;; eldoc mode
