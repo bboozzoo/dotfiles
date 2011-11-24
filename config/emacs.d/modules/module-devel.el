@@ -87,13 +87,14 @@
 ;; (require 'ipython)
 
 ;; simple completion for python
-(defvar ac-source-python '((candidates .
-                                       (lambda ()
-                                         (mapcar '(lambda (completion)
-                                                    (first (last (split-string completion "\\." t))))
-                                                 (python-symbol-completions (python-completion-at-point)))))))
-(add-hook 'python-mode-hook
-          (lambda() (setq ac-sources '(ac-source-python))))
+;; (defvar ac-source-python '((candidates .
+;;                                        (lambda ()
+;;                                          (mapcar '(lambda (completion)
+;;                                                     (first (last (split-string completion "\\." t))))
+;;                                                  (python-symbol-completions (python-completion-at-point)))))))
+;; (add-hook 'python-mode-hook
+;;           (lambda() (setq ac-sources '(ac-source-python))))
+(require 'ac-python)
 ;; eldoc mode
 (add-hook 'python-mode-hook 'turn-on-eldoc-mode)
 
