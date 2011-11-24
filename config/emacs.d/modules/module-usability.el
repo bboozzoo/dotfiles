@@ -59,6 +59,7 @@
 
 ;speedbar in frame
 (require 'sr-speedbar)
+(setq speedbar-show-unknown-files t)
 
 ;; autocompletions
 (require 'module-autocompletion)
