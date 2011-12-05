@@ -10,7 +10,7 @@
 (bozo-make-dir "~/.emacs.d/snippets")
 
 (add-to-list 'snippet-dirs "~/.emacs.d/snippets")
-
+;;(setq yas/trigger-key nil)
 (yas/initialize)
 ;; load all snippets
 (dolist (sd snippet-dirs)

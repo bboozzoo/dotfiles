@@ -6,7 +6,7 @@
 
 ;; set font
 ;;(set-default-font "ProggyCleanTT-12")
-(setq default-frame-alist '((font . "ProggyCleanTT-12")))
+(setq default-frame-alist '((font . "Inconsolata-10")))
 
 ;; syntax coloring
 (require 'font-lock)

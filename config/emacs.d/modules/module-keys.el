@@ -16,7 +16,7 @@
   (global-set-key (kbd "C-<f10>") 'sr-speedbar-select-window)) ; speedbar
 (global-set-key (kbd "C-<f11>") 'bozo-load-module)
 (global-set-key (kbd "C-<f12>") 'recentf-open-files)
-;; autocompltion - remap default M-/ if auto-complete is available
+;; autocompletion - remap default M-/ if auto-complete is available
 (when (fboundp 'auto-complete)
   (global-set-key (kbd "M-/") 'auto-complete))
 ;; flash current line
