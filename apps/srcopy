@@ -1,0 +1,130 @@
+#!/usr/bin/python
+
+import os
+import shutil
+import sys
+import errno
+
+class TermColors:
+    """Color escape characters
+    """
+    BLUE = '\033[34;1m'
+    GREEN = '\033[32;1m'
+    ENDC = '\033[0m'
+
+
+def usage():
+    """Show usage
+    """
+    print
+    print 'Copy files to given directory, preserving sorted order'
+    print 'Usage:'
+    print '    %s <source files/dirs> <dest directory>' \
+        % os.path.basename(sys.argv[0])
+
+
+def copyfile(fname, destdir):
+    """Copy a file to destination directory. Both file and destination
+    directory must exist.
+    
+    Arguments:
+    - `fname`: source file
+    - `destdir`: destination directory
+    """
+    # source file name
+    name = os.path.basename(fname)
+    # destination file name
+    dfname = os.path.join(destdir, name)
+    print (TermColors.GREEN + '%s ' + TermColors.BLUE + '-> ' \
+               + TermColors.GREEN + '%s' + TermColors.ENDC) \
+               % (fname, dfname)
+    try:
+        shutil.copy(fname, dfname)
+    except EnvironmentError, e:
+        print 'copying %s to %s failed:' % (fname, dfname, e.strerror)
+        raise
+        
+
+def copyfiles(flist, destdir):
+    """Copy files from list do destination directory. Directory must
+    exist.
+    
+    Arguments:
+    - `flist`: files list
+    - `destdir`: destination directory
+    """
+    if not os.path.exists(destdir):
+        raise RuntimeError('destination directory %s does not exist' \
+                               % (destdir))
+    for fil in flist:
+        if os.path.isdir(fil):
+            # do directory copy for directories
+            copydir(fil, destdir)
+        else:
+            # and file copy for files
+            copyfile(fil, destdir)
+        
+
+def copydir(srcdir, destdir):
+    """Copy directory to destination
+    
+    Arguments:
+    - `srcdir`: source directory
+    - `destdir`: destination directory
+    """
+    # source is a directory
+    # grab directory name
+    dirname = os.path.basename(srcdir)
+    # make similarly named directory in destination dir
+    destdir = os.path.join(destdir, dirname)
+    try:
+        os.makedirs(destdir)
+    except OSError, e:
+        if e.errno != errno.EEXIST:
+            print 'error creating %s directory: %s' % \
+                (destdir, e.strerror)
+            raise
+
+    # list all files in source directory
+    files = [os.path.join(srcdir, f) for f in os.listdir(srcdir)]
+    # sort files
+    files.sort()
+    # copy all files
+    copyfiles(files, destdir)
+
+
+def main():
+    """main
+    """
+    if len(sys.argv) < 3:
+        print 'Incorrect number of arguments'
+        usage()
+        raise SystemExit(1)
+
+    dest = sys.argv[-1]
+    srcs = sys.argv[1:-1]
+
+    # first check if destination directory exists
+    if not os.path.exists(dest):
+        print 'directory %s not found, create'
+        try:
+            os.makedirs(dest)
+        except OSError, e:
+            print 'error creating %s directory: %s' % \
+                (dest, e.strerror)
+            raise SystemExit(1)
+    
+    # sort sources
+    srcs.sort()
+    copyfiles(srcs, dest)
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass
+    except:
+        raise
+
+
