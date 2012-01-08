@@ -109,6 +109,17 @@
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 
+;;;;;;;;;;;;;;;;;;;
+;; *XML
+;;;;;;;;;;;;;;;;;;;
+(add-to-list 'auto-mode-alist (cons (concat "\\." 
+                                            (regexp-opt '("xml" "xsd" "sch" 
+                                                          "rng" "xslt" 
+                                                          "svg" "rss") 
+                                                        t) 
+                                            "\\'")
+                                    'nxml-mode))
+
 
 (require 'module-snippets)
 (require 'module-net)
