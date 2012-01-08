@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo 0x00ffffff > /proc/acpi/ibm/hotkey
+#echo auto > /sys/class/drm/card0/device/power_profile
+exit 0
