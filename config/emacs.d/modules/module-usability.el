@@ -9,7 +9,7 @@
 (require 'recentf)
 (setq 
  ;; save list to ~/.emacs.d/cache/recentf
- recentf-save-file (concat local-cache-dir "recentf")
+ recentf-save-file (expand-file-name"recentf" local-cache-dir)
  recentf-max-saved-items 100
  recentf-max-menu-items 15)
 ;; enable
@@ -31,7 +31,7 @@
 (ido-mode 'both)
 (setq 
  ;; save state to ~/.emacs.d/cache/ido.last
- ido-save-directory-list-file (concat local-cache-dir "ido.last")
+ ido-save-directory-list-file (expand-file-name"ido.last" local-cache-dir)
  ;; ignore these guys
  ido-ignore-buffers 
  '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
