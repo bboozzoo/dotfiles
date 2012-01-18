@@ -15,6 +15,10 @@ setopt auto_pushd \
     no_menu_complete \
     prompt_subst
 
+# line editing
+autoload -U select-word-style
+select-word-style bash
+
 # completion 
 autoload -Uz compinit
 compinit
