@@ -25,6 +25,9 @@ select-word-style bash
 autoload -Uz compinit
 compinit
 zstyle ':completion:*' list-colors "$LS_COLORS"
+zstyle ':completion:*' completer _complete _correct _approximate
+zstyle ':completion:*:correct:::' max-errors 2
+zstyle ':completion:*:approximate:::' max-errors 2
 
 # VCS support
 autoload -Uz vcs_info
