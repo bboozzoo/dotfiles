@@ -20,5 +20,6 @@
     co = checkout
     ls-not-added = ls-files --others --exclude-standard
     ls-staged = diff --cached --name-status
+    branches = git branch -vv
 [push]
     default = current
