@@ -8,6 +8,7 @@
 (setq local-modules-dir "~/.emacs.d/modules")
 (setq local-cache-dir "~/.emacs.d/cache/")
 (setq local-plugins-dir "~/.emacs.d/plugins")
+(setq local-site-custom-dir "~/.emacs.d/custom")
 
 (add-to-list 'load-path local-modules-dir)
 (add-to-list 'load-path "~/.emacs.d/plugins/")
@@ -27,3 +28,5 @@
 (require 'module-ui)
 (require 'module-usability)
 (require 'module-keys)
+
+(require 'module-local)
