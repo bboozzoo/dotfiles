@@ -69,6 +69,11 @@
 
 ;; org mode
 (setq org-log-done 'time)
+;; default task cycling
+;; if other is needed override with buffer local settings
+;; see: http://orgmode.org/manual/Tracking-TODO-state-changes.html
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "HOLD(h@/!)" "STARTED(s!)" "|" "DONE(d!)" "CANCELLED(c@)")))
 
 (provide 'module-usability)
 ;; module-usability.el ends here
