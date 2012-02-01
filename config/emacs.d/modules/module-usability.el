@@ -67,5 +67,9 @@
 ;; terminal
 (require 'multi-term)
 
+;; org mode
+(setq org-log-done 'time)
+
 (provide 'module-usability)
 ;; module-usability.el ends here
+
