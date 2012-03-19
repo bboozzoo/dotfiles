@@ -1,10 +1,11 @@
+TMPPREFIX=/tmp
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
 # emacs key bindings
 bindkey -e
-bindkey "^[OH" beginning-of-line
-bindkey "^[OF" end-of-line
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
 
 setopt auto_pushd \
     noclobber \
