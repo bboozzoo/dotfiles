@@ -68,7 +68,12 @@
 (require 'multi-term)
 
 ;; org mode
-(setq org-log-done 'time)
+(setq org-log-done 'time
+      org-agenda-skip-deadline-if-done t
+      org-agenda-skip-scheduled-if-done t
+      org-agenda-start-on-weekday 1
+      org-agenda-show-all-dates t)
+(org-remember-insinuate)
 ;; default task cycling
 ;; if other is needed override with buffer local settings
 ;; see: http://orgmode.org/manual/Tracking-TODO-state-changes.html
