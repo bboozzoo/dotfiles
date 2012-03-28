@@ -44,10 +44,35 @@ autoload -U promptinit
 promptinit
 PROMPT='[%n@%m:%3~]${vcs_info_msg_0_}$ '
 
+
+# set terminal tile
+function title() {
+    # escape '%' chars in $1, make nonprintables visible
+    local a=${(V)1//\%/\%\%}
+
+    # Truncate command, and join lines.
+    a=$(print -Pn "%40>...>$a" | tr -d "\n")
+
+    case $TERM in
+        screen*)
+            print -Pn "\e]2;$a @ $2\a" # plain xterm title
+            print -Pn "\ek$a\e\\"      # screen title (in ^A")
+            print -Pn "\e_$2   \e\\"   # screen location
+            ;;
+        xterm*)
+            print -Pn "\e]2;$a @ $2\a" # plain xterm title
+            ;;
+    esac
+}
+
 precmd() {
+    title "zsh" "%m: %3~"
     vcs_info
 }
 
+preexec() {
+    title "$1" "%m: %3~"
+}
 
 # paths
 PATH="$PATH:~/bin"
