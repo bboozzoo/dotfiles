@@ -73,12 +73,19 @@
       org-agenda-skip-scheduled-if-done t
       org-agenda-start-on-weekday 1
       org-agenda-show-all-dates t)
+(defun bozo-org-mode-hook()
+  (progn (auto-fill-mode 1)))
+(add-hook 'org-mode-hook 'bozo-org-mode-hook)
 (org-remember-insinuate)
 ;; default task cycling
 ;; if other is needed override with buffer local settings
 ;; see: http://orgmode.org/manual/Tracking-TODO-state-changes.html
 (setq org-todo-keywords
       '((sequence "TODO(t)" "HOLD(h@/!)" "STARTED(s!)" "|" "DONE(d!)" "CANCELLED(c@)")))
+
+;; hi-lock for highligting entries in the buffer
+(global-hi-lock-mode 1)
+
 
 (provide 'module-usability)
 ;; module-usability.el ends here
