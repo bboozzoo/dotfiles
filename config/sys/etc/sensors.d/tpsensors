@@ -1,0 +1,21 @@
+chip "acpitz-virtual-0"
+  label temp1 "CPU_0"
+  label temp2 "CPU_1"
+chip "thinkpad-isa-0000"
+  label fan1   "FAN"
+  label temp1  "CPU"
+  label temp2  "APS"
+  label temp3  "PCM"
+  label temp4  "GPU"
+  label temp5  "BAT"
+  ignore temp6
+  label temp7  "BAT"
+  ignore temp8
+  label temp9  "BUS"
+  label temp10 "PCI"
+  label temp11 "PWR"
+  ignore temp12
+  ignore temp13
+  ignore temp14
+  ignore temp15
+  ignore temp16
