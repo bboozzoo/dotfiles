@@ -95,4 +95,4 @@ if which most >/dev/null 2>&1; then
 fi
 
 # exports
-export PATH EDITOR ALTERNATE_EDITOR
+export PATH EDITOR ALTERNATE_EDITOR PAGER
