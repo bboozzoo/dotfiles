@@ -70,7 +70,7 @@
 ;; color themes
 ;; (require 'color-theme-tangotango)
 ;; (color-theme-tangotango)
-(load-theme 'tango)
+(load-theme 'adwaita)
 
 ;; mark at 80 columns
 (require 'fill-column-indicator)
