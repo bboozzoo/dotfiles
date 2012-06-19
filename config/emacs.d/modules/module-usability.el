@@ -90,6 +90,10 @@
 ;; default keybindings shift + up/down/left/right are fine
 (windmove-default-keybindings)
 
+;; rainbow-mode for colors whenever a pattern such as #ababab is found
+(require 'rainbow-mode)
+(rainbow-turn-on)
+
 (provide 'module-usability)
 ;; module-usability.el ends here
 
