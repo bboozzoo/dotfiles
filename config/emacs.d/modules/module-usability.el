@@ -86,6 +86,9 @@
 ;; hi-lock for highligting entries in the buffer
 (global-hi-lock-mode 1)
 
+;; windmove - for easy switching between windows
+;; default keybindings shift + up/down/left/right are fine
+(windmove-default-keybindings)
 
 (provide 'module-usability)
 ;; module-usability.el ends here
