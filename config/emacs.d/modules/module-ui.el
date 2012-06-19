@@ -68,8 +68,9 @@
 (set-scroll-bar-mode nil)
 
 ;; color themes
-(require 'color-theme-tangotango)
-(color-theme-tangotango)
+;; (require 'color-theme-tangotango)
+;; (color-theme-tangotango)
+(load-theme 'tango)
 
 ;; mark at 80 columns
 (require 'fill-column-indicator)
