@@ -13,6 +13,12 @@
 (add-to-list 'load-path local-modules-dir)
 (add-to-list 'load-path "~/.emacs.d/plugins/")
 (add-to-list 'load-path "~/.emacs.d/elpa/")
+;; add plugins dir versioned after emacs major version
+(let ((extra-emacs-version-plugins-dir (concat local-plugins-dir
+                                       "emacs-"
+                                       (number-to-string emacs-major-version))))
+  (if (file-directory-p extra-emacs-version-plugins-dir)
+      (add-to-list 'load-path extra-emacs-version-plugins-dir)))
 
 (require 'module-util)
 
