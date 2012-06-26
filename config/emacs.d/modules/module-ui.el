@@ -72,7 +72,10 @@
 ;; (color-theme-tangotango)
 ;; (load-theme 'adwaita)
 ;; set path to custom location of themes
-(add-to-list 'custom-theme-load-path local-themes-custom-dir)
+(if (>= emacs-major-version 24)
+    (add-to-list 'custom-theme-load-path local-themes-custom-dir)
+  (setq custom-theme-directory local-themes-custom-dir)
+  )
 (load-theme 'naquadah t)
 
 ;; mark at 80 columns
