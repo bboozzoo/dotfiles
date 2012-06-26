@@ -9,6 +9,7 @@
 (setq local-cache-dir "~/.emacs.d/cache/")
 (setq local-plugins-dir "~/.emacs.d/plugins")
 (setq local-site-custom-dir "~/.emacs.d/custom")
+(setq local-themes-custom-dir "~/.emacs.d/themes")
 
 (add-to-list 'load-path local-modules-dir)
 (add-to-list 'load-path "~/.emacs.d/plugins/")

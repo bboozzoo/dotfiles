@@ -70,7 +70,10 @@
 ;; color themes
 ;; (require 'color-theme-tangotango)
 ;; (color-theme-tangotango)
-(load-theme 'adwaita)
+;; (load-theme 'adwaita)
+;; set path to custom location of themes
+(add-to-list 'custom-theme-load-path local-themes-custom-dir)
+(load-theme 'naquadah t)
 
 ;; mark at 80 columns
 (require 'fill-column-indicator)
