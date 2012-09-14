@@ -72,7 +72,10 @@
       org-agenda-skip-deadline-if-done t
       org-agenda-skip-scheduled-if-done t
       org-agenda-start-on-weekday 1
-      org-agenda-show-all-dates t)
+      org-agenda-show-all-dates t
+      org-refile-use-outline-path t
+      org-outline-path-complete-in-steps nil
+      org-refile-targets '((org-agenda-files . (:maxlevel . 4))))
 (defun bozo-org-mode-hook()
   (progn (auto-fill-mode 1)))
 (add-hook 'org-mode-hook 'bozo-org-mode-hook)
@@ -81,7 +84,7 @@
 ;; if other is needed override with buffer local settings
 ;; see: http://orgmode.org/manual/Tracking-TODO-state-changes.html
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "HOLD(h@/!)" "STARTED(s!)" "|" "DONE(d!)" "CANCELLED(c@)")))
+      '((sequence "TODO(t!)" "HOLD(h@/!)" "STARTED(s!)" "|" "DONE(d!)" "CANCELLED(c@)")))
 
 ;; hi-lock for highligting entries in the buffer
 (global-hi-lock-mode 1)
