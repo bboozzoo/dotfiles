@@ -34,6 +34,7 @@
 (require 'module-elpa)
 (require 'module-ui)
 (require 'module-usability)
+(require 'module-devel)
 (require 'module-keys)
 
 (require 'module-local)

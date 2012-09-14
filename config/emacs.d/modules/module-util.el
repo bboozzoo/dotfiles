@@ -95,5 +95,18 @@
         (make-directory f)))
   )
 
+(defun bozo-find-package-dir (pkg)
+  (let (pkg-desc)
+    (setf pkg-desc (car (remove-if-not 
+                         (lambda (x) (eq (car x) pkg)) 
+                         package-alist)))
+    (when pkg-desc
+      (let ((pkg-vers (aref (cdr pkg-desc) 0)))
+        (concat package-user-dir 
+                "/"
+                (symbol-name pkg) 
+                "-" 
+                (mapconcat #'int-to-string pkg-vers "."))))))
+
 (provide 'module-util)
 ;; module-util.el ends here
