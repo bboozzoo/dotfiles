@@ -30,8 +30,20 @@
 (setq bozo-color-theme-x 'color-theme-tty-dark)
 (setq bozo-color-theme-terminal 'color-theme-tty-dark)
 
-(require 'module-lang)
 (require 'module-elpa)
+
+;; check if all required packages are installed
+(if (file-exists-p "~/.emacs.d/required-packages.el")
+    (progn
+      (load-file "~/.emacs.d/required-packages.el")
+      (let ((missing-packages (bozo-list-missing-packages 
+                               bozo-required-packages)))
+        (when missing-packages
+          (message "missing %d packages: %s" 
+                   (length missing-packages) missing-packages)
+          (bozo-install-packages missing-packages)))))
+
+(require 'module-lang)
 (require 'module-ui)
 (require 'module-usability)
 (require 'module-devel)

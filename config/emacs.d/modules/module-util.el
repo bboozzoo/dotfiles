@@ -84,8 +84,7 @@
   (if (not (fboundp f))
       (progn (require 'color-theme)
              (color-theme-initialize)))
-  (funcall f)
-  )
+  (funcall f))
 
 ;; create directory if not present
 (defun bozo-make-dir (f)
@@ -107,6 +106,13 @@
                 (symbol-name pkg) 
                 "-" 
                 (mapconcat #'int-to-string pkg-vers "."))))))
+
+(defun bozo-list-missing-packages (required-packages)
+  (remove-if 'package-installed-p
+             required-packages))
+
+(defun bozo-install-packages (packages)
+  (mapcar #'package-install packages))
 
 (provide 'module-util)
 ;; module-util.el ends here
