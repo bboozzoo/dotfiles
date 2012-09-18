@@ -4,10 +4,25 @@
 (require 'xcscope)
 
 ;;;;;;;;;;;;;;;;;;;;
+;; makefile
+;;;;;;;;;;;;;;;;;;;;
+(add-hook 'makefile-mode-hook
+          (lambda ()
+            (setq indent-tabs-mode t)))
+
+;;;;;;;;;;;;;;;;;;;;
 ;; C
 ;;;;;;;;;;;;;;;;;;;;
+
+;; common for all modes derived from cc-mode
 (setq c-default-style "linux"
       c-basic-offset 4)
+
+(defun bozo-c-mode-defaults ()
+  (electric-indent-mode t))
+
+;(add-hook 'c-mode-common-hook 'bozo-c-mode-common-defaults)
+(add-hook 'c-mode-hook 'bozo-c-mode-defaults)
 
 
 ; gnu global
@@ -105,21 +120,65 @@
 ;; *LISP
 ;;;;;;;;;;;;;;;;;;;
 
-(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+(defun bozo-lisp-defaults ()
+  (paredit-mode t)
+  (rainbow-delimiters-mode t))
+
+(defun bozo-lisp-repl-defaults ()
+  (bozo-lisp-defaults))
+
+;;
+;; emacs lisp
+;;
+(defun bozo-elisp-defaults ()
+  (bozo-lisp-defaults)
+  (turn-on-eldoc-mode))
+
+(defun bozo-ielm-defaults ()
+  (bozo-lisp-repl-defaults)
+  (turn-on-eldoc-mode))
+
+(add-hook 'emacs-lisp-mode-hook 'bozo-elisp-defaults)
+(add-hook 'ielm-mode-hook 'bozo-ielm-defaults)
+
+;;
+;; slime
+;;
+(setq slime-lisp-implementations
+      '((ecl ("ecl"))
+        (clisp ("clisp" "-q"))
+        (sbcl ("sbcl" "--noinform") :coding-system utf-8-unix)))
+;; use clisp by default
+(setq slime-default-lisp 'clisp)
+
+(eval-after-load "slime"
+  '(progn
+     (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)))
+
+(defun bozo-common-lisp-defaults ()
+  (bozo-lisp-defaults)
+  (slime-mode))
+
+(add-hook 'lisp-mode-hook 'bozo-common-lisp-defaults)
+(add-hook 'slime-repl-mode-map 'bozo-lisp-repl-defaults)
+
 
 ;;;;;;;;;;;;;;;;;;;
 ;; *XML
 ;;;;;;;;;;;;;;;;;;;
-(add-to-list 'auto-mode-alist (cons (concat "\\." 
-                                            (regexp-opt '("xml" "xsd" "sch" 
-                                                          "rng" "xslt" 
-                                                          "svg" "rss") 
-                                                        t) 
-                                            "\\'")
-                                    'nxml-mode))
+(add-to-list 'auto-mode-alist 
+             (cons (concat "\\." 
+                           (regexp-opt '("xml" "xsd" "sch" 
+                                         "rng" "xslt" 
+                                         "svg" "rss") 
+                                       t) 
+                           "\\'")
+                   'nxml-mode))
+(push '("<\\?xml" . nxml-mode) magic-mode-alist)
 
+
+
+;;;;;;;;;;;;;;;;;;;
 
 (require 'module-snippets)
 (require 'module-net)
