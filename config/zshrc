@@ -90,9 +90,7 @@ alias lla='ls --color=auto -la'
 # editors & pagers
 EDITOR='emacs -nw'
 ALTERNATE_EDITOR='vim'
-if which most >/dev/null 2>&1; then
-    PAGER='most'
-fi
+PAGER='less'
 
 # exports
 export PATH EDITOR ALTERNATE_EDITOR PAGER
