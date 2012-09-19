@@ -80,11 +80,11 @@
   )
 
 ;; set color theme from color-theme package
-(defun bozo-set-color-theme (f)
-  (if (not (fboundp f))
-      (progn (require 'color-theme)
-             (color-theme-initialize)))
-  (funcall f))
+(defun bozo-set-color-theme (sym)
+  "Set color theme to value stored in symbol sym"
+  (if (and (boundp sym)
+           (symbol-value sym))
+      (load-theme (symbol-value sym) t)))
 
 ;; create directory if not present
 (defun bozo-make-dir (f)

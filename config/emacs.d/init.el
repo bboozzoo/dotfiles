@@ -30,8 +30,8 @@
 ; Create cache dir if one does not exist
 (bozo-make-dir local-cache-dir)
 
-(setq bozo-color-theme-x 'color-theme-tty-dark)
-(setq bozo-color-theme-terminal 'color-theme-tty-dark)
+(setq bozo-color-theme-x 'naquadah)
+;(setq bozo-color-theme-terminal 'color-theme-tty-dark)
 
 (require 'module-elpa)
 

@@ -74,11 +74,13 @@
 ;; set path to custom location of themes
 (when (>= emacs-major-version 24)
   (add-to-list 'custom-theme-load-path local-themes-custom-dir)
-  (load-theme 'naquadah t))
+  (if (window-system)
+      (bozo-set-color-theme 'bozo-color-theme-x)
+    (bozo-set-color-theme 'bozo-color-theme-terminal)))
 
-(when (= emacs-major-version 23)
-  (add-to-list 'load-path local-themes-custom-dir)
-  (require 'naquadah-theme))
+;; (when (= emacs-major-version 23)
+;;   (add-to-list 'load-path local-themes-custom-dir)
+;;   (require 'naquadah-theme))
 
 ;; mark at 80 columns
 (require 'fill-column-indicator)
