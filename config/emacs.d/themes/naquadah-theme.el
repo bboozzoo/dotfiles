@@ -207,24 +207,14 @@
     name
     (car naquadah-colors))))
 
-(setq ansi-term-color-vector
-      `[unspecified ,(naquadah-get-colors 'black)
-                    ,(naquadah-get-colors 'scarlet-red-1)
-                    ,(naquadah-get-colors 'chameleon-1)
-                    ,(naquadah-get-colors 'butter-1)
-                    ,(naquadah-get-colors 'sky-blue-1)
-                    ,(naquadah-get-colors 'plum-1)
-                    "cyan3"
-                    ,(naquadah-get-colors 'aluminium-1)])
-
 (defun naquadah-simple-face-to-multiple (face)
   (let ((spec (car face))
         (lst (cadr face)))
     (list spec (mapcar
-                '(lambda (entry)
-                   (let ((color-condition (car entry)))
-                     (list color-condition
-                           (naquadah-color-list-expand (cdr entry) lst))))
+                (lambda (entry)
+                  (let ((color-condition (car entry)))
+                    (list color-condition
+                          (naquadah-color-list-expand (cdr entry) lst))))
                 naquadah-colors))))
 
 (defun naquadah-color-list-expand (color-alist lst)
@@ -291,6 +281,9 @@
  '(tooltip (:inherit variable-pitch :foreground aluminium-1 :background black))
  '(bold (:bold t))
  '(italic (:italic t))
+ '(warning (:bold t :foreground orange-1))
+ '(error (:bold t :foreground scarlet-red-1))
+ '(success (:bold t :foreground chameleon-1))
 
  '(font-lock-builtin-face (:foreground sky-blue-1))
  '(font-lock-keyword-face (:inherit font-lock-builtin-face :bold t))
@@ -301,11 +294,8 @@
  '(font-lock-doc-face (:inherit shadow))
  '(font-lock-string-face (:foreground plum-1))
  '(font-lock-variable-name-face (:foreground scarlet-red-1))
- '(font-lock-warning-face (:bold t :foreground orange-1))
+ '(font-lock-warning-face (:inherit warning))
  '(font-lock-function-name-face (:foreground butter-2 :bold t))
-
- ;; This is only used by jd to highligh words like TODO, XXX in code
- '(important (:box (:color aluminium-4 :line-width 2) :background scarlet-red-3 :bold t :foreground butter-2))
 
  '(comint-highlight-prompt ())
 
@@ -391,6 +381,7 @@
  '(org-level-7 (:bold t :foreground gradient-7))
  '(org-level-8 (:bold t :foreground gradient-8))
 
+ '(org-column ())
  '(org-mode-line-clock ())
  '(org-mode-line-clock-overrun (:foreground scarlet-red-1))
  '(org-document-title (:bold t :foreground sky-blue-1 :height 1.4))
@@ -481,6 +472,9 @@
  ;; makefile-mode
  '(makefile-space (:background plum-3))
 
+ ;; mmm-mode
+ '(mmm-default-submode-face (:background aluminium-6))
+
  ;; rainbow-delimiters
  '(rainbow-delimiters-depth-1-face (:foreground gradient-1))
  '(rainbow-delimiters-depth-2-face (:foreground gradient-2))
@@ -504,9 +498,23 @@
  '(rst-level-5-face (:foreground gradient-5))
  '(rst-level-6-face (:foreground gradient-6))
 
+ ;; term-mode
+ '(term-color-black (:foreground black :background black))
+ '(term-color-red (:foreground scarlet-red-1 :background scarlet-red-1))
+ '(term-color-green (:foreground chameleon-1 :background chameleon-1))
+ '(term-color-yellow (:foreground butter-1 :background butter-1))
+ '(term-color-blue (:foreground sky-blue-1 :background sky-blue-1))
+ '(term-color-magenta (:foreground plum-1 :background plum-1))
+ '(term-color-cyan (:foreground "cyan3" :background "cyan3"))
+ '(term-color-white (:foreground aluminium-1 :background aluminium-1))
+
+ ;; idle-highlight
+ '(idle-highlight (:foreground aluminium-1 :background scarlet-red-3))
+
+ ;; jabber
  '(jabber-activity-face (:foreground scarlet-red-1 :weight bold))
  '(jabber-activity-personal-face (:foreground sky-blue-1 :weight bold))
- '(jabber-chat-error (:foreground scarlet-red-2 :weight bold))
+ '(jabber-chat-error (:inherit error))
  '(jabber-chat-prompt-foreign (:foreground scarlet-red-1 :weight bold))
  '(jabber-chat-prompt-local (:foreground sky-blue-1 :weight bold))
  '(jabber-chat-prompt-system (:foreground chameleon-1 :weight bold))
