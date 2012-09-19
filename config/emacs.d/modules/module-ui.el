@@ -81,9 +81,7 @@
 ;; set path to custom location of themes
 (when (>= emacs-major-version 24)
   (add-to-list 'custom-theme-load-path local-themes-custom-dir)
-  (if (window-system)
-      (bozo-set-color-theme 'bozo-color-theme-x)
-    (bozo-set-color-theme 'bozo-color-theme-terminal)))
+  (bozo-set-color-theme 'bozo-color-theme-x))
 
 ;; (when (= emacs-major-version 23)
 ;;   (add-to-list 'load-path local-themes-custom-dir)
