@@ -1,3 +1,5 @@
+(require 'cl)
+
 ;; set frame title manually
 (defun bozo-set-frame-title (title)
   "Set current frame title"
