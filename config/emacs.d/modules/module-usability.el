@@ -29,8 +29,7 @@
 (require 'ido)
 ;; enable for buffers and files
 (ido-mode 'both)
-(setq 
- ;; save state to ~/.emacs.d/cache/ido.last
+(setq  ;; save state to ~/.emacs.d/cache/ido.last
  ido-save-directory-list-file (expand-file-name"ido.last" local-cache-dir)
  ;; ignore these guys
  ido-ignore-buffers 
@@ -53,6 +52,9 @@
            (lambda ()
              (make-local-variable 'resize-minibuffer-window-max-height)
              (setq resize-minibuffer-window-max-height 1))))
+
+;; icomplete - ido like complete in minibuffer
+(icomplete-mode t)
 
 ;; jumplist
 (require 'jumplist)
@@ -96,6 +98,9 @@
 ;; rainbow-mode for colors whenever a pattern such as #ababab is found
 (require 'rainbow-mode)
 (rainbow-turn-on)
+
+;; electricity
+(electric-pair-mode t)
 
 (provide 'module-usability)
 ;; module-usability.el ends here

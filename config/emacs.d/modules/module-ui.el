@@ -10,10 +10,17 @@
 ;;(setq default-frame-alist '((font . "ProggyCleanTT-12")))
 (setq default-frame-alist '((font . "Ubuntu Mono-11")))
 
+;; get rid of toolbar
+(when (fboundp 'tool-bar-mode) 
+  (tool-bar-mode -1))
+
 ;; syntax coloring
 (require 'font-lock)
 (global-font-lock-mode t)
 (setq font-lock-verbose nil)
+
+;; disable blinking cursor
+(blink-cursor-mode -1)
 
 ;; highlight query
 (setq query-replace-highlight t)
@@ -28,7 +35,7 @@
 (setq transient-mark-mode t)
 
 ;; highlight current line
-(global-hl-line-mode -1)
+(global-hl-line-mode t)
 
  ;show line numbers
 (global-linum-mode 1)
