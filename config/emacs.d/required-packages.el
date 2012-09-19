@@ -1,8 +1,6 @@
 (setq bozo-required-packages '(auto-complete
                                color-theme
-                               color-theme-zenburn
-                               color-theme-tango
-                               color-theme-tangotango
+                               zenburn-theme
                                yasnippet
                                yaml-mode
                                sr-speedbar

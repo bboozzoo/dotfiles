@@ -5,6 +5,9 @@
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 ;; (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
+(setq-default bozo-required-packages '())
+
+(setq required-packages-file "~/.emacs.d/required-packages.el")
 (setq local-modules-dir "~/.emacs.d/modules")
 (setq local-cache-dir "~/.emacs.d/cache/")
 (setq local-plugins-dir "~/.emacs.d/plugins")
@@ -33,9 +36,13 @@
 (require 'module-elpa)
 
 ;; check if all required packages are installed
-(if (file-exists-p "~/.emacs.d/required-packages.el")
+; start with refreshing list of all known packages
+(bozo-refresh-package-list)
+
+; now do the update 
+(if (file-exists-p required-packages-file)
     (progn
-      (load-file "~/.emacs.d/required-packages.el")
+      (load-file required-packages-file)
       (let ((missing-packages (bozo-list-missing-packages 
                                bozo-required-packages)))
         (when missing-packages
@@ -48,5 +55,4 @@
 (require 'module-usability)
 (require 'module-devel)
 (require 'module-keys)
-
 (require 'module-local)

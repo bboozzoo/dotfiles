@@ -95,6 +95,7 @@
   )
 
 (defun bozo-find-package-dir (pkg)
+  "Find directory corresponding to package symbol pkg."
   (let (pkg-desc)
     (setf pkg-desc (car (remove-if-not 
                          (lambda (x) (eq (car x) pkg)) 
@@ -108,11 +109,23 @@
                 (mapconcat #'int-to-string pkg-vers "."))))))
 
 (defun bozo-list-missing-packages (required-packages)
+  "List packages that are not installed but are required
+ (i.e. passed in the list of required packages)."
   (remove-if 'package-installed-p
              required-packages))
 
 (defun bozo-install-packages (packages)
+  "Install desired packages. Packages is a list of symbols
+corresponding to package names."
   (mapcar #'package-install packages))
+
+(defun* bozo-refresh-package-list (&key (force nil))
+  "Refresh list of packages if it's empty or :force is not
+nil."
+  (when (or force
+            (not package-archive-contents))
+    (message "Perform package list update...")
+    (package-refresh-contents)))
 
 (provide 'module-util)
 ;; module-util.el ends here
