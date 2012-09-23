@@ -30,21 +30,9 @@ imap <F8> <ESC>:tabclose<CR>i
 nmap <F2> :w<CR>
 imap <F2> <ESC>:w<CR>li
 
-"map <F9><ESC>:Tlist<CR>
-"imap <F9><ESC>:Tlist<CR>i
-
 map <F12> <ESC>:set hlsearch!<CR>
 map <F10> <ESC>:sh<CR>
 map <F11> <ESC>:set number!<CR>
 
-" for debugs
-fun SetDebugColoring()
-    syn keyword cDEBUG1 DBG DBG_CODE DBG_MEM log_wnd_printk
-    syn keyword cDEBUG2 printk
-    hi cDEBUG1 term=bold ctermfg=Green
-    hi cDEBUG2 term=bold ctermfg=Cyan
-endfun
-
-au BufRead,BufNewFile *.c,*.h call SetDebugColoring()
 syntax on
 
