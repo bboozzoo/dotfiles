@@ -87,8 +87,11 @@ alias ls='ls --color=auto'
 alias ll='ls --color=auto -l'
 alias lla='ls --color=auto -la'
 
+alias vi='emacsclient -t'
+alias vim='emacsclient -t'
+
 # editors & pagers
-EDITOR='emacs -nw'
+EDITOR='emacsclient -t'
 ALTERNATE_EDITOR='vim'
 PAGER='less'
 
