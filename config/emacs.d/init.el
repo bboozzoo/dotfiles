@@ -36,14 +36,14 @@
 ; start with refreshing list of all known packages
 (bozo-refresh-package-list)
 
-; now do the update 
+; now do the update
 (if (file-exists-p required-packages-file)
     (progn
       (load-file required-packages-file)
-      (let ((missing-packages (bozo-list-missing-packages 
+      (let ((missing-packages (bozo-list-missing-packages
                                bozo-required-packages)))
         (when missing-packages
-          (message "missing %d packages: %s" 
+          (message "missing %d packages: %s"
                    (length missing-packages) missing-packages)
           (bozo-install-packages missing-packages)))))
 
@@ -54,4 +54,5 @@
 (require 'module-usability)
 (require 'module-devel)
 (require 'module-net)
+(require 'module-mail)
 (require 'module-keys)
