@@ -30,5 +30,6 @@
 (global-set-key (kbd "C-c r") 'remember)
 ;;(global-set-key (kbd "C-c l") 'org-store-link)
 
+(run-hooks 'bozo-module-keys-hooks)
 (provide 'module-keys)
 ;; module-keys.el ends here

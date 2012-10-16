@@ -90,5 +90,6 @@
 ;; mark at 80 columns
 (require 'fill-column-indicator)
 
+(run-hooks 'bozo-module-ui-hooks)
 (provide 'module-ui)
 ;; module-ui.el ends here

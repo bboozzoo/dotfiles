@@ -183,5 +183,6 @@
 (require 'module-snippets)
 (require 'module-net)
 
+(run-hooks 'bozo-module-devel-hooks)
 (provide 'module-devel)
 ;; module-devel.el ends here

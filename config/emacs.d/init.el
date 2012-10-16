@@ -47,9 +47,11 @@
                    (length missing-packages) missing-packages)
           (bozo-install-packages missing-packages)))))
 
+(require 'module-local)
+
 (require 'module-lang)
 (require 'module-ui)
 (require 'module-usability)
 (require 'module-devel)
+(require 'module-net)
 (require 'module-keys)
-(require 'module-local)

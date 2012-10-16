@@ -102,6 +102,9 @@
 ;; electricity
 (electric-pair-mode t)
 
+;; run hooks
+(run-hooks 'bozo-module-usability-hooks)
+
 (provide 'module-usability)
 ;; module-usability.el ends here
 
