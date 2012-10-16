@@ -128,3 +128,5 @@
 ;;   )
 ;; (add-hook 'offlineimap-event-hooks 'bozo-get-pass)
 ;; (add-hook 'offlineimap-event-hooks 'bozo-trigger-mail-check)
+
+(provide 'module-mail)
