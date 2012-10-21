@@ -79,7 +79,7 @@
         ; bozo-mail-addresses
         (setq matching-entry (find-if
                               (lambda (entry)
-                                (bozo-matching-mail-address-p
+                                (bozo~matching-mail-address-p
                                  from-address entry))
                               bozo-mail-addresses))
         ; set smtpmail config if we found something
