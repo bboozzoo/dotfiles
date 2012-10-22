@@ -85,7 +85,7 @@
         ; set smtpmail config if we found something
         (when matching-entry
           (let ((account-settings (cdr matching-entry)))
-            (bozo-set-smtp-defaults)
+            (bozo~set-smtp-defaults)
             (dolist (setting account-settings)
               (bozo~set-smtpmail setting))))))))
 
