@@ -27,7 +27,7 @@
         ("british"
          "[A-Za-z]" "[^A-Za-z]" "[']"
          nil
-         ("-d" "en_EN")
+         ("-d" "en_GB")
          nil utf-8)))
 
 ;; trick to always report utf-8 as encoding
