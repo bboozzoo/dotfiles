@@ -6,7 +6,7 @@
 ;; use hunspell instead
 (setq ispell-really-hunspell t)
 (setq ispell-program-name "hunspell"
-      ispell-extra-args '("-i" "utf-8"))
+      ispell-extra-args nil)
 
 (setq ispell-local-dictionary-alist
       '((nil
@@ -35,9 +35,9 @@
   '(progn (defun ispell-get-coding-system () 'utf-8)
           (setq ispell-dictionary "american")))
 
-(add-hook 'text-mode-hook
-          (lambda ()
-            (flyspell-mode t)))
+;; (add-hook 'text-mode-hook
+;;           (lambda ()
+;;             (flyspell-mode t)))
 
 (setq flyspell-issue-message-flag nil)
 
