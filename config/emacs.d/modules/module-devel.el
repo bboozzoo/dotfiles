@@ -185,10 +185,19 @@
 
 
 ;;;;;;;;;;;;;;;;;;;
+;; (ma)git
+;;;;;;;;;;;;;;;;;;;
+(add-hook 'magit-status-mode-hook
+          (lambda ()
+            (linum-mode -1)))
 
+
+;; load other modules
 (require 'module-snippets)
 (require 'module-net)
 
+;; finally run user's hooks
 (run-hooks 'bozo-module-devel-hooks)
+
 (provide 'module-devel)
 ;; module-devel.el ends here
