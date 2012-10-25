@@ -90,6 +90,11 @@ alias lla='ls --color=auto -la'
 alias vi='emacsclient -t'
 alias vim='emacsclient -t'
 
+# for python
+alias pip='pip-python'
+alias pylab='ipython --pylab'
+alias ipythongui='ipython qtconsole'
+
 # editors & pagers
 EDITOR='emacsclient -t'
 ALTERNATE_EDITOR='vim'
