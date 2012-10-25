@@ -17,7 +17,7 @@
 
 (add-to-list 'ac-modes 'makefile-gmake-mode)
 (add-to-list 'ac-modes 'nxml-mode)
-
+(add-to-list 'ac-modes 'octave-mode)
 
 (provide 'module-autocompletion)
 ;; module-autocompletion.el ends here
