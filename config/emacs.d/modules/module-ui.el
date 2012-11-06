@@ -35,7 +35,7 @@
 (setq transient-mark-mode t)
 
 ;; highlight current line
-(global-hl-line-mode t)
+;; (global-hl-line-mode t)
 
  ;show line numbers
 (global-linum-mode 1)
