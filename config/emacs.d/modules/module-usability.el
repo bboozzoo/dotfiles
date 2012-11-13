@@ -57,7 +57,7 @@
 (icomplete-mode t)
 
 ;; jumplist
-(require 'jumplist)
+;;(require 'jumplist)
 
 ;speedbar in frame
 (require 'sr-speedbar)
