@@ -1,5 +1,24 @@
 ;; usability enhancements, tabs, ido, uniquify etc..
 
+;; dired
+(put 'dired-find-alternate-file 'disabled nil)
+; taken from Xah Lee's Ergo emacs site
+(setq dired-dwim-target t)
+(setq dired-recursive-copies (quote always))
+(setq dired-recursive-deletes (quote top))
+(defun bozo-remap-dired-keys ()
+  (define-key dired-mode-map (kbd "<return>")
+    'dired-find-alternate-file) ; was dired-advertised-find-file
+  (define-key dired-mode-map (kbd "^")
+    (lambda () (interactive) (find-alternate-file "..")))
+                                        ; was dired-up-directory
+  )
+(add-hook 'dired-mode-hook 'bozo-remap-dired-keys)
+(add-hook 'dired-mode-hook 
+          (lambda ()
+            (setq truncate-lines t)))
+
+
 ;; indentation
 (setq-default indent-tabs-mode nil) ;use spaces instead of tabs
 (setq tab-width 4)
