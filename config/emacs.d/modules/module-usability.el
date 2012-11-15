@@ -100,7 +100,7 @@
 (defun bozo-org-mode-hook()
   (progn (auto-fill-mode 1)))
 (add-hook 'org-mode-hook 'bozo-org-mode-hook)
-(org-remember-insinuate)
+;; (org-remember-insinuate) ; was broken
 ;; default task cycling
 ;; if other is needed override with buffer local settings
 ;; see: http://orgmode.org/manual/Tracking-TODO-state-changes.html
