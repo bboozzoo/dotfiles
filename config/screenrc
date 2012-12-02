@@ -3,3 +3,5 @@ hardstatus string '%{gk}[ %{G}%H %{g}][%= %{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f%t%?(%u
 #shell /bin/zsh
 startup_message off
 defmonitor off
+term screen-256color
+altscreen on

@@ -77,9 +77,14 @@ preexec() {
     title "$1" "%m: %3~"
 }
 
+# always enable 256 colors when proper config is found
+[[ "$TERM" == "xterm" && \
+    -e /usr/share/terminfo/x/xterm-256color ]] && {
+    TERM=xterm-256color
+}
+
 # paths
 PATH="$PATH:~/bin"
-
 
 # aliases
 alias grep='grep --color=auto'
@@ -101,4 +106,4 @@ ALTERNATE_EDITOR='vim'
 PAGER='less'
 
 # exports
-export PATH EDITOR ALTERNATE_EDITOR PAGER
+export PATH EDITOR ALTERNATE_EDITOR PAGER TERM
