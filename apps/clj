@@ -1,0 +1,16 @@
+#!/bin/zsh
+breakchars="(){}[],^%$#@\"\";:''|\\"
+
+CLOJURE_BIN=clojure
+RLWRAP_BIN=`which rlwrap`
+COMPLETION_FILE=$HOME/.clj_completions
+
+if [[ -n "$RLWRAP_BIN" ]]; then 
+    [[ -e $COMPLETION_FILE ]] && COMPLETION_OPT="-f $COMPLETION_FILE"
+
+    exec rlwrap --remember -c -b "$breakchars" \
+        $COMPLETION_OPT \
+        $CLOJURE_BIN $@
+else
+    exec CLOJURE_BIN $@
+fi
