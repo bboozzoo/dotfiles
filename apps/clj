@@ -1,16 +1,84 @@
 #!/bin/zsh
-breakchars="(){}[],^%$#@\"\";:''|\\"
+[[ -n "$DBG" ]] && set -x
 
-CLOJURE_BIN=clojure
+[[ "${terminfo[colors]}" -gt 0 ]] && {
+    autoload -U colors && colors
+}
+
+warn() {
+    echo "${fg_bold[red]}warning:${reset_color} $@"
+}
+
+info() {
+    local echo_opt
+    if [[ $# -ge 2 && $1 == "-n" ]]; then
+        echo_opt="-n"
+        shift
+    fi
+    echo $echo_opt "${fg_bold[green]}$@${reset_color}"
+}
+
+log() {
+    echo "$@"
+}
+
+CLOJURE_HOME=${CLOJURE_HOME:=/usr/share/java}
+info -n "CLOJURE home: "
+echo "$CLOJURE_HOME"
+
+CLOJURE_CLASSPATH=($CLOJURE_HOME/clojure.jar)
+[[ -e $CLOJURE_HOME/clojure.jar ]] || {
+    warn "clojure.jar not found in \$CLOJURE_HOME"
+    exit 1
+}
+
+
+# check if clojure contrib exists as well and add it to 
+# clojure classpath
+[[ -f $CLOJURE_HOME/clojure-contrib.jar ]] && {
+    local len
+    len=$((${#CLOJURE_CLASSPATH} + 1))
+    CLOJURE_CLASSPATH[$len]=$CLOJURE_HOME/clojure-contrib.jar
+    log "found clojure-contrib.jar, using..."
+}
+
 RLWRAP_BIN=`which rlwrap`
-COMPLETION_FILE=$HOME/.clj_completions
+RLWRAP_BREAKCHARS='(){}[],^%$#@\"\";:''|\\'
+RLWRAP_COMPLETION_FILE=$HOME/.clj_completions
+
+
 
 if [[ -n "$RLWRAP_BIN" ]]; then 
-    [[ -e $COMPLETION_FILE ]] && COMPLETION_OPT="-f $COMPLETION_FILE"
+    [[ -e $RLWRAP_COMPLETION_FILE ]] && {
+        COMPLETION_OPT="-f $RLWRAP_COMPLETION_FILE"
+        log "using rlrwap completion file $RLWRAP_COMPLETION_FILE"
+    }
 
-    exec rlwrap --remember -c -b "$breakchars" \
-        $COMPLETION_OPT \
-        $CLOJURE_BIN $@
+    CMD="rlwrap --remember -c -b \"$RLWRAP_BREAKCHARS\" $COMPLETION_OPT"
 else
-    exec CLOJURE_BIN $@
+    warn "rlwrap not available"
 fi
+
+JAVA_CLOJURE_CMD="java clojure.main"
+CMD="$CMD $JAVA_CLOJURE_CMD" 
+
+# build CLASSPATH
+CLASSPATH=$CLASSPATH:${(j.:.)CLOJURE_CLASSPATH}
+# and print it nicely
+if [[ -n "$CLASSPATH" ]]; then
+    info "CLASSPATH:"
+    for en in ${(s.:.)CLASSPATH}; do
+        echo "\t$en"
+#        echo "$fg_bold[green]CLASSPATH:$reset_color $CLASSPATH"
+    done
+    echo
+else
+    warn "CLASSPATH is unset"
+    exit 1
+fi
+
+info -n "running: "
+echo "$CMD $@"
+
+export CLASSPATH
+eval "exec $CMD"
