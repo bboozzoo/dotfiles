@@ -1,15 +1,15 @@
 ;yasnippet
 (require 'yasnippet)
 
-(setq snippet-dirs nil)
-;; load snippets that came with package
-;;(let ((default-snippets-dir (bozo-find-package-dir 'yasnippet)))
-;;  (add-to-list 'snippet-dirs (concat default-snippets-dir "/snippets")))
+(defcustom bozo-snippet-dirs '()
+  "A list of directories containing snippets")
 
 ;; create user snippets directory if not present
 (bozo-make-dir "~/.emacs.d/snippets")
 
-;;(add-to-list 'snippet-dirs "~/.emacs.d/snippets")
+; add custom snippet dirs to the list
+(dolist (sd bozo-snippet-dirs)
+  (add-to-list 'yas-snippet-dirs sd))
 
 (yas-global-mode 1)
 
