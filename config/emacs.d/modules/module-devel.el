@@ -10,22 +10,40 @@
           (lambda ()
             (setq indent-tabs-mode t)))
 
+;;;;;;;;;;;;;;;;;;;
+;; cc-mode common
+;;;;;;;;;;;;;;;;;;
+; common for all modes derived from cc-mode
+
+(setq c-default-style '((other . "linux")))
+
+(setq c-basic-offset 4)
+
+(defun bozo-enable-electric ()
+  (electric-indent-mode t))
+
+(add-hook 'c-mode-common-hook 'bozo-enable-electric)
+
 ;;;;;;;;;;;;;;;;;;;;
 ;; C
 ;;;;;;;;;;;;;;;;;;;;
 
-;; common for all modes derived from cc-mode
-(setq c-default-style "linux"
-      c-basic-offset 4)
-
-(defun bozo-c-mode-defaults ()
-  (electric-indent-mode t))
-
 ;(add-hook 'c-mode-common-hook 'bozo-c-mode-common-defaults)
-(add-hook 'c-mode-hook 'bozo-c-mode-defaults)
 
+;;;;;;;;;;;;;;;;;;;
+;; Java
+;;;;;;;;;;;;;;;;;;
+; add default style
+(push '(java-mode . "java") c-default-style)
 
-; gnu global
+(defun bozo-java-mode-defaults ()
+  (subword-mode 1))
+
+(add-hook 'java-mode-hook 'bozo-java-mode-defaults)
+
+;;;;;;;;;;;;;;
+;; GNU global
+;;;;;;;;;;;;;;;;
 ;; (require 'gtags)
 ; prevent auto tags update in blacklisted directories
 ;(setq disallowed-gtags-dirs '("pBS"))
@@ -80,7 +98,7 @@
 ;;     (local-set-key (kbd "C-c s f") 'gtags-find-file)))  ; reverse tag
 
 ;;;;;;;;;;;;;;;;;
-;; python
+;; Python
 ;;;;;;;;;;;;;;;;;
 
 ;; load ropemacs on demand
@@ -127,9 +145,9 @@
 (defun bozo-lisp-repl-defaults ()
   (bozo-lisp-defaults))
 
-;;
+;;;;;;;;;;;;;;;;;
 ;; emacs lisp
-;;
+;;;;;;;;;;;;;;;;;
 (defun bozo-elisp-defaults ()
   (bozo-lisp-defaults)
   (turn-on-eldoc-mode))
@@ -141,9 +159,9 @@
 (add-hook 'emacs-lisp-mode-hook 'bozo-elisp-defaults)
 (add-hook 'ielm-mode-hook 'bozo-ielm-defaults)
 
-;;
+;;;;;;;;;;;;;;;;
 ;; slime
-;;
+;;;;;;;;;;;;;;;;
 (setq slime-lisp-implementations
       '((ecl ("ecl"))
         (clisp ("clisp" "-q"))
