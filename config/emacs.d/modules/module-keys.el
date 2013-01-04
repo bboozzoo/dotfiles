@@ -27,6 +27,8 @@
   (global-set-key (kbd "C-<f7>") 'fci-mode))
 ;; org mode
 (global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c j") 'org-remember)
+
 (global-set-key (kbd "C-c r") 'remember)
 ;;(global-set-key (kbd "C-c l") 'org-store-link)
 
