@@ -68,14 +68,22 @@ function title() {
     esac
 }
 
-precmd() {
+precmd_title() {
     title "zsh" "%m: %3~"
+    # vcs_info
+}
+
+precmd_vcs() {
     vcs_info
 }
 
-preexec() {
+preexec_title() {
     title "$1" "%m: %3~"
 }
+
+# workaround precmd/preexec redefined by mc
+precmd_functions=(precmd_title precmd_vcs)
+preexec_functions=(preexec_title)
 
 # always enable 256 colors when proper config is found
 [[ "$TERM" == "xterm" && \
