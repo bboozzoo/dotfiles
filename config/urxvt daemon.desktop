@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=0.9.4
+Type=Application
+Name=urxvt daemon
+Comment=urxvt daemon process
+Exec=urxvt256cd -q
+StartupNotify=false
+Terminal=false
+Hidden=false
+
