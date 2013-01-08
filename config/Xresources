@@ -1,9 +1,8 @@
-URxvt.background: black
+URxvt.background: #24292A
 URxvt.foreground: white
-URxvt.font: xft:ProggyCleanTT:antialias=false:size=12
-URxvt.boldFont:
-URxvt.italicFont:
-URxvt.boldItalicFont:
+URxvt.font: xft:Ubuntu Mono:antialias=false:size=11
+URxvt.boldFont: xft:Ubuntu Mono:bold:antialias=false:size=11
+!URxvt.font: xft:ProggyCleanTT:antialias=false:size=12
 !URxvt.boldFont: xft:ProggyCleanTT:bold:antialias=false:size=12
 !URxvt.italicFont: xft:ProggyCleanTT:antialias=false:size=12
 !URxvt.boldItalicFont: xft:ProggyCleanTT:bold:antialias=false:size=12
@@ -11,5 +10,13 @@ URxvt.scrollBar: false
 URxvt.scrollTtyOutput: false
 URxvt.scrollWithBuffer: true
 URxvt.saveLines: 1000
-URxvt.termName: xterm
-URxvt.intensityStyles: false
+URxvt.termName: rxvt-unicode-256color
+URxvt.intensityStyles: true
+URxvt.perl-ext-common: default,tabbed
+!URxvt.loginShell: true
+Xft.dpi: 96
+Xft.antialias: 1
+Xft.hinting: 1
+Xft.hintstyle: hintslight
+!Xft.rgba: rgb
+!Xft.lcdfilter: lcddefault
