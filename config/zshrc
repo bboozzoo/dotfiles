@@ -1,3 +1,5 @@
+# -*- mode: sh -*-
+
 TMPPREFIX=/tmp/
 HISTFILE=~/.histfile
 HISTSIZE=1000
@@ -100,8 +102,8 @@ alias ls='ls --color=auto'
 alias ll='ls --color=auto -l'
 alias lla='ls --color=auto -la'
 
-alias vi='emacsclient -t'
-alias vim='emacsclient -t'
+alias vi="emacsclient -t -a ''"
+alias vim="emacsclient -t -a ''"
 
 # for python
 alias pip='pip-python'
@@ -109,9 +111,8 @@ alias pylab='ipython --pylab'
 alias ipythongui='ipython qtconsole'
 
 # editors & pagers
-EDITOR='emacsclient -t'
-ALTERNATE_EDITOR='vim'
+EDITOR=''
 PAGER='less'
 
 # exports
-export PATH EDITOR ALTERNATE_EDITOR PAGER TERM
+export PATH EDITOR PAGER TERM
