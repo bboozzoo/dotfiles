@@ -10,7 +10,7 @@ URxvt.scrollBar: false
 URxvt.scrollTtyOutput: false
 URxvt.scrollWithBuffer: true
 URxvt.saveLines: 1000
-URxvt.termName: rxvt-unicode-256color
+URxvt.termName: xterm-256color
 URxvt.intensityStyles: true
 URxvt.perl-ext-common: default,tabbed
 !URxvt.loginShell: true
