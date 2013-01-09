@@ -1,0 +1,8 @@
+#!/bin/sh
+# -*- mode: sh -*-
+
+if pgrep -U $(id -u) -f 'emacs.*--daemon' &> /dev/null; then
+    echo '.. stopping emacs'
+    emacsclient -e '(bozo-server-shutdown)'
+fi
+
