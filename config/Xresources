@@ -13,6 +13,7 @@ URxvt.saveLines: 1000
 URxvt.termName: xterm-256color
 URxvt.intensityStyles: true
 URxvt.perl-ext-common: default,tabbed
+URxvt.scrollTtyKeypress: true
 !URxvt.loginShell: true
 Xft.dpi: 96
 Xft.antialias: 1
