@@ -102,8 +102,14 @@ alias ls='ls --color=auto'
 alias ll='ls --color=auto -l'
 alias lla='ls --color=auto -la'
 
-alias vi="emacsclient -t -a ''"
-alias vim="emacsclient -t -a ''"
+if which emacsclient &> /dev/null ; then
+    # set aliases
+    alias vi="emacsclient -t -a ''"
+    alias vim="emacsclient -t -a ''"
+    # set EDITOR
+    EDITOR="emacsclient -t -a ''"
+    export EDITOR
+fi
 
 # for python
 alias pip='pip-python'
@@ -111,8 +117,7 @@ alias pylab='ipython --pylab'
 alias ipythongui='ipython qtconsole'
 
 # editors & pagers
-EDITOR=''
 PAGER='less'
 
 # exports
-export PATH EDITOR PAGER TERM
+export PATH PAGER TERM
