@@ -10,6 +10,17 @@
           (lambda ()
             (setq indent-tabs-mode t)))
 
+;;;;;;;;;;;;;;;;;;;;
+;; cmake
+;;;;;;;;;;;;;;;;;;;;
+(require 'cmake-mode)
+
+(setq auto-mode-alist
+	  (append
+	   '(("CMakeLists\\.txt\\'" . cmake-mode))
+	   '(("\\.cmake\\'" . cmake-mode))
+	   auto-mode-alist))
+
 ;;;;;;;;;;;;;;;;;;;
 ;; cc-mode common
 ;;;;;;;;;;;;;;;;;;
@@ -200,6 +211,17 @@
 ;;;;;;;;;;;;;;;;;;;;
 (setq auto-mode-alist (cons '("\\.m$" . octave-mode)
                             auto-mode-alist))
+
+
+;;;;;;;;;;;;;;;;;;;;
+;; cmake
+;;;;;;;;;;;;;;;;;;;;
+(require 'batch-mode)
+
+(setq auto-mode-alist
+	  (append
+	   '(("\\.bat\\'" . batch-mode))
+	   auto-mode-alist))
 
 
 ;;;;;;;;;;;;;;;;;;;
