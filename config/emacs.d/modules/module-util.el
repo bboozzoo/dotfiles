@@ -92,7 +92,9 @@
   "Set color theme to value stored in symbol sym"
   (if (and (boundp sym)
            (symbol-value sym))
-      (load-theme (symbol-value sym) t)))
+      (progn
+        (message "loading color theme %s" (symbol-value sym))
+        (load-theme (symbol-value sym) t))))
 
 ;; create directory if not present
 (defun bozo-make-dir (f)
