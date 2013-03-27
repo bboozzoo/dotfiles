@@ -382,7 +382,7 @@
  '(org-level-8 (:bold t :foreground gradient-8))
 
  '(org-column ())
- '(org-mode-line-clock ())
+ '(org-mode-line-clock (nil))
  '(org-mode-line-clock-overrun (:foreground scarlet-red-1))
  '(org-document-title (:bold t :foreground sky-blue-1 :height 1.4))
  '(org-document-info (:foreground sky-blue-1 :italic t))
@@ -464,7 +464,7 @@
  ;; git-commit-mode
  '(git-commit-summary-face (:bold t))
  '(git-commit-branch-face (:foreground orange-2 :bold t))
- '(git-commit-nonempty-second-line-face ((:foreground scarlet-red-2)))
+ '(git-commit-nonempty-second-line-face (:foreground scarlet-red-2))
  '(git-commit-comment-face (:inherit font-lock-comment-face))
  '(git-commit-known-pseudo-header-face (:inherit gnus-header-name-face))
  '(git-commit-pseudo-header-face (:inherit gnus-header-content))
@@ -510,6 +510,26 @@
 
  ;; idle-highlight
  '(idle-highlight (:foreground aluminium-1 :background scarlet-red-3))
+
+ ;; doc-mode
+ '(doc-title-1-face (:foreground gradient-1 :bold t :height 1.3 :inherit variable-pitch))
+ '(doc-title-2-face (:foreground gradient-2 :bold t :height 1.2 :inherit variable-pitch))
+ '(doc-title-3-face (:foreground gradient-3 :bold t :height 1.1 :inherit variable-pitch))
+ '(doc-title-4-face (:foreground gradient-4 :bold t :inherit variable-pitch))
+
+ ;; flymake
+ '(flymake-errline (:underline (:style wave :color scarlet-red-1)))
+ '(flymake-warnline (:underline (:style wave :color orange-2)))
+
+ ;; flyspell
+ '(flyspell-incorrect (:underline (:style wave :color scarlet-red-1)))
+ '(flyspell-duplicate (:underline (:style wave :color orange-2)))
+
+  ;; git-gutter
+ '(git-gutter:modified (:foreground orange-1))
+ '(git-gutter:added (:foreground chameleon-1))
+ '(git-gutter:deleted (:foreground scarlet-red-1))
+ '(git-gutter:unchanged (:foreground butter-1))
 
  ;; jabber
  '(jabber-activity-face (:foreground scarlet-red-1 :weight bold))
