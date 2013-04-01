@@ -88,6 +88,7 @@
 ;; terminal
 (require 'multi-term)
 
+(require 'org)
 ;; org mode
 (setq org-log-done 'time
       org-agenda-skip-deadline-if-done t
