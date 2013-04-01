@@ -52,6 +52,8 @@
 
 (add-hook 'java-mode-hook 'bozo-java-mode-defaults)
 
+(add-hook 'java-mode-hook (function cscope:hook))
+
 ;;;;;;;;;;;;;;
 ;; GNU global
 ;;;;;;;;;;;;;;;;
