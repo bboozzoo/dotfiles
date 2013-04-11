@@ -33,13 +33,20 @@
 (defun bozo-enable-electric ()
   (electric-indent-mode t))
 
-(add-hook 'c-mode-common-hook 'bozo-enable-electric)
+(defun bozo-enable-subword ()
+  (subword-mode 1))
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; C
 ;;;;;;;;;;;;;;;;;;;;
 
-;(add-hook 'c-mode-common-hook 'bozo-c-mode-common-defaults)
+(add-hook 'c-mode-common-hook 'bozo-enable-electric)
+
+;;;;;;;;;;;;;;;;;;;;
+;; C++
+;;;;;;;;;;;;;;;;;;;;
+
+(add-hook 'c++-mode-hook 'bozo-enable-subword)
 
 ;;;;;;;;;;;;;;;;;;;
 ;; Java
@@ -47,10 +54,8 @@
 ; add default style
 (push '(java-mode . "java") c-default-style)
 
-(defun bozo-java-mode-defaults ()
-  (subword-mode 1))
 
-(add-hook 'java-mode-hook 'bozo-java-mode-defaults)
+(add-hook 'java-mode-hook 'bozo-enable-subword)
 
 (add-hook 'java-mode-hook (function cscope:hook))
 
