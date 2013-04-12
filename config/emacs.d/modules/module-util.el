@@ -137,5 +137,17 @@ nil."
     (message "Perform package list update...")
     (package-refresh-contents)))
 
+;; cleanup whitespaces
+;; workaround modified buffer flag
+(defun bozo-whitespace-cleanup ()
+  (let* ((modified-before-p (buffer-modified-p)))
+    (whitespace-cleanup)
+    (if (not modified-before-p)
+        (not-modified))))
+
+;; add whitespace cleanup to write hooks
+(defun bozo-add-whitespace-cleanup-on-save ()
+  (add-hook 'write-contents-hooks #'bozo-whitespace-cleanup))
+
 (provide 'module-util)
 ;; module-util.el ends here

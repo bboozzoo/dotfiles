@@ -41,6 +41,7 @@
 ;;;;;;;;;;;;;;;;;;;;
 
 (add-hook 'c-mode-common-hook 'bozo-enable-electric)
+(add-hook 'c-mode-common-hook 'bozo-add-whitespace-cleanup-on-save)
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; C++
@@ -152,6 +153,8 @@
 ;; pdb
 (setq gud-pdb-command-name "python -m pdb")
 
+(add-hook 'python-mode-hook 'bozo-add-whitespace-cleanup-on-save)
+
 ;;;;;;;;;;;;;;;;;;;
 ;; *LISP
 ;;;;;;;;;;;;;;;;;;;
@@ -176,6 +179,7 @@
 
 (add-hook 'emacs-lisp-mode-hook 'bozo-elisp-defaults)
 (add-hook 'ielm-mode-hook 'bozo-ielm-defaults)
+(add-hook 'lisp-mode-hook 'bozo-add-whitespace-cleanup-on-save)
 
 ;;;;;;;;;;;;;;;;
 ;; slime
@@ -198,6 +202,10 @@
 (add-hook 'lisp-mode-hook 'bozo-common-lisp-defaults)
 (add-hook 'slime-repl-mode-map 'bozo-lisp-repl-defaults)
 
+;;;;;;;;;;;;;;;;;;;
+;; sh
+;;;;;;;;;;;;;;;;;;;
+(add-hook 'sh-mode-hook 'bozo-add-whitespace-cleanup-on-save)
 
 ;;;;;;;;;;;;;;;;;;;
 ;; *XML
@@ -220,9 +228,9 @@
                             auto-mode-alist))
 
 
-;;;;;;;;;;;;;;;;;;;;
-;; cmake
-;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;
+;; windows batch files
+;;;;;;;;;;;;;;;;;;;;;;;
 (require 'batch-mode)
 
 (setq auto-mode-alist
@@ -237,6 +245,11 @@
 (add-hook 'magit-status-mode-hook
           (lambda ()
             (linum-mode -1)))
+
+;;;;;;;;;;;;;;;;;;;;
+;; text
+;;;;;;;;;;;;;;;;;;;
+(add-hook 'text-mode-hook 'bozo-add-whitespace-cleanup-on-save)
 
 
 ;; load other modules
