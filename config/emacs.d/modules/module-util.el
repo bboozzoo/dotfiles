@@ -139,15 +139,16 @@ nil."
 
 ;; cleanup whitespaces
 ;; workaround modified buffer flag
-(defun bozo-whitespace-cleanup ()
+(defun bozo-trailing-whitespace-cleanup ()
   (let* ((modified-before-p (buffer-modified-p)))
-    (whitespace-cleanup)
+    (let ((whitespace-style '(trailing)))
+      (whitespace-cleanup))
     (if (not modified-before-p)
         (not-modified))))
 
 ;; add whitespace cleanup to write hooks
 (defun bozo-add-whitespace-cleanup-on-save ()
-  (add-hook 'write-contents-hooks #'bozo-whitespace-cleanup))
+  (add-hook 'write-contents-hooks #'bozo-trailing-whitespace-cleanup))
 
 (provide 'module-util)
 ;; module-util.el ends here
