@@ -42,7 +42,8 @@
 
 (add-hook 'c-mode-common-hook 'bozo-enable-electric)
 (add-hook 'c-mode-common-hook 'bozo-add-whitespace-cleanup-on-save)
-
+(add-hook 'c-mode-common-hook (lambda ()
+                                (add-to-list 'ac-sources 'ac-source-gtags)))
 ;;;;;;;;;;;;;;;;;;;;
 ;; C++
 ;;;;;;;;;;;;;;;;;;;;
