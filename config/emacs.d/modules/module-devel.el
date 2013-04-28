@@ -2,6 +2,7 @@
 
 ;; use cscope
 (require 'xcscope)
+;;(require 'xgtags)
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; makefile
@@ -44,11 +45,15 @@
 (add-hook 'c-mode-common-hook 'bozo-add-whitespace-cleanup-on-save)
 (add-hook 'c-mode-common-hook (lambda ()
                                 (add-to-list 'ac-sources 'ac-source-gtags)))
+(add-hook 'c-mode-common-hook 'bozo-enable-subword)
+;; (add-hook 'c-mode-common-hook (lambda ()
+;;                                 (xgtags-mode 1)))
+
 ;;;;;;;;;;;;;;;;;;;;
 ;; C++
 ;;;;;;;;;;;;;;;;;;;;
 
-(add-hook 'c++-mode-hook 'bozo-enable-subword)
+;;(add-hook 'c++-mode-hook 'bozo-enable-subword)
 
 ;;;;;;;;;;;;;;;;;;;
 ;; Java
