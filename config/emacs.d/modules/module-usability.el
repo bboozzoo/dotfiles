@@ -1,4 +1,6 @@
 ;; usability enhancements, tabs, ido, uniquify etc..
+;; winner mode
+(winner-mode 1)
 
 ;; dired
 (put 'dired-find-alternate-file 'disabled nil)
