@@ -25,3 +25,6 @@
     branches = branch -vv
 [push]
     default = current
+
+[include]
+    path = ~/.gitconfig-local
