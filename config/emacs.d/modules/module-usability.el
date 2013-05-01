@@ -82,7 +82,19 @@
 
 ;speedbar in frame
 (require 'sr-speedbar)
-(setq speedbar-show-unknown-files t)
+(setq speedbar-show-unknown-files t
+      speedbar-use-images nil
+      ;; speedbar-fetch-etags-command "global"
+      ;; speedbar-fetch-etags-arguments '("-f" "-t")
+      speedbar-use-imenu-flag nil
+      speedbar-dynamic-tags-function-list '(
+                                            (speedbar-fetch-dynamic-etags
+                                             .
+                                             speedbar-insert-etags-list)
+                                            (speedbar-fetch-dynamic-imenu
+                                             .
+                                             speedbar-insert-imenu-list)))
+
 
 ;; autocompletions
 (require 'module-autocompletion)
