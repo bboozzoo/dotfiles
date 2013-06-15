@@ -137,6 +137,10 @@
 ;; electricity
 (electric-pair-mode t)
 
+;; move-text
+(require 'move-text)
+(move-text-default-bindings)
+
 ;; run hooks
 (run-hooks 'bozo-module-usability-hooks)
 

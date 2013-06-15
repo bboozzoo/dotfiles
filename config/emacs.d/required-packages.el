@@ -12,4 +12,5 @@
                                org
                                offlineimap
                                magit
-                               fill-column-indicator))
+                               fill-column-indicator
+                               move-text))
