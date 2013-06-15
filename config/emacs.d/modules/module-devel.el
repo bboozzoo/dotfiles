@@ -253,6 +253,42 @@
 	   '(("\\.bat\\'" . batch-mode))
 	   auto-mode-alist))
 
+;;;;;;;;;;;;;;;;;;;
+;; erlang
+;;;;;;;;;;;;;;;;;;;
+(speedbar-add-supported-extension '(".erl" ".hrl"))
+(add-to-list 'speedbar-fetch-etags-parse-list
+             '("\\.[eh]rl" . speedbar-parse-c-or-c++tag))
+
+(setq bozo:erlang-locations '("/usr/lib64/erlang"
+                              "/usr/lib/erlang"))
+
+(defun bozo-find-erlang-root (roots)
+  "Return erlang root dir by looking through list of possible locations"
+  (find-if (lambda (dir)
+             (file-exists-p dir))
+           roots))
+
+(setq erlang-root-dir (bozo-find-erlang-root bozo:erlang-locations))
+
+(setq-default bozo-distel-dir "~/code/distel")
+
+;; distel
+(defun ac-distel-setup ()
+  (setq ac-sources '(ac-source-distel)))
+
+(if (file-directory-p bozo-distel-dir)
+    (progn
+      (add-to-list 'load-path (concat (file-name-as-directory bozo-distel-dir)
+                                      "elisp"))
+      (require 'distel)
+      (distel-setup)
+;      (add-hook 'erlang-mode-hook 'ac-distel-setup)
+;      (add-hook 'erlang-shell-mode-hook 'ac-distel-setup)
+      ))
+
+;; use ac for erlang anyway
+(add-to-list 'ac-modes 'erlang-mode)
 
 ;;;;;;;;;;;;;;;;;;;
 ;; (ma)git
