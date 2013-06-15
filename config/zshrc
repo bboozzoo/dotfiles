@@ -121,6 +121,13 @@ PAGER='less'
 
 # locale
 LC_ALL=C
+
+BOOKMARKFILE=~/.zsh-bookmarks
+
 # exports
 export PATH PAGER TERM LC_ALL
+
+# source zaw if exists
+[[ -e ~/code/zaw/zaw.zsh ]] && source ~/code/zaw/zaw.zsh
+
 
