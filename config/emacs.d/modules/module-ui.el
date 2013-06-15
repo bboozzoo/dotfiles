@@ -8,7 +8,8 @@
 ;;(set-default-font "ProggyCleanTT-12")
 ;;(setq default-frame-alist '((font . "Inconsolata-10")))
 ;;(setq default-frame-alist '((font . "ProggyCleanTT-12")))
-(setq default-frame-alist '((font . "Ubuntu Mono-11")))
+;; (setq default-frame-alist '((font . "Ubuntu Mono-11")))
+(setq default-frame-alist '((font . "Monaco-10")))
 
 ;; get rid of toolbar
 (when (fboundp 'tool-bar-mode) 
