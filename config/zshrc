@@ -24,7 +24,7 @@ setopt auto_pushd \
 autoload -U select-word-style
 select-word-style bash
 
-# completion 
+# completion
 autoload -Uz compinit
 compinit
 zstyle ':completion:*' list-colors "$LS_COLORS"
@@ -119,5 +119,8 @@ alias ipythongui='ipython qtconsole'
 # editors & pagers
 PAGER='less'
 
+# locale
+LC_ALL=C
 # exports
-export PATH PAGER TERM
+export PATH PAGER TERM LC_ALL
+
