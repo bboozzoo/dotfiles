@@ -1,7 +1,9 @@
 URxvt.background: #24292A
 URxvt.foreground: white
-URxvt.font: xft:Ubuntu Mono:antialias=false:size=11
-URxvt.boldFont: xft:Ubuntu Mono:bold:antialias=false:size=11
+URxvt.font: xft:Monaco:antialias=false:size=10
+URxvt.boldFont: xft:Monaco:bold:antialias=false:size=10
+! URxvt.font: xft:Ubuntu Mono:antialias=false:size=11
+! URxvt.boldFont: xft:Ubuntu Mono:bold:antialias=false:size=11
 !URxvt.font: xft:ProggyCleanTT:antialias=false:size=12
 !URxvt.boldFont: xft:ProggyCleanTT:bold:antialias=false:size=12
 !URxvt.italicFont: xft:ProggyCleanTT:antialias=false:size=12
