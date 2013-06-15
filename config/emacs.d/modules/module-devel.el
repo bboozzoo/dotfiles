@@ -4,6 +4,9 @@
 (require 'xcscope)
 ;;(require 'xgtags)
 
+;; show function name in status bar
+(which-function-mode 1)
+
 ;;;;;;;;;;;;;;;;;;;;
 ;; makefile
 ;;;;;;;;;;;;;;;;;;;;
@@ -31,12 +34,17 @@
 
 (setq c-basic-offset 4)
 
+(setq hide-ifdef-initially t
+      hide-ifdef-shadow t)
+
 (defun bozo-enable-electric ()
   (electric-indent-mode t))
 
 (defun bozo-enable-subword ()
   (subword-mode 1))
 
+(defun bozo-enable-hide-ifdef ()
+  (hide-ifdef-mode 1))
 ;;;;;;;;;;;;;;;;;;;;
 ;; C
 ;;;;;;;;;;;;;;;;;;;;
@@ -46,6 +54,7 @@
 (add-hook 'c-mode-common-hook (lambda ()
                                 (add-to-list 'ac-sources 'ac-source-gtags)))
 (add-hook 'c-mode-common-hook 'bozo-enable-subword)
+(add-hook 'c-mode-common-hook 'bozo-enable-hide-ifdef)
 ;; (add-hook 'c-mode-common-hook (lambda ()
 ;;                                 (xgtags-mode 1)))
 
