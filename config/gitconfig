@@ -16,6 +16,7 @@
     lol = log --oneline --graph --decorate
     lou = log --oneline --graph --decorate --branches --not --remotes
     loggr = log --grep
+    last = log --oneline --graph --decorate -1
     really-clean = clean -fdx
     st = status -sb
     ci = commit
