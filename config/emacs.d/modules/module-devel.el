@@ -291,6 +291,13 @@
 (add-to-list 'ac-modes 'erlang-mode)
 
 ;;;;;;;;;;;;;;;;;;;
+;; protobuf
+;;;;;;;;;;;;;;;;;;;
+(require 'protobuf-mode)
+(setq auto-mode-alist (cons '("\\.proto$" . protobuf-mode)
+                            auto-mode-alist))
+
+;;;;;;;;;;;;;;;;;;;
 ;; (ma)git
 ;;;;;;;;;;;;;;;;;;;
 (add-hook 'magit-status-mode-hook
