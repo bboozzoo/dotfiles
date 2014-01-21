@@ -113,14 +113,14 @@ fi
 
 # for python
 alias pip='pip-python'
-alias pylab='ipython --pylab=gtk'
+alias pylab='ipython --pylab'
 alias ipythongui='ipython qtconsole'
 
 # editors & pagers
 PAGER='less'
 
 # locale
-LC_ALL=C
+#LC_ALL=C
 
 BOOKMARKFILE=~/.zsh-bookmarks
 
