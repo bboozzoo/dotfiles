@@ -1,11 +1,13 @@
 ;; development related settings
 
 ;; use cscope
-(require 'xcscope)
+;;(require 'xcscope)
 ;;(require 'xgtags)
+(require 'ggtags)
 
 ;; show function name in status bar
 (which-function-mode 1)
+
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; makefile
@@ -55,8 +57,8 @@
                                 (add-to-list 'ac-sources 'ac-source-gtags)))
 (add-hook 'c-mode-common-hook 'bozo-enable-subword)
 (add-hook 'c-mode-common-hook 'bozo-enable-hide-ifdef)
-;; (add-hook 'c-mode-common-hook (lambda ()
-;;                                 (xgtags-mode 1)))
+(add-hook 'c-mode-common-hook (lambda ()
+                                (ggtags-mode 1)))
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; C++
