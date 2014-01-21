@@ -15,6 +15,9 @@
 (when (fboundp 'tool-bar-mode) 
   (tool-bar-mode -1))
 
+;; get rid of menu bar
+(menu-bar-mode -1)
+
 ;; syntax coloring
 (require 'font-lock)
 (global-font-lock-mode t)
