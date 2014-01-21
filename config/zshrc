@@ -114,7 +114,7 @@ fi
 
 # for python
 alias pip='pip-python'
-alias pylab='ipython --pylab'
+alias pylab='ipython --pylab=gtk'
 alias ipythongui='ipython qtconsole'
 
 # editors & pagers
@@ -130,5 +130,4 @@ export PATH PAGER TERM LC_ALL
 
 # source zaw if exists
 [[ -e ~/code/zaw/zaw.zsh ]] && source ~/code/zaw/zaw.zsh
-
 
