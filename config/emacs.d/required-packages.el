@@ -13,4 +13,16 @@
                                offlineimap
                                magit
                                fill-column-indicator
-                               move-text))
+                               move-text
+                               ack-and-a-half
+                               auto-complete-nxml
+                               ac-dabbrev
+                               yaml-mode
+                               zeitgeist
+                               erlang
+                               lua-mode
+                               protobuf-mode
+                               ggtags
+                               back-button
+                               visible-mark
+                               undo-tree))
