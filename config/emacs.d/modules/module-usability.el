@@ -159,6 +159,14 @@
 ;; zeitgeis support
 (require 'zeitgeist)
 
+;; back button mode
+(require 'back-button)
+(back-button-mode 1)
+
+;; undo tree
+(require 'undo-tree)
+(global-undo-tree-mode 1)
+
 ;; run hooks
 (run-hooks 'bozo-module-usability-hooks)
 
