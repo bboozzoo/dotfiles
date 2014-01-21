@@ -106,6 +106,7 @@ if which emacsclient &> /dev/null ; then
     # set aliases
     alias vi="emacsclient -t -a ''"
     alias vim="emacsclient -t -a ''"
+    alias rvim=/usr/bin/vim
     # set EDITOR
     EDITOR="emacsclient -t -a ''"
     export EDITOR
