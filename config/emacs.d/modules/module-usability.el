@@ -67,12 +67,18 @@
  ido-max-prospects 8              ; don't spam my minibuffer
  ido-confirm-unique-completion t  ; wait for RET, even with unique completion
  ido-default-buffer-method 'select-window) ; show buffer in frame that I want it to be
-; resize minibuf with ido completions to at most 1 line
+;; resize minibuf with ido completions to at most 1 line
 (add-hook 'ido-minibuffer-setup-hook 
           (function
            (lambda ()
              (make-local-variable 'resize-minibuffer-window-max-height)
              (setq resize-minibuffer-window-max-height 1))))
+
+;; helm
+;; (setq helm-ff-auto-update-initial-value nil
+;;       helm-ff-maximum-candidate-to-decorate 200)
+;; (require 'helm-config)
+;; (helm-mode 1)
 
 ;; icomplete - ido like complete in minibuffer
 (icomplete-mode t)
