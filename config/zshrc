@@ -94,7 +94,7 @@ preexec_functions=(preexec_title)
 }
 
 # paths
-PATH="$PATH:$HOME/bin"
+PATH="$PATH:$HOME/bin:$HOME/.local/bin"
 
 # aliases
 alias grep='grep --color=auto'
