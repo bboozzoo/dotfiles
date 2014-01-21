@@ -163,7 +163,7 @@
 ;;                                                  (python-symbol-completions (python-completion-at-point)))))))
 ;; (add-hook 'python-mode-hook
 ;;           (lambda() (setq ac-sources '(ac-source-python))))
-(require 'ac-python)
+;;(require 'ac-python)
 ;; eldoc mode
 (add-hook 'python-mode-hook 'turn-on-eldoc-mode)
 
@@ -236,7 +236,7 @@
                            "\\'")
                    'nxml-mode))
 (push '("<\\?xml" . nxml-mode) magic-mode-alist)
-
+(require 'auto-complete-nxml)
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; octave
