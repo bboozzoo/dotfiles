@@ -155,6 +155,10 @@
 ;; ack support
 (require 'ack-and-a-half)
 (defalias 'ack 'ack-and-a-half)
+
+;; zeitgeis support
+(require 'zeitgeist)
+
 ;; run hooks
 (run-hooks 'bozo-module-usability-hooks)
 
