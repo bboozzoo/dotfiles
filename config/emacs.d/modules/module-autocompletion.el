@@ -10,7 +10,6 @@
                                          auto-complete-install-dir))
 (ac-config-default)
 
-(ac-config-default)
 (setq ac-delay 0)
 (setq ac-auto-show-menu t)
 (global-auto-complete-mode t)
