@@ -273,24 +273,40 @@
 
 (setq erlang-root-dir (bozo-find-erlang-root bozo:erlang-locations))
 
-(setq-default bozo-distel-dir "~/code/distel")
+;; (setq-default bozo-distel-dir "~/code/distel")
+(setq-default bozo-edts-dir nil)
+(setq bozo-edts-dir "~/code/edts")
 
+(setq inferior-erlang-machine-options '("-sname" "emacs"))
 ;; distel
-(defun ac-distel-setup ()
-  (setq ac-sources '(ac-source-distel)))
+;; (defun ac-distel-setup ()
+;;   (setq ac-sources '(ac-source-distel)))
 
-(if (file-directory-p bozo-distel-dir)
+;; (if (file-directory-p bozo-distel-dir)
+;;     (progn
+;;       (add-to-list 'load-path (concat (file-name-as-directory bozo-distel-dir)
+;;                                       "elisp"))
+;;       (require 'distel)
+;;       (distel-setup)
+;;       (add-hook 'erlang-mode-hook 'ac-distel-setup)
+;;       (add-hook 'erlang-shell-mode-hook 'ac-distel-setup)
+;;      ))
+(if (and bozo-edts-dir (file-directory-p bozo-edts-dir))
     (progn
-      (add-to-list 'load-path (concat (file-name-as-directory bozo-distel-dir)
-                                      "elisp"))
-      (require 'distel)
-      (distel-setup)
-;      (add-hook 'erlang-mode-hook 'ac-distel-setup)
-;      (add-hook 'erlang-shell-mode-hook 'ac-distel-setup)
-      ))
+      (add-to-list 'load-path bozo-edts-dir)
+      (setq edts-man-root erlang-root-dir)
+      ;(setq edts-log-level 'debug)
+      (require 'edts-start)))
 
+;; (add-hook 'erlang-mode-hook
+;;           (lambda ()
+;;             (define-key erlang-mode-map (kbd "C-c C-f") 'erlang-man-function)))
+
+;; (add-hook 'edts-mode-hook
+;;           (lambda ()
+;;             (auto-higlight-symbol-mode -1)))
 ;; use ac for erlang anyway
-(add-to-list 'ac-modes 'erlang-mode)
+;;(add-to-list 'ac-modes 'erlang-mode)
 
 ;;;;;;;;;;;;;;;;;;;
 ;; protobuf
