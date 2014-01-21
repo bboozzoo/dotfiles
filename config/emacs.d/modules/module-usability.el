@@ -116,12 +116,23 @@
   (progn (auto-fill-mode 1)))
 (add-hook 'org-mode-hook 'bozo-org-mode-hook)
 ;;
-(org-remember-insinuate) ; was broken
+;(org-remember-insinuate) ; was broken
 ;; default task cycling
 ;; if other is needed override with buffer local settings
 ;; see: http://orgmode.org/manual/Tracking-TODO-state-changes.html
 (setq org-todo-keywords
       '((sequence "TODO(t!)" "HOLD(h@/!)" "STARTED(s!)" "|" "DONE(d!)" "CANCELLED(c@)")))
+
+(defun wl-org-column-view-uses-fixed-width-face ()
+  ;; copy from org-faces.el
+  (when (fboundp 'set-face-attribute)
+    ;; Make sure that a fixed-width face is used when we have a column table.
+    (set-face-attribute 'org-column nil
+			:height (face-attribute 'default :height)
+			:family (face-attribute 'default :family))))
+
+(when (and (fboundp 'daemonp) (daemonp))
+  (add-hook 'org-mode-hook 'wl-org-column-view-uses-fixed-width-face))
 
 ;; hi-lock for highligting entries in the buffer
 (global-hi-lock-mode 1)
