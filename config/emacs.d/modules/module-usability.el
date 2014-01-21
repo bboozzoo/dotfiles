@@ -152,6 +152,9 @@
 (require 'move-text)
 (move-text-default-bindings)
 
+;; ack support
+(require 'ack-and-a-half)
+(defalias 'ack 'ack-and-a-half)
 ;; run hooks
 (run-hooks 'bozo-module-usability-hooks)
 
