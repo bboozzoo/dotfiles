@@ -117,6 +117,7 @@ alias pip='pip-python'
 alias pylab='ipython --pylab=gtk'
 alias ipythongui='ipython qtconsole'
 
+alias dmesg='dmesg --human'
 # editors & pagers
 PAGER='less'
 
