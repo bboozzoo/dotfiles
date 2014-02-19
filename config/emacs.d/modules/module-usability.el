@@ -173,6 +173,10 @@
 (require 'undo-tree)
 (global-undo-tree-mode 1)
 
+;; message mode
+(add-hook 'message-mode-hook (lambda ()
+                               (linum-mode -1)))
+
 ;; run hooks
 (run-hooks 'bozo-module-usability-hooks)
 
