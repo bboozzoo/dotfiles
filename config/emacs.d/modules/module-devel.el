@@ -156,16 +156,26 @@
 ;; (require 'ipython)
 
 ;; simple completion for python
-;; (defvar ac-source-python '((candidates .
-;;                                        (lambda ()
-;;                                          (mapcar '(lambda (completion)
-;;                                                     (first (last (split-string completion "\\." t))))
-;;                                                  (python-symbol-completions (python-completion-at-point)))))))
+;; (defvar ac-source-python
+;;       '((candidates .
+;; 		(lambda ()
+;; 		  (mapcar '(lambda (completion)
+;; 			     (first (last (split-string completion "\\." t))))
+;; 			  (python-symbol-completions (python-partial-symbol)))))))
 ;; (add-hook 'python-mode-hook
-;;           (lambda() (setq ac-sources '(ac-source-python))))
-;;(require 'ac-python)
+;;           (lambda() (add-to-list 'ac-sources 'ac-source-python)))
+
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+
+;; run 'make requirements' in jedi package directory after
+;; install/update
+
+
+;; (require 'ac-python)
+
 ;; eldoc mode
-(add-hook 'python-mode-hook 'turn-on-eldoc-mode)
+;; (add-hook 'python-mode-hook 'turn-on-eldoc-mode)
 
 ;; pdb
 (setq gud-pdb-command-name "python -m pdb")
