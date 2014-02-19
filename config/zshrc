@@ -88,10 +88,14 @@ precmd_functions=(precmd_title precmd_vcs)
 preexec_functions=(preexec_title)
 
 # always enable 256 colors when proper config is found
-[[ "$TERM" == "xterm" && \
-    -e /usr/share/terminfo/x/xterm-256color ]] && {
+if [[ "$TERM" == "xterm" && \
+    -e /usr/share/terminfo/x/xterm-256color ]]; then
     TERM=xterm-256color
-}
+elif [[ -n "$TMUX" ]]; then
+    [[ "$TERM" != "screen-256color" ]] && TERM=screen-256color
+else
+    TERM=gnome-256color
+fi
 
 # paths
 PATH="$PATH:$HOME/bin:$HOME/.local/bin"
