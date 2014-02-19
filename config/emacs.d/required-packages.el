@@ -25,4 +25,5 @@
                                ggtags
                                back-button
                                visible-mark
-                               undo-tree))
+                               undo-tree
+                               jedi))
