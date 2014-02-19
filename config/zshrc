@@ -121,6 +121,8 @@ alias dmesg='dmesg --human'
 # editors & pagers
 PAGER='less'
 
+# mutt
+alias mwork='mutt -F ~/.config-custom/mutt/work'
 # locale
 #LC_ALL=C
 
