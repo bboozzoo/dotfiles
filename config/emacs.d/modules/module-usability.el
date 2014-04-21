@@ -177,6 +177,9 @@
 (add-hook 'message-mode-hook (lambda ()
                                (linum-mode -1)))
 
+;; ibuffer
+(defalias 'list-buffers 'ibuffer)
+
 ;; run hooks
 (run-hooks 'bozo-module-usability-hooks)
 
