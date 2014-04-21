@@ -91,10 +91,12 @@ preexec_functions=(preexec_title)
 if [[ "$TERM" == "xterm" && \
     -e /usr/share/terminfo/x/xterm-256color ]]; then
     TERM=xterm-256color
-elif [[ -n "$TMUX" ]]; then
-    [[ "$TERM" != "screen-256color" ]] && TERM=screen-256color
-else
-    TERM=gnome-256color
+# elif [[ -n "$TMUX" ]]; then
+#     if ! grep default-terminal ~/.tmux.conf >& /dev/null; then
+#         [[ "$TERM" != "screen-256color" ]] && TERM=screen-256color
+#     fi
+# else
+#    TERM=gnome-256color
 fi
 
 # paths
