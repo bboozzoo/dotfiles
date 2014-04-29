@@ -177,6 +177,11 @@
 (add-hook 'message-mode-hook (lambda ()
                                (linum-mode -1)))
 
+(setq auto-mode-alist
+	  (append
+	   '(("/tmp/mutt-.*" . message-mode))
+	   auto-mode-alist))
+
 ;; ibuffer
 (defalias 'list-buffers 'ibuffer)
 
