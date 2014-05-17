@@ -27,4 +27,5 @@
                                visible-mark
                                undo-tree
                                jedi
-                               eproject))
+                               eproject
+                               cmake-mode))
