@@ -366,6 +366,15 @@
 ;;;;;;;;;;;;;;;;;;;
 (add-hook 'text-mode-hook 'bozo-add-whitespace-cleanup-on-save)
 
+;;;;;;;;;;;;;;;;;;;
+;; bitbake
+;;;;;;;;;;;;;;;;;;
+(setq auto-mode-alist
+	  (append
+	   '(("\\.bb\\'" . conf-mode))
+	   '(("\\.bbappend\\'" . conf-mode))
+	   auto-mode-alist))
+
 ;; load other modules
 (require 'module-snippets)
 (require 'module-net)
