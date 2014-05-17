@@ -8,6 +8,16 @@
 ;; show function name in status bar
 (which-function-mode 1)
 
+;; load eproject
+(require 'eproject)
+;; to use eproject-compile place a file named .eproject at the root of
+;; given project directory, then inside this file put contents:
+;;
+;; :common-compiles '("make" "make clean" "mybuildcommand")
+;;
+;; eproject-compile is bound to C-c C-k, build commands are accessible
+;; in history, quick find using C-r
+(require 'eproject-compile)
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; makefile
@@ -355,7 +365,6 @@
 ;; text
 ;;;;;;;;;;;;;;;;;;;
 (add-hook 'text-mode-hook 'bozo-add-whitespace-cleanup-on-save)
-
 
 ;; load other modules
 (require 'module-snippets)

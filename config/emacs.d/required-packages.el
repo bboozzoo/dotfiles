@@ -26,4 +26,5 @@
                                back-button
                                visible-mark
                                undo-tree
-                               jedi))
+                               jedi
+                               eproject))
