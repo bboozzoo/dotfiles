@@ -53,10 +53,17 @@ zstyle ':vcs_info:*' formats       \
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
 zstyle ':vcs_info:*' enable git cvs svn
 
+# colors
+autoload -U colors && colors
+
 # prompt
 autoload -U promptinit
 promptinit
-PROMPT='[%n@%m:%3~]${vcs_info_msg_0_}$ '
+local user_prompt='%(!.%{$fg_bold[red]%}%n%{$reset_color}.%n)'
+local jobs_prompt='%1(j.(%j jobs) .)'
+local dash_prompt="%{$fg_bold[white]%}<%{$reset_color%}%{$fg[white]%}<<%{$reset_color%}"
+PROMPT="${user_prompt}@%m:%3~ ${jobs_prompt}${vcs_info_msg_0_}▶ "
+RPS1="%(?..${dash_prompt} %{$fg_bold[red]%}%? ↵%{$reset_color%})"
 
 
 # set terminal tile
