@@ -28,4 +28,5 @@
                                undo-tree
                                jedi
                                eproject
+                               rpm-spec-mode
                                cmake-mode))
