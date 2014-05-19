@@ -373,7 +373,8 @@
 	  (append
 	   '(("\\.bb\\'" . conf-mode))
 	   '(("\\.bbappend\\'" . conf-mode))
-	   auto-mode-alist))
+	   '(("\\.bbclass\\'" . conf-mode))
+           auto-mode-alist))
 
 ;; load other modules
 (require 'module-snippets)
