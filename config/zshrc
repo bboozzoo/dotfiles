@@ -9,6 +9,18 @@ bindkey -e
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
 
+# most likely when accessed through emacs tramp
+if [[ "$TERM" == "dumb" ]]
+then
+    unsetopt zle
+    unsetopt prompt_cr
+    unsetopt prompt_subst
+    unfunction precmd
+    unfunction preexec
+    PS1='$ '
+    return
+fi
+
 setopt auto_pushd \
     noclobber \
     share_history \
