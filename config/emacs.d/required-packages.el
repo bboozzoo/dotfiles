@@ -29,4 +29,6 @@
                                jedi
                                eproject
                                rpm-spec-mode
-                               cmake-mode))
+                               cmake-mode
+                               naquadah-theme
+			       ))
