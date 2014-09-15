@@ -163,7 +163,8 @@
 (defalias 'ack 'ack-and-a-half)
 
 ;; zeitgeis support
-(require 'zeitgeist)
+;; disabled - zeitgeist causes massive slowdown when opening remote files
+;; (require 'zeitgeist)
 
 ;; back button mode
 (require 'back-button)
