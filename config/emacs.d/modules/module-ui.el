@@ -79,13 +79,16 @@
 (set-scroll-bar-mode nil)
 
 ;; color themes
+
 ;; (require 'color-theme-tangotango)
 ;; (color-theme-tangotango)
 ;; (load-theme 'adwaita)
 ;; set path to custom location of themes
 (when (>= emacs-major-version 24)
   (add-to-list 'custom-theme-load-path local-themes-custom-dir)
-  (bozo-set-color-theme 'bozo-color-theme-x))
+  (if (and (boundp 'bozo-color-theme-x)
+           (symbol-value 'bozo-color-theme-x))
+      (bozo-set-color-theme bozo-color-theme-x)))
 
 ;; (when (= emacs-major-version 23)
 ;;   (add-to-list 'load-path local-themes-custom-dir)

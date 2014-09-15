@@ -18,6 +18,7 @@
 
 (global-set-key (kbd "C-<f11>") 'bozo-load-module)
 (global-set-key (kbd "C-<f12>") 'recentf-open-files)
+(global-set-key (kbd "C-S-<f12>") 'bozo-reload-theme)
 ;; (global-set-key (kbd "C-<f12>") 'helm-recentf)
 ;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
 ;; (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
