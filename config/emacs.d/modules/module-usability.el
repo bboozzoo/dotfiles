@@ -167,8 +167,8 @@
 ;; (require 'zeitgeist)
 
 ;; back button mode
-(require 'back-button)
-(back-button-mode 1)
+;; (require 'back-button)
+;; (back-button-mode 1)
 
 ;; undo tree
 (require 'undo-tree)
