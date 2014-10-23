@@ -30,7 +30,8 @@ setopt auto_pushd \
     list_types \
     no_list_beep \
     no_menu_complete \
-    prompt_subst
+    prompt_subst \
+    histverify
 
 # line editing
 autoload -U select-word-style
