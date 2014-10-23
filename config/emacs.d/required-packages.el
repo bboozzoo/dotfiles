@@ -31,4 +31,5 @@
                                rpm-spec-mode
                                cmake-mode
                                naquadah-theme
+                               highlight-numbers
 			       ))
