@@ -32,7 +32,8 @@
  ;; save list to ~/.emacs.d/cache/recentf
  recentf-save-file (expand-file-name"recentf" local-cache-dir)
  recentf-max-saved-items 100
- recentf-max-menu-items 15)
+ recentf-max-menu-items 15
+ recentf-auto-cleanup 'never)
 ;; enable
 (recentf-mode t)
 
