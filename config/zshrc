@@ -160,3 +160,5 @@ export PATH PAGER TERM LC_ALL
 # source zaw if exists
 [[ -e ~/code/zaw/zaw.zsh ]] && source ~/code/zaw/zaw.zsh
 
+# Go setup
+[[ -e ~/code/gocode ]] && export GOPATH=~/code/gocode
