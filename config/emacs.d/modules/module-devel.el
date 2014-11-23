@@ -176,7 +176,8 @@
 ;;           (lambda() (add-to-list 'ac-sources 'ac-source-python)))
 
 (add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
+(setq jedi:complete-on-dot t
+      jedi:tooltip-method '(popup))
 
 ;; run 'make requirements' in jedi package directory after
 ;; install/update
