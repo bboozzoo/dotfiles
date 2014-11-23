@@ -199,10 +199,9 @@
    Skip toolbars, menu bars etc.
 
    #+begin_src emacs-lisp
-     (when window-system
-       (menu-bar-mode -1)
-       (tool-bar-mode -1)
-       (blink-cursor-mode -1))
+     (menu-bar-mode -1)
+     (tool-bar-mode -1)
+     (blink-cursor-mode -1)
    #+end_src
 
    Never show startup screen.
