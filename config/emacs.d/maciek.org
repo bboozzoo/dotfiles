@@ -1,0 +1,1062 @@
+* Personal info.
+
+#+begin_src emacs-lisp
+  (setq user-full-name "Maciek Borzęcki"
+        user-mail-address "maciek.borzecki@gmail.com")
+#+end_src
+
+* Variables
+
+Cache, plugins etc. directories.
+
+#+begin_src emacs-lisp
+  (setq local-cache-dir "~/.emacs.d/cache/"
+        local-plugins-dir "~/.emacs.d/plugins/"
+        local-site-custom-dir "~/.emacs.d/custom/")
+  ;; add local plugins to load path
+  (add-to-list 'load-path local-plugins-dir)
+#+end_src
+
+Color theme.
+
+#+begin_src emacs-lisp
+  (setq bozo-color-theme-x 'naquadah)
+#+end_src
+
+
+* Utilities
+
+Pull in  =cl=.
+
+#+begin_src emacs-lisp
+  (require 'cl)
+#+end_src
+
+Helper for creating a directory if it does not exist.
+
+#+begin_src emacs-lisp
+  (defun bozo-make-dir (f)
+    (when (not (file-exists-p f))
+      (progn
+        (message "Creating directory at %s" f)
+        (make-directory f))))
+#+end_src
+
+Shutdown =emacs-daemon=.
+
+#+begin_src emacs-lisp
+  (defun bozo-server-shutdown ()
+    "Kill server and save buffers"
+    (interactive)
+    (save-some-buffers)
+    (kill-emacs))
+#+end_src
+
+Manually set frame title.
+
+#+begin_src emacs-lisp
+  (defun bozo-set-frame-title (title)
+    "Set current frame title"
+    (interactive "sNew frame title: ")
+    (setq frame-title-format title))
+#+end_src
+
+Helper to reload buffer from file only if it was modified. As for
+confirmation only if modified. Bind to =C-<f5>=.
+
+#+begin_src emacs-lisp
+  (defun bozo-refresh-file ()
+    (interactive)
+    (revert-buffer t (not (buffer-modified-p)) t))
+
+  (global-set-key (kbd "C-<f5>") 'bozo-refresh-file)
+#+end_src
+
+Whitespace cleanup helpers.
+
+#+begin_src emacs-lisp
+;; cleanup whitespaces
+;; workaround modified buffer flag
+(defun bozo-trailing-whitespace-cleanup ()
+  (let* ((modified-before-p (buffer-modified-p)))
+    (let ((whitespace-style '(trailing)))
+      (whitespace-cleanup))
+    (if (not modified-before-p)
+        (not-modified))))
+
+;; add whitespace cleanup to write hooks
+(defun bozo-add-whitespace-cleanup-on-save ()
+  (add-hook 'write-contents-hooks #'bozo-trailing-whitespace-cleanup))
+#+end_src
+
+Helper to install all packages from list.
+
+#+begin_src emacs-lisp
+  (defun bozo-install-packages (packages)
+    "Install desired packages. Packages is a list of symbols
+     corresponding to package names."
+    (mapcar #'package-install packages))
+#+end_src
+
+Wrapped for setting of color theme with a helper to reload the theme.
+
+Theme reloading is not currently bound to any key. But there seems to
+be something broken in DEs like KDE with Emacs on GTK3 build. As an
+example, when running in daemon mode, the cursor face stays black, no
+matter the theme settings.
+
+#+begin_src emacs-lisp
+  ;; set color theme from color-theme package
+  (defun bozo-set-color-theme (theme)
+    "Set color theme to value stored in symbol sym"
+    (progn
+      (message "loading color theme %s" theme)
+      (load-theme theme t)))
+
+  (defun bozo-reload-theme ()
+       (interactive)
+       (when (and (boundp 'bozo-color-theme-x)
+                  (symbol-value 'bozo-color-theme-x))
+         (progn
+           (disable-theme bozo-color-theme-x)
+           (enable-theme bozo-color-theme-x))))
+#+end_src
+
+* Required packages
+
+List all required packages here.
+
+#+begin_src emacs-lisp
+  (setq bozo-required-packages '(auto-complete
+                                 color-theme
+                                 zenburn-theme
+                                 yasnippet
+                                 yaml-mode
+                                 sr-speedbar
+                                 rainbow-mode
+                                 rainbow-delimiters
+                                 paredit
+                                 multi-term
+                                 hl-line+
+                                 org
+                                 offlineimap
+                                 magit
+                                 fill-column-indicator
+                                 move-text
+                                 ack-and-a-half
+                                 auto-complete-nxml
+                                 ac-dabbrev
+                                 yaml-mode
+                                 zeitgeist
+                                 erlang
+                                 lua-mode
+                                 protobuf-mode
+                                 ggtags
+                                 back-button
+                                 visible-mark
+                                 undo-tree
+                                 jedi
+                                 eproject
+                                 rpm-spec-mode
+                                 cmake-mode
+                                 naquadah-theme
+                                 highlight-numbers
+                                 use-package))
+#+end_src
+
+Install all missing packages.
+
+#+begin_src emacs-lisp :tangle no
+  (when bozo-required-packages
+    (let ((missing-packages (remove-if 'package-installed-p
+                             bozo-required-packages)))
+      (when missing-packages
+        (message "Missing %d packages: %s"
+                 (length missing-packages) missing-packages)
+        (bozo-install-packages missing-packages))))
+
+#+end_src
+
+* General configuration
+
+** Prelude
+
+Load =use-package= helper.
+
+#+begin_src emacs-lisp
+  (require 'use-package)
+#+end_src
+
+Make sure that directories exist.
+
+#+begin_src emacs-lisp
+  (bozo-make-dir local-cache-dir)
+#+end_src
+
+** Basic UI
+
+Skip toolbars, menu bars etc.
+
+#+begin_src emacs-lisp
+  (when window-system
+    (menu-bar-mode -1)
+    (tool-bar-mode -1)
+    (blink-cursor-mode -1))
+#+end_src
+
+Never show startup screen.
+
+#+begin_src emacs-lisp
+  (setq inhibit-startup-screen t)
+#+end_src
+
+Show selected region.
+
+#+begin_src emacs-lisp
+  (setq transient-mark-mode t)
+#+end_src
+
+Search, query replace and selection highlighting.
+
+#+begin_src emacs-lisp
+  (setq query-replace-highlight t
+        search-highlight t
+        transient-mark-mode t)
+#+end_src
+
+Highlight entries in buffer.
+
+#+begin_src emacs-lisp
+  (global-hi-lock-mode 1)
+#+end_src
+
+Line numbers always visible.
+
+#+begin_src emacs-lisp
+  (global-linum-mode 1)
+#+end_src
+
+Unless editing an email, then disable linux mode per buffer.
+
+#+begin_src emacs-lisp
+  (add-hook 'message-mode-hook (lambda ()
+                                 (linum-mode -1)))
+#+end_src
+
+Status bar tweaks, show line number, column, file size etc.
+
+#+begin_src emacs-lisp
+  (line-number-mode t)
+  (column-number-mode t)
+  (size-indication-mode t)
+#+end_src
+
+Move scroll back to the right.
+
+#+begin_src emacs-lisp
+  (set-scroll-bar-mode nil)
+#+end_src
+
+Scrolling tweaks.
+
+#+begin_src emacs-lisp
+  (setq
+   scroll-margin 0
+   scroll-conservatively 100000
+   scroll-up-aggressively 0
+   scroll-down-aggressively 0
+   scroll-preserve-screen-position t)
+#+end_src
+
+Syntax coloring.
+
+#+begin_src emacs-lisp
+  (use-package font-lock
+    :config
+    (progn
+      (global-font-lock-mode t)
+      (setq font-lock-verbose nil)))
+#+end_src
+
+Temporary highlighting of current line.
+
+#+begin_src emacs-lisp
+  (use-package hl-line+
+    :bind
+    (("C-c l" . hl-line-flash)))
+#+end_src
+
+Set color theme using a helper.
+
+#+begin_src emacs-lisp
+  (bozo-set-color-theme bozo-color-theme-x)
+#+end_src
+
+
+*** Extras
+
+Enable powerline.
+
+#+begin_src emacs-lisp
+  (use-package powerline
+    :init
+    (progn
+      (powerline-default-theme)))
+#+end_src
+
+** Editing
+
+Delete selected region by typing.
+
+#+begin_src emacs-lisp
+  (delete-selection-mode t)
+#+end_src
+
+When mouse cursor overlaps with point, move cursor.
+
+#+begin_src emacs-lisp
+  (mouse-avoidance-mode 'jump)
+#+end_src
+
+Use =fill-column-idicator= (from ELPA) to see if we've crossed fill
+column when editing.
+
+#+begin_src emacs-lisp
+  (use-package fill-column-indicator
+    :bind (((kbd "C-<f7>") . fci-mode)))
+#+end_src
+
+Enable =move-text= (from ELPA), to use =M-{<up>,<down>}= for moving line upwards,
+downward.
+
+#+begin_src emacs-lisp
+  (use-package move-text
+    :config
+    (move-text-default-bindings))
+#+end_src
+
+*** UTF-8
+
+Default everything to UTF-8.
+
+#+begin_src emacs-lisp
+  (set-language-environment "UTF-8")
+  (prefer-coding-system 'utf-8)
+#+end_src
+
+*** Basic indentation
+
+Use spaces instead of tabs. Note to self, use =C-q TAB= to enter TAB.
+#+begin_src emacs-lisp
+  (setq-default indent-tabs-mode nil)
+#+end_src
+
+Tab width & basic indentation to 4 spaces.
+#+begin_src emacs-lisp
+  (setq tab-width 4
+        stardard-indent 4)
+#+end_src
+
+*** Parentheses
+
+Blink the opening parenthesis when addding a closing one, even if the
+opening paren is far away.
+
+#+begin_src emacs-lisp
+  (setq blink-matching-paren-distance nil)
+#+end_src
+
+Show matching parentheses.
+
+#+begin_src emacs-lisp
+  (setq show-paren-delay 0
+        show-paren-syle 'mixed)
+  (show-paren-mode t)
+#+end_src
+
+Automatically insert closing parenthesis when opening one.
+
+#+begin_src emacs-lisp
+  (electric-pair-mode t)
+#+end_src
+
+Jump to matchin parenthesis, as in =%= in VIM. Copied from
+somewhere. Bind to =C-5=.
+
+#+begin_src emacs-lisp
+  (defun bozo-goto-match-paren (arg)
+    "Go to the matching  if on (){}[], similar to vi style of % "
+    (interactive "p")
+    ;; first, check for "outside of bracket" positions expected by forward-sexp, etc.
+    (cond ((looking-at "[\[\(\{]") (forward-sexp))
+          ((looking-back "[\]\)\}]" 1) (backward-sexp))
+          ;; now, try to succeed from inside of a bracket
+          ((looking-at "[\]\)\}]") (forward-char) (backward-sexp))
+          ((looking-back "[\[\(\{]" 1) (backward-char) (forward-sexp))
+          (t nil)))
+  (global-set-key (kbd "C-5") 'bozo-goto-match-paren)
+#+end_src
+
+** File management
+
+Dired setup, do what I mean plus recursive deletes and copies.
+
+#+begin_src emacs-lisp
+  (setq dired-dwim-target t
+        dired-recursive-copies 'always
+        dired-recursive-deletes 'top)
+#+end_src
+
+Remap dired keys, so that =^= goes one level up and =<return>= opens a
+directory without opening a new buffer.
+*NOTE*: disabled for now.
+
+#+begin_src emacs-lisp :tangle no
+  (put 'dired-find-alternate-file 'disabled nil)
+  (defun bozo-remap-dired-keys ()
+    (define-key dired-mode-map (kbd "<return>")
+      'dired-find-alternate-file) ; was dired-advertised-find-file
+    (define-key dired-mode-map (kbd "^")
+      (lambda () (interactive) (find-alternate-file "..")))
+                                          ; was dired-up-directory
+    )
+  (add-hook 'dired-mode-hook 'bozo-remap-dired-keys)
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (setq truncate-lines t)))
+#+end_src
+
+** History, recent files
+
+Recent files with minor tweaks. Auto cleanup disabled to resolve tramp
+problems with unreachable hosts.
+
+#+begin_src emacs-lisp
+  (use-package recentf
+    :config
+    (progn
+      (setq
+       ;; save list to ~/.emacs.d/cache/recentf
+       recentf-save-file (expand-file-name "recentf" local-cache-dir)
+       recentf-max-saved-items 100
+       recentf-max-menu-items 15
+       recentf-auto-cleanup 'never ;; fix tramp issues
+       )
+      ;; enable
+      (recentf-mode t)))
+#+end_src
+** Buffers
+
+Make sure that buffer names are somewhat unique. Skip buffers starting
+with =*=.
+
+#+begin_src emacs-lisp
+  (use-package uniquify
+    :config
+    (setq
+     uniquify-buffer-name-style 'post-forward
+     uniquify-separator ":"
+     ;; regenerate buffer names after killing a buffer
+     uniquify-after-kill-buffer-p t
+     ;; ignore buffers with *, *ielm*, *cscope* etc.
+     uniquify-ignore-buffers-re "^\\*"))
+#+end_src
+
+** Undo
+
+Use =undo-tree= from ELPA.
+
+#+begin_src emacs-lisp
+  (use-package undo-tree
+    :config
+    (global-undo-tree-mode 1))
+#+end_src
+
+** Windows
+
+Enable winner mode for quick restore of window layout.
+
+#+begin_src emacs-lisp
+  (winner-mode 1)
+#+end_src
+
+Setup =windmove= to use =S-{<up>,<down>,<left>,<right>}= for window
+switching. *NOTE*: breaks with =org-mode=. Requires =windmove= from ELPA.
+
+#+begin_src emacs-lisp
+  (use-package windmove
+    :init (windmove-default-keybindings))
+#+end_src
+
+** Helm
+
+Taken from Sacha Chua's Emacs setup
+[[http://pages.sachachua.com/.emacs.d/Sacha.html]]. Requires =helm= from
+ELPA.
+
+#+begin_src emacs-lisp
+  (use-package helm
+    :init
+    (progn
+      (require 'helm-config)
+      (setq helm-candidate-number-limit 100)
+      ;; From https://gist.github.com/antifuchs/9238468
+      (setq helm-idle-delay 0.0 ; update fast sources immediately (doesn't).
+            helm-input-idle-delay 0.01  ; this actually updates things
+                                          ; reeeelatively quickly.
+            helm-quick-update t
+            helm-buffers-fuzzy-matching t
+            helm-split-window-in-side-p t
+            helm-M-x-requires-pattern nil
+            helm-ff-skip-boring-files t)
+      (helm-mode))
+    :config
+    (progn
+      ;; I don't like the way switch-to-buffer uses history, since
+      ;; that confuses me when it comes to buffers I've already
+      ;; killed. Let's use ido instead.
+      ;; (add-to-list 'helm-completing-read-handlers-alist
+      ;;              '(switch-to-buffer . ido))
+      ;; Unicode
+      ;; (add-to-list 'helm-completing-read-handlers-alist
+      ;;              '(insert-char . ido)))
+      )
+    :bind (("C-c h" . helm-mini)
+           ("M-x" . helm-M-x)
+           ("C-x C-f" . helm-find-files)
+           ("C-x C-b" . helm-buffers-list)
+           ((kbd "C-<f12>") . helm-recentf)))
+  (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
+#+end_src
+
+** Jumplist
+
+Mimics VIM's =C-o=, =C-i= behavior. *NOTE*: disabled for now.
+
+Requires =jumplist= from ELPA.
+
+#+begin_src emacs-lisp :tangle no
+(require 'jumplist)
+#+end_src
+
+** Speedbar
+
+Use =sr-speedbar= to embed speadbar in frame, similar to what ECB
+does. Bind toggling to =C-<f9>=, switching to speedbar window with
+=C-<f10>=.
+
+Requires =sr-speedbar= from ELPA.
+
+#+begin_src emacs-lisp
+  (use-package sr-speedbar
+    :config
+    (setq speedbar-show-unknown-files t
+          speedbar-use-images nil
+          ;; speedbar-fetch-etags-command "global"
+          ;; speedbar-fetch-etags-arguments '("-f" "-t")
+          speedbar-use-imenu-flag nil
+          speedbar-dynamic-tags-function-list '(
+                                                (speedbar-fetch-dynamic-etags
+                                                 .
+                                                 speedbar-insert-etags-list)
+                                                (speedbar-fetch-dynamic-imenu
+                                                 .
+                                                 speedbar-insert-imenu-list)))
+    :bind
+    (((kbd "C-<f9>") . sr-speedbar-toggle)
+     ((kbd "C-<f10>") . sr-speedbar-select-window)))
+#+end_src
+
+** Ack
+
+Ack support (faster alternative to =grep=). Requires =ack-and-a-half=
+package from ELPA.
+
+#+begin_src emacs-lisp
+  (use-package ack-and-a-half
+    :config
+    (defalias 'ack 'ack-and-a-half))
+#+end_src
+
+** Rainbow mode
+
+Display colors whenever pattern such as #ababab is found in buffer.
+
+Requires =rainbow-mode= package from ELPA.
+
+#+begin_src emacs-lisp
+  (use-package rainbow-mode
+    :config
+    (rainbow-turn-on))
+#+end_src
+
+** TRAMP
+
+Setup TRAMP, set =ssh= as default method.
+
+#+begin_src emacs-lisp
+  (use-package tramp
+    :config
+    (setq tramp-default-method "ssh"))
+
+#+end_src
+
+** Mutt
+
+Enable =message-mode= when editing mutt messages.
+
+#+begin_src emacs-lisp
+  (setq auto-mode-alist
+            (append
+             '(("/tmp/mutt-.*" . message-mode))
+             auto-mode-alist))
+#+end_src
+
+** Zeitgeist
+
+Nice integration with Zeitgetist under GNOME. *NOTE*: disabled, awful
+slowdown with remote files for some reason.
+
+Requires =zeitgeist= packge from ELPA.
+
+#+begin_src emacs-lisp :tangle no
+  (use-package zeitgeist)
+#+end_src
+
+* Coding
+
+** Basic setup
+
+Highlight numbers in every =prog-mode= derived mode.
+
+#+begin_src emacs-lisp
+  (use-package highlight-numbers
+    :init
+    (progn
+      (add-hook 'prog-mode-hook 'highlight-numbers-mode)))
+#+end_src
+
+Show current function.
+
+#+begin_src emacs-lisp
+  (which-function-mode 1)
+#+end_src
+
+Use =eproject=. Also load =eproject-compile= to add per project
+compilation command.
+
+#+begin_src emacs-lisp
+  ;; load eproject
+  (use-package eproject)
+  ;; to use eproject-compile place a file named .eproject at the root of
+  ;; given project directory, then inside this file put contents:
+  ;;
+  ;; :common-compiles '("make" "make clean" "mybuildcommand")
+  ;;
+  ;; eproject-compile is bound to C-c C-k, build commands are accessible
+  ;; in history, quick find using C-r
+  (use-package eproject-compile)
+#+end_src
+
+** Tags
+
+Use =GNU Global= via =ggtags=.
+#+begin_src emacs-lisp
+    ;; use cscope
+    ;;(require 'xcscope)
+    ;;(require 'xgtags)
+    (use-package ggtags)
+#+end_src
+
+** Makefile
+
+Use tabs for indentation in Makefiles.
+
+#+begin_src emacs-lisp
+  (add-hook 'makefile-mode-hook
+            (lambda ()
+              (setq indent-tabs-mode t)))
+#+end_src
+
+** CMake
+
+#+begin_src emacs-lisp
+  (use-package cmake-mode
+    :init
+    (progn
+      (add-to-list 'auto-mode-alist '("CMakeLists\\.txt\\'" . cmake-mode))
+      (add-to-list 'auto-mode-alist '("\\.cmake\\'" . cmake-mode))))
+#+end_src
+
+** C derived modes
+
+#+begin_src emacs-lisp
+  ;;;;;;;;;;;;;;;;;;;
+  ;; cc-mode common
+  ;;;;;;;;;;;;;;;;;;
+  ; common for all modes derived from cc-mode
+
+  (setq c-default-style '((other . "linux")))
+
+  (setq c-basic-offset 4)
+
+  (setq hide-ifdef-initially t
+        hide-ifdef-shadow t)
+
+  (defun bozo-enable-electric ()
+    (electric-indent-mode t))
+
+  (defun bozo-enable-subword ()
+    (subword-mode 1))
+
+  (defun bozo-enable-hide-ifdef ()
+    (hide-ifdef-mode 1))
+
+  (defun bozo-enable-ggtags ()
+    (ggtags-mode 1))
+#+end_src
+
+** C
+
+These settings are carried over to all c-mode derived modes.
+
+#+begin_src emacs-lisp
+  (add-hook 'c-mode-common-hook 'bozo-enable-electric)
+  (add-hook 'c-mode-common-hook 'bozo-add-whitespace-cleanup-on-save)
+  (add-hook 'c-mode-common-hook (lambda ()
+                                  (add-to-list 'ac-sources 'ac-source-gtags)))
+  (add-hook 'c-mode-common-hook 'bozo-enable-subword)
+  (add-hook 'c-mode-common-hook 'bozo-enable-hide-ifdef)
+  (add-hook 'c-mode-common-hook 'bozo-enable-ggtags)
+#+end_src
+
+** C++
+
+Subword mode already enabled in C-mode hooks
+
+#+begin_src emacs-lisp :tangle no
+(add-hook 'c++-mode-hook 'bozo-enable-subword)
+#+end_src
+
+** Java
+
+#+begin_src emacs-lisp
+; add default style
+(push '(java-mode . "java") c-default-style)
+#+end_src
+
+Subword enabled in c mode already. *NOTE*: disabled.
+
+#+begin_src emacs-lisp :tangle no
+(add-hook 'java-mode-hook 'bozo-enable-subword)
+#+end_src
+
+Add =cscope= hooks. *NOTE*: disabled
+
+#+begin_src emacs-lisp :tangle no
+(add-hook 'java-mode-hook (function cscope:hook))
+#+end_src
+
+** Python
+
+Old, unused setup code.
+
+#+begin_src emacs-lisp
+  ;; load ropemacs on demand
+  ;; (defun bozo-devel-python-load-ropemacs ()
+  ;;   (if (not (fboundp 'ropemacs-mode))
+  ;;       (pymacs-load "ropemacs" "rope-"))
+  ;;   )
+  ;; ;; to be called from python-mode-hook
+  ;; (defun bozo-devel-python-ropemacs-ac ()
+  ;;   (bozo-devel-python-load-ropemacs)
+  ;;   (ac-ropemacs-initialize)
+  ;;   (add-to-list 'ac-sources 'ac-source-ropemacs)
+  ;;   )
+  ;; load pymacs and setup hooks
+  ;;(require 'pymacs)
+  ;;(bozo-devel-python-ropemacs-ac)
+
+  ;; ipython as python shell
+  ;; (require 'ipython)
+
+  ;; simple completion for python
+  ;; (defvar ac-source-python
+  ;;       '((candidates .
+  ;;              (lambda ()
+  ;;                (mapcar '(lambda (completion)
+  ;;                           (first (last (split-string completion "\\." t))))
+  ;;                        (python-symbol-completions (python-partial-symbol)))))))
+  ;; (add-hook 'python-mode-hook
+  ;;           (lambda() (add-to-list 'ac-sources 'ac-source-python)))
+#+end_src
+
+Setup Jedi, requires =jedi= package from ELPA.
+
+#+begin_src emacs-lisp
+  (use-package jedi
+    :init
+    (progn
+      (add-hook 'python-mode-hook 'jedi:setup)
+      (setq jedi:complete-on-dot t
+            jedi:tooltip-method '(popup))))
+
+  ;; run 'make requirements' in jedi package directory after
+  ;; install/update
+#+end_src
+
+Setup autocomplete for Python, *NOTE*: disabled
+
+#+begin_src emacs-lisp
+  ;; (require 'ac-python)
+#+end_src
+
+Eldoc for Python, *NOTE*: disabled.
+
+#+begin_src emacs-lisp
+  ;; eldoc mode
+  ;; (add-hook 'python-mode-hook 'turn-on-eldoc-mode)
+#+end_src
+
+Configure =pdb= as Python debugger for GUD.
+
+#+begin_src emacs-lisp
+  ;; pdb
+  (setq gud-pdb-command-name "python -m pdb")
+#+end_src
+
+Regular hooks.
+
+#+begin_src emacs-lisp
+  (add-hook 'python-mode-hook 'bozo-add-whitespace-cleanup-on-save)
+#+end_src
+
+** Lisp
+
+#+begin_src emacs-lisp
+  ;;;;;;;;;;;;;;;;;;;
+  ;; *LISP
+  ;;;;;;;;;;;;;;;;;;;
+
+  (defun bozo-lisp-defaults ()
+    (paredit-mode t)
+    (rainbow-delimiters-mode t))
+
+  (defun bozo-lisp-repl-defaults ()
+    (bozo-lisp-defaults))
+#+end_src
+
+*** Emacs Lisp
+
+#+begin_src emacs-lisp
+  (defun bozo-elisp-defaults ()
+    (bozo-lisp-defaults)
+    (turn-on-eldoc-mode))
+
+  (defun bozo-ielm-defaults ()
+    (bozo-lisp-repl-defaults)
+    (turn-on-eldoc-mode))
+
+  (add-hook 'emacs-lisp-mode-hook 'bozo-elisp-defaults)
+  (add-hook 'ielm-mode-hook 'bozo-ielm-defaults)
+  (add-hook 'lisp-mode-hook 'bozo-add-whitespace-cleanup-on-save)
+#+end_src
+
+*** SLIME
+
+#+begin_src emacs-lisp
+  (setq slime-lisp-implementations
+        '((ecl ("ecl"))
+          (clisp ("clisp" "-q"))
+          (sbcl ("sbcl" "--noinform") :coding-system utf-8-unix)))
+  ;; use clisp by default
+  (setq slime-default-lisp 'clisp)
+
+  (eval-after-load "slime"
+    '(progn
+       (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)))
+
+  (defun bozo-common-lisp-defaults ()
+    (bozo-lisp-defaults)
+    (slime-mode))
+
+  (add-hook 'lisp-mode-hook 'bozo-common-lisp-defaults)
+  (add-hook 'slime-repl-mode-map 'bozo-lisp-repl-defaults)
+#+end_src
+
+** Shell
+
+#+begin_src emacs-lisp
+  (add-hook 'sh-mode-hook 'bozo-add-whitespace-cleanup-on-save)
+#+end_src
+
+** XML
+
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist
+               (cons (concat "\\."
+                             (regexp-opt '("xml" "xsd" "sch"
+                                           "rng" "xslt"
+                                           "svg" "rss")
+                                         t)
+                             "\\'")
+                     'nxml-mode))
+  (push '("<\\?xml" . nxml-mode) magic-mode-alist)
+  (require 'auto-complete-nxml)
+#+end_src
+
+** GNU Octave
+
+Requires =octave-mode=, builtin package.
+#+begin_src emacs-lisp
+  (use-package octave-mode
+    :mode "\\.m$")
+#+end_src
+
+** Windows batch files
+
+Requires =batch-mode= package.
+
+#+begin_src emacs-lisp
+  (use-package batch-mode
+    :mode "\\.bat\\'")
+#+end_src
+
+** Erlang
+
+Convince speedbar to show erlang files and tags. Note, that =etags=
+can generate TAGS from Erlang code.
+
+#+begin_src emacs-lisp
+  (require 'speedbar)
+  (speedbar-add-supported-extension '(".erl" ".hrl"))
+  (add-to-list 'speedbar-fetch-etags-parse-list
+               '("\\.[eh]rl" . speedbar-parse-c-or-c++tag))
+#+end_src
+
+Locate Erlang root dir.
+#+begin_src emacs-lisp
+  (setq bozo:erlang-locations '("/usr/lib64/erlang"
+                                "/usr/lib/erlang"))
+
+  (defun bozo-find-erlang-root (roots)
+    "Return erlang root dir by looking through list of possible locations"
+    (find-if (lambda (dir)
+               (file-exists-p dir))
+             roots))
+
+  (setq erlang-root-dir (bozo-find-erlang-root bozo:erlang-locations))
+#+end_src
+
+Setup EDTS [[https://github.com/tjarvstrand/edts]]. Requres =edts= package
+from ELPA.
+
+#+begin_src emacs-lisp
+  (setq-default bozo-edts-dir nil)
+  (setq bozo-edts-dir "~/code/edts")
+
+  (setq inferior-erlang-machine-options '("-sname" "emacs"))
+  ;; distel
+  ;; (defun ac-distel-setup ()
+  ;;   (setq ac-sources '(ac-source-distel)))
+
+  ;; (if (file-directory-p bozo-distel-dir)
+  ;;     (progn
+  ;;       (add-to-list 'load-path (concat (file-name-as-directory bozo-distel-dir)
+  ;;                                       "elisp"))
+  ;;       (require 'distel)
+  ;;       (distel-setup)
+  ;;       (add-hook 'erlang-mode-hook 'ac-distel-setup)
+  ;;       (add-hook 'erlang-shell-mode-hook 'ac-distel-setup)
+  ;;      ))
+  (if (and bozo-edts-dir (file-directory-p bozo-edts-dir))
+      (progn
+        (add-to-list 'load-path bozo-edts-dir)
+        (setq edts-man-root erlang-root-dir)
+        ;(setq edts-log-level 'debug)
+        (require 'edts-start)))
+#+end_src
+
+Extra hooks. *NOTE*: disabled.
+
+#+begin_src emacs-lisp
+  ;; (add-hook 'erlang-mode-hook
+  ;;           (lambda ()
+  ;;             (define-key erlang-mode-map (kbd "C-c C-f") 'erlang-man-function)))
+
+  ;; (add-hook 'edts-mode-hook
+  ;;           (lambda ()
+  ;;             (auto-higlight-symbol-mode -1)))
+  ;; use ac for erlang anyway
+  ;;(add-to-list 'ac-modes 'erlang-mode)
+#+end_src
+
+** Protocol Buffers
+
+Requires =protobuf-mode= package from ELPA.
+
+#+begin_src emacs-lisp
+  (use-package protobuf-mode
+    :mode "\\.proto$")
+#+end_src
+
+** Git
+
+Configure magit. Additional tweaking for showing witespace in
+=*magit-status*= buffer.
+
+#+begin_src emacs-lisp
+  (defun magit-toggle-whitespace ()
+    (interactive)
+    (if (member "-w" magit-diff-options)
+        (magit-dont-ignore-whitespace)
+      (magit-ignore-whitespace)))
+
+  (defun magit-ignore-whitespace ()
+    (interactive)
+    (add-to-list 'magit-diff-options "-w")
+    (magit-refresh))
+
+  (defun magit-dont-ignore-whitespace ()
+    (interactive)
+    (setq magit-diff-options (remove "-w" magit-diff-options))
+    (magit-refresh))
+
+  (use-package magit
+    :init
+    (progn
+      (add-hook 'magit-status-mode-hook
+                (lambda ()
+                  (linum-mode -1)))
+      (define-key magit-status-mode-map (kbd "W")
+        'magit-toggle-whitespace)))
+
+#+end_src
+
+** Text
+
+#+begin_src emacs-lisp
+  (add-hook 'text-mode-hook 'bozo-add-whitespace-cleanup-on-save)
+#+end_src
+
+** Bitbake
+
+There are no native Emacs modes for BB, however =conf-mode= seems to
+be a good enough fit.
+
+#+begin_src emacs-lisp
+  (setq auto-mode-alist
+            (append
+             '(("\\.bb\\'" . conf-mode))
+             '(("\\.bbappend\\'" . conf-mode))
+             '(("\\.bbclass\\'" . conf-mode))
+             auto-mode-alist))
+#+end_src
+
+* Other bindings
+
+Disable background mode.
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-Z") nil)
+#+end_src
