@@ -1,6 +1,6 @@
 #+TITLE: Emacs configuration
 
-* Personal info.
+* Personal info
 
   #+begin_src emacs-lisp
     (setq user-full-name "Maciek Borzęcki"
