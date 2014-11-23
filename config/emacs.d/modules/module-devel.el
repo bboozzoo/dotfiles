@@ -20,6 +20,11 @@
 (require 'eproject-compile)
 
 ;;;;;;;;;;;;;;;;;;;;
+;; common
+;;;;;;;;;;;;;;;;;;;;
+(add-hook 'prog-mode-hook 'highlight-numbers-mode)
+
+;;;;;;;;;;;;;;;;;;;;
 ;; makefile
 ;;;;;;;;;;;;;;;;;;;;
 (add-hook 'makefile-mode-hook
@@ -376,6 +381,7 @@
 	   '(("\\.bbappend\\'" . conf-mode))
 	   '(("\\.bbclass\\'" . conf-mode))
            auto-mode-alist))
+
 
 ;; load other modules
 (require 'module-snippets)
