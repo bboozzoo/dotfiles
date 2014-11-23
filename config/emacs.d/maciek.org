@@ -23,7 +23,6 @@ Color theme.
   (setq bozo-color-theme-x 'naquadah)
 #+end_src
 
-
 * Utilities
 
 Pull in  =cl=.
@@ -291,7 +290,6 @@ Set color theme using a helper.
 #+begin_src emacs-lisp
   (bozo-set-color-theme bozo-color-theme-x)
 #+end_src
-
 
 *** Extras
 
@@ -667,6 +665,36 @@ Use =GNU Global= via =ggtags=.
     ;;(require 'xgtags)
     (use-package ggtags)
 #+end_src
+
+** Autocomplete
+
+   Use =auto-complete= from ELPA.
+   #+begin_src emacs-lisp
+     (require 'auto-complete-config)
+     (ac-config-default)
+
+     (setq ac-delay 0
+            ac-auto-show-menu t)
+     (global-auto-complete-mode t)
+   #+end_src
+
+   Add extra modes to AC setup.
+
+   #+begin_src emacs-lisp
+     (add-to-list 'ac-modes 'makefile-gmake-mode)
+     (add-to-list 'ac-modes 'nxml-mode)
+     (add-to-list 'ac-modes 'octave-mode)
+   #+end_src
+
+** Snippets
+
+   Use =yasnippet= from ELPA.
+
+   #+begin_src emacs-lisp
+     (use-package yasnippet
+       :init
+       (yas-global-mode 1))
+   #+end_src
 
 ** Makefile
 
