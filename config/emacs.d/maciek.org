@@ -675,7 +675,7 @@
      (require 'auto-complete-config)
      (ac-config-default)
 
-     (setq ac-delay 0
+     (setq ac-delay 0.1
             ac-auto-show-menu t)
      (global-auto-complete-mode t)
    #+end_src
