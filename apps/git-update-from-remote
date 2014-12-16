@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [[ "$1" == '-t' ]]; then
+    echo "-- Dry run mode"
+    TEST='-n'
+    shift
+fi
+
+FROM=$1
+TO=$2
+
+if [[ "$FROM" == "" || "$TO" == "" || "$1" == "-h" ]]; then
+    echo "Usage:"
+    echo "$(basename $0) [-t] <from-remote> <to-remote>"
+    echo
+    echo "Script for pushing/updating branches from one remote, to another"
+    exit 1
+fi
+
+
+for b in $(git branch --list --remote "$FROM/*" | grep -v '/HEAD'); do
+    tohead=refs/heads/${b//$FROM\/}
+    echo "-- Updating $b -> $tohead"
+    git push ${TEST} $TO ${b}:${tohead}
+done
