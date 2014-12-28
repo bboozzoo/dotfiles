@@ -162,7 +162,8 @@
                                    cmake-mode
                                    naquadah-theme
                                    highlight-numbers
-                                   use-package))
+                                   use-package
+                                   powerline))
   #+end_src
 
   Install all missing packages.
@@ -294,9 +295,9 @@
 
 *** Extras
 
-    Enable powerline.
+    Enable powerline. *NOTE*: disabled.
 
-    #+begin_src emacs-lisp
+    #+begin_src emacs-lisp :tangle no
       (use-package powerline
         :init
         (progn
