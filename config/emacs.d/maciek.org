@@ -525,7 +525,7 @@
        :bind (("C-c h" . helm-mini)
               ("M-x" . helm-M-x)
               ("C-x C-f" . helm-find-files)
-              ("C-x C-b" . helm-buffers-list)
+              ("C-x C-b" . helm-mini)
               ((kbd "C-<f12>") . helm-recentf)))
      (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
    #+end_src
