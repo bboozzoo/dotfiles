@@ -107,17 +107,19 @@ preexec_title() {
 precmd_functions=(precmd_title precmd_vcs)
 preexec_functions=(preexec_title)
 
-# always enable 256 colors when proper config is found
-if [[ "$TERM" == "xterm" && \
-    -e /usr/share/terminfo/x/xterm-256color ]]; then
-    TERM=xterm-256color
-# elif [[ -n "$TMUX" ]]; then
-#     if ! grep default-terminal ~/.tmux.conf >& /dev/null; then
-#         [[ "$TERM" != "screen-256color" ]] && TERM=screen-256color
-#     fi
-# else
-#    TERM=gnome-256color
+ppid=$(ps -p $$ -o ppid --no-headers)
+if grep gnome-terminal /proc/$ppid/cmdline >&/dev/null; then
+    # gnome terminal does not set TERM
+    TERM=gnome-256color
+elif [[ -n "$TMUX" ]]; then
+    tmux_conf=~/.tmux.conf
+    if ! grep -v '#' $tmux_conf | grep default-terminal >& /dev/null; then
+        [[ "$TERM" != "screen-256color" ]] && TERM=screen-256color
+    fi
+else
+   TERM=xterm-256color
 fi
+export TERM
 
 # paths
 PATH="$PATH:$HOME/bin:$HOME/.local/bin"
