@@ -495,7 +495,9 @@
    [[http://pages.sachachua.com/.emacs.d/Sacha.html]]. Requires =helm= from
    ELPA.
 
-   #+begin_src emacs-lisp
+   *NOTE*: disabled, found Helm too annoying for daily use.
+
+   #+begin_src emacs-lisp  :tangle no
      (use-package helm
        :init
        (progn
