@@ -637,9 +637,9 @@
          (add-hook 'prog-mode-hook 'highlight-numbers-mode)))
    #+end_src
 
-   Show current function.
+   Show current function. *NOTE*: disabled
 
-   #+begin_src emacs-lisp
+   #+begin_src emacs-lisp :tangle no
      (which-function-mode 1)
    #+end_src
 
