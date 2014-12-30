@@ -163,7 +163,8 @@
                                    naquadah-theme
                                    highlight-numbers
                                    use-package
-                                   powerline))
+                                   powerline
+                                   smex))
   #+end_src
 
   Install all missing packages.
@@ -575,6 +576,15 @@
               ("C-x C-b" . helm-mini)
               ((kbd "C-<f12>") . helm-recentf)))
      (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
+   #+end_src
+
+** Smex (M-x)
+
+   Use smex for =M-x= for IDO like matching.
+
+   #+begin_src emacs-lisp
+     (use-package smex
+       :bind (("M-x" . smex)))
    #+end_src
 
 ** Jumplist
