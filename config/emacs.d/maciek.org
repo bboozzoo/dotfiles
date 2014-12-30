@@ -578,6 +578,15 @@
      (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
    #+end_src
 
+** Recent files
+
+   Quickly bring up list of recently opened files.
+
+   #+begin_src emacs-lisp
+     (use-package recentf
+       :bind (((kbd "C-<f12>") . recentf-open-files)))
+   #+end_src
+
 ** Smex (M-x)
 
    Use smex for =M-x= for IDO like matching.
