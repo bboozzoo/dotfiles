@@ -164,7 +164,8 @@
                                    highlight-numbers
                                    use-package
                                    powerline
-                                   smex))
+                                   smex
+                                   vala-mode))
   #+end_src
 
   Install all missing packages.
@@ -1149,6 +1150,12 @@
                 '(("\\.bbappend\\'" . conf-mode))
                 '(("\\.bbclass\\'" . conf-mode))
                 auto-mode-alist))
+   #+end_src
+
+** Vala
+
+   #+begin_src emacs-lisp
+     (use-package vala-mode)
    #+end_src
 
 * Other bindings
