@@ -5,6 +5,10 @@
 	diff = auto
 	status = auto
 	branch = auto
+[format]
+        coverLetter = auto
+        signoff = true
+        thread = true
 [gc]
         auto = 1
 [alias]
