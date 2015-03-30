@@ -5,9 +5,6 @@
 	diff = auto
 	status = auto
 	branch = auto
-[gui]
-	fontui = -family \"DejaVu Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
-	fontdiff = -family Courier -size 9 -weight normal -slant roman -underline 0 -overstrike 0
 [gc]
         auto = 1
 [alias]
