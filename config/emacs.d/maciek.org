@@ -285,8 +285,7 @@
 
    #+begin_src emacs-lisp
      (use-package hl-line+
-       :bind
-       (("C-c l" . hl-line-flash)))
+       :bind ("C-c l" . hl-line-flash))
    #+end_src
 
    Set color theme using a helper.
@@ -325,7 +324,8 @@
 
    #+begin_src emacs-lisp
      (use-package fill-column-indicator
-       :bind (((kbd "C-<f7>") . fci-mode)))
+       :bind ("C-<f7>" . fci-mode))
+
    #+end_src
 
    Enable =move-text= (from ELPA), to use =M-{<up>,<down>}= for moving line upwards,
@@ -468,7 +468,7 @@
 
    #+begin_src emacs-lisp
      (use-package ibuffer
-       :bind (("C-x C-b" . ibuffer)))
+       :bind ("C-x C-b" . ibuffer))
    #+end_src
 
 ** Undo
@@ -585,7 +585,7 @@
 
    #+begin_src emacs-lisp
      (use-package recentf
-       :bind (((kbd "C-<f12>") . recentf-open-files)))
+       :bind ("C-<f12>" . recentf-open-files))
    #+end_src
 
 ** Smex (M-x)
@@ -594,7 +594,7 @@
 
    #+begin_src emacs-lisp
      (use-package smex
-       :bind (("M-x" . smex)))
+       :bind ("M-x" . smex))
    #+end_src
 
 ** Jumplist
@@ -631,8 +631,8 @@
                                                     .
                                                     speedbar-insert-imenu-list)))
        :bind
-       (((kbd "C-<f9>") . sr-speedbar-toggle)
-        ((kbd "C-<f10>") . sr-speedbar-select-window)))
+       (("C-<f9>" . sr-speedbar-toggle)
+        ("C-<f10>" . sr-speedbar-select-window)))
    #+end_src
 
 ** Ack
@@ -1122,7 +1122,7 @@
        (magit-refresh))
 
      (use-package magit
-       :init
+       :config
        (progn
          (add-hook 'magit-status-mode-hook
                    (lambda ()
