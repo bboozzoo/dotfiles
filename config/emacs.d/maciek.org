@@ -165,7 +165,9 @@
                                    use-package
                                    powerline
                                    smex
-                                   vala-mode))
+                                   vala-mode
+                                   dts-mode
+                                   ))
   #+end_src
 
   Install all missing packages.
