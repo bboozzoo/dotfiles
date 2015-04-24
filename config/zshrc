@@ -63,7 +63,11 @@ promptinit
 local user_prompt='%(!.%{$fg_bold[red]%}%n%{$reset_color%}.%n)'
 local jobs_prompt='%1(j.(%j jobs) .)'
 local dash_prompt="%{$fg_bold[white]%}<%{$reset_color%}%{$fg[white]%}<<%{$reset_color%}"
-PROMPT='${user_prompt}@%m:%3~ ${jobs_prompt}${vcs_info_msg_0_}▶ '
+#local jhbuild_prompt=
+if [[ "$UNDER_JHBUILD" == "true" ]]; then
+    local jhbuild_prompt="%{$fg_bold[green]%}[jh]%{$reset_color%} "
+fi
+PROMPT='${user_prompt}@%m:%3~ ${jhbuild_prompt}${jobs_prompt}${vcs_info_msg_0_}▶ '
 RPS1='%(?..${dash_prompt} %{$fg_bold[red]%}%? ↵%{$reset_color%})'
 
 
