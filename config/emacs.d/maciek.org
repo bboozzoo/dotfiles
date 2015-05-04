@@ -63,14 +63,14 @@
   #+end_src
 
   Helper to reload buffer from file only if it was modified. As for
-  confirmation only if modified. Bind to =C-<f5>=.
+  confirmation only if modified. Bind to =<f5>=.
 
   #+begin_src emacs-lisp
     (defun bozo-refresh-file ()
       (interactive)
       (revert-buffer t (not (buffer-modified-p)) t))
 
-    (global-set-key (kbd "C-<f5>") 'bozo-refresh-file)
+    (global-set-key (kbd "<f5>") 'bozo-refresh-file)
   #+end_src
 
   Whitespace cleanup helpers.
@@ -326,7 +326,7 @@
 
    #+begin_src emacs-lisp
      (use-package fill-column-indicator
-       :bind ("C-<f7>" . fci-mode))
+       :bind ("<f7>" . fci-mode))
 
    #+end_src
 
@@ -577,7 +577,7 @@
               ("M-x" . helm-M-x)
               ("C-x C-f" . helm-find-files)
               ("C-x C-b" . helm-mini)
-              ((kbd "C-<f12>") . helm-recentf)))
+              ((kbd "<f12>") . helm-recentf)))
      (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
    #+end_src
 
@@ -587,7 +587,7 @@
 
    #+begin_src emacs-lisp
      (use-package recentf
-       :bind ("C-<f12>" . recentf-open-files))
+       :bind ("<f12>" . recentf-open-files))
    #+end_src
 
 ** Smex (M-x)
@@ -612,8 +612,8 @@
 ** Speedbar
 
    Use =sr-speedbar= to embed speadbar in frame, similar to what ECB
-   does. Bind toggling to =C-<f9>=, switching to speedbar window with
-   =C-<f10>=.
+   does. Bind toggling to =<f9>=, switching to speedbar window with
+   =<f10>=.
 
    Requires =sr-speedbar= from ELPA.
 
@@ -633,8 +633,8 @@
                                                     .
                                                     speedbar-insert-imenu-list)))
        :bind
-       (("C-<f9>" . sr-speedbar-toggle)
-        ("C-<f10>" . sr-speedbar-select-window)))
+       (("<f9>" . sr-speedbar-toggle)
+        ("<f10>" . sr-speedbar-select-window)))
    #+end_src
 
 ** Ack
