@@ -14,7 +14,7 @@ URxvt.scrollWithBuffer: true
 URxvt.saveLines: 1000
 URxvt.termName: xterm-256color
 URxvt.intensityStyles: true
-URxvt.perl-ext-common: default,tabbed,matcher
+URxvt.perl-ext-common: default,matcher
 URxvt.url-launcher: /usr/bin/xdg-open
 URxvt.scrollTtyKeypress: true
 ! URxvt.inputMethod: ibus
