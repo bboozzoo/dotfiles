@@ -183,6 +183,23 @@
 
   #+end_src
 
+* Input maps
+
+  Handle terminal key mapping.
+
+  #+begin_src emacs-lisp
+    (mapc (lambda (key-seq)
+            (define-key input-decode-map (car key-seq) (cdr key-seq)))
+          '(("\e[1;2D" . [S-left])
+            ("\e[1;2C" . [S-right])
+            ("\e[1;2A" . [S-up])
+            ("\e[1;2B" . [S-down])
+            ("\e[1;3A" . [M-up])
+            ("\e[1;3B" . [M-down])
+            ("\e[1;3C" . [M-right])
+            ("\e[1;3D" . [M-left])))
+  #+end_src
+
 * General configuration
 
 ** Prelude
