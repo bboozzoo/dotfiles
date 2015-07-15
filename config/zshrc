@@ -111,7 +111,7 @@ preexec_title() {
 precmd_functions=(precmd_title precmd_vcs)
 preexec_functions=(preexec_title)
 
-ppid=$(ps -p $$ -o ppid --no-headers)
+ppid=$(ps -p $$ -o ppid --no-headers | tr -d ' ')
 if grep gnome-terminal /proc/$ppid/cmdline >&/dev/null; then
     # gnome terminal does not set TERM
     TERM=gnome-256color
