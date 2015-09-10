@@ -568,6 +568,33 @@
 
    #+end_src
 
+** Org mode
+
+   Task state cycling kewords
+
+   #+begin_src emacs-lisp
+     ;; default task cycling
+     ;; if other is needed override with buffer local settings
+     ;; see: http://orgmode.org/manual/Tracking-TODO-state-changes.html
+     (setq org-todo-keywords
+           '((sequence "TODO(t!)" "HOLD(h@/!)" "STARTED(s!)" "|" "DONE(d!)" "CANCELLED(c@)")))
+
+   #+end_src
+
+   Some tuning, ex. log when task was marked as done, skip done items from deadline
+
+   #+begin_src emacs-lisp
+     (setq org-log-done 'time
+           org-agenda-skip-deadline-if-done t
+           org-agenda-skip-scheduled-if-done t
+           org-agenda-start-on-weekday 1
+           org-agenda-show-all-dates t
+           org-refile-use-outline-path t
+           org-outline-path-complete-in-steps nil
+           org-refile-targets '((org-agenda-files . (:maxlevel . 4))))
+
+   #+end_src
+
 ** Helm
 
    Taken from Sacha Chua's Emacs setup
