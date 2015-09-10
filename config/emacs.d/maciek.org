@@ -1211,6 +1211,8 @@
 
    #+begin_src emacs-lisp
      (use-package vala-mode)
+     (add-hook 'vala-mode-hook (lambda ()
+                                 (auto-complete-mode)))
    #+end_src
 
 * Other bindings
