@@ -145,7 +145,6 @@ if which emacsclient &> /dev/null ; then
 fi
 
 # for python
-alias pip='pip-python'
 alias pylab='ipython --pylab=gtk'
 alias ipythongui='ipython qtconsole'
 
