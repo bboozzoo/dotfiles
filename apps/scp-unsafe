@@ -1,0 +1,6 @@
+#!/bin/sh
+echo
+echo '--- DISABLING HOST KEY CHECKING'
+echo
+
+exec scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $*
