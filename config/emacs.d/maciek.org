@@ -785,6 +785,13 @@
      (use-package eproject-compile)
    #+end_src
 
+   Setup ~<C-=>~ for code folding.
+
+   #+begin_src emacs-lisp
+     (use-package hideshow
+       :bind ("C-=" . hs-toggle-hiding))
+   #+end_src
+
 ** Tags
 
    Use =GNU Global= via =ggtags=.
