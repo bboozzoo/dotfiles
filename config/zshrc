@@ -121,7 +121,16 @@ elif [[ -n "$TMUX" ]]; then
         [[ "$TERM" != "screen-256color" ]] && TERM=screen-256color
     fi
 else
-   TERM=xterm-256color
+    # do nothing if TERM is already set to something specific
+    case "$TERM" in
+        *rxvt*)
+            ;;
+        *256color*)
+            ;;
+        *)
+            TERM=xterm-256color
+            ;;
+    esac
 fi
 export TERM
 
