@@ -1,0 +1,6 @@
+# udev rules for some USB serial converters
+
+ENV{ID_BUS}=="usb", ENV{ID_VENDOR_ID}=="0403", ENV{ID_MODEL_ID}=="6014", ENV{ID_SERIAL}=="*", MODE="666"
+ENV{ID_BUS}=="usb", ENV{ID_VENDOR_ID}=="0403", ENV{ID_MODEL_ID}=="6001", ENV{ID_SERIAL}=="*", MODE="666"
+ENV{ID_BUS}=="usb", ENV{ID_VENDOR_ID}=="06cd", ENV{ID_MODEL_ID}=="0121", ENV{ID_SERIAL}=="*", MODE="666"
+
