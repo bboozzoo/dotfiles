@@ -1,56 +1,96 @@
 #!/usr/bin/python
 
+from __future__ import print_function
+import argparse
+import logging
+import threading
+
+LOCK = threading.RLock()
+
+
 def get_password(user_name):
     import keyring
-    passwd = keyring.get_password('mail', user_name)
+
+    passwd = None
+    try:
+        with LOCK:
+            store = keyring.backends.SecretService.Keyring()
+            passwd = store.get_password('mail', user_name)
+    except Exception:
+        logging.exception('failed getting password')
 
     return passwd
 
 
 def get_or_set_password(user_name):
-    passwd = get_password(user_name)
 
-    if not passwd:
-        passwd = set_password(user_name)
+    with LOCK:
+        try:
+            passwd = get_password(user_name)
+
+            if not passwd:
+                passwd = set_password(user_name)
+        except Exception as ex:
+            logging.exception('error getting or setting password')
 
     return passwd
 
+
 def set_password(user_name):
+    import getpass
+    import keyring
+
     passwd = None
 
-    import getpass
     pw = getpass.getpass('password for %s: ' % (user_name))
     if pw:
         passwd = pw
 
     if passwd:
-        import keyring
-        keyring.set_password('mail', user_name, passwd)
+        try:
+            with LOCK:
+                store = keyring.backends.Gnome.Keyring()
+                store.set_password('mail', user_name, passwd)
+        except Exception:
+            logging.exception('failed setting password')
+
 
     return passwd
 
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='Password helper')
+    parser.add_argument('-m', '--mutt',
+                        dest='mutt_name',
+                        type=str, default='',
+                        help='output a mutt password stanza for given account')
+
+    parser.add_argument('cmd', help='command (get|set)')
+    parser.add_argument('account', help='account')
+
+    return parser.parse_args()
 
 def main():
     """
     """
-    import sys
 
-    if len(sys.argv) < 3:
-        raise SystemExit(5)
+    logging.basicConfig(level=logging.DEBUG)
 
-    cmd = sys.argv[1]
-    user = sys.argv[2]
-    if cmd == 'set':
-        set_password(user)
-    elif cmd == 'get':
-        passwd = get_password(user)
+    opts = parse_arguments()
+
+    if opts.cmd == 'set':
+        set_password(opts.account)
+    elif opts.cmd == 'get':
+        passwd = get_password(opts.account)
         if not passwd:
-            print 'not set'
+            print('not set')
             raise SystemExit(2)
         else:
-            print passwd
+            if opts.mutt_name:
+                print('set {:s}={:s}'.format(opts.mutt_name, passwd))
+            else:
+                print(passwd)
     else:
-        print 'uknown command'
+        logging.error('unknown command')
         raise SystemExit(3)
 
 if __name__ == '__main__':
