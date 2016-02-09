@@ -70,6 +70,9 @@ fi
 PROMPT='${user_prompt}@%m:%3~ ${jhbuild_prompt}${jobs_prompt}${vcs_info_msg_0_}'
 RPS1='%(?..${dash_prompt} %{$fg_bold[red]%}%? ↵%{$reset_color%})'
 
+simpleps1() {
+    PROMPT='%n:%3~$ '
+}
 
 # set terminal tile
 function title() {
