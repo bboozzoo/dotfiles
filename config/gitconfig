@@ -11,6 +11,10 @@
         thread = true
 [gc]
         auto = 1
+
+[diff]
+        renames = true
+
 [alias]
     fp = format-patch --full-index
     lod = log --oneline --decorate
