@@ -1,10 +1,10 @@
 [user]
-	name = Maciek Borzecki
-	email = maciek.borzecki@gmail.com
+        name = Maciek Borzecki
+        email = maciek.borzecki@gmail.com
 [color]
-	diff = auto
-	status = auto
-	branch = auto
+        diff = auto
+        status = auto
+        branch = auto
 [format]
         coverLetter = auto
         signoff = true
