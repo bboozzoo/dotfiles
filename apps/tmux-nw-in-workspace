@@ -20,7 +20,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-WORKSPACE_CONF=$PWD/workspace.conf
+[ -n "$WORKSPACE_CONF" ] || WORKSPACE_CONF=$PWD/workspace.conf
 
 [ -e $WORKSPACE_CONF ] || {
     echo "-- ceating sample workspace config in $WORKSPACE_CONF"
@@ -66,4 +66,4 @@ fi
 
 window_name="${NAME_PATTERN}${new_idx}"
 
-tmux new-window -n $window_name -c $PWD "source $ENV_SETUP && $SHELL"
+tmux new-window -n $window_name -c $PWD "source $ENV_SETUP && export WORKSPACE_CONF=$WORKSPACE_CONF && $SHELL"
