@@ -48,22 +48,36 @@ EOF
 
 source $WORKSPACE_CONF
 
-# tmux list-windows:
-# 0: python (1 panes) [239x73] [layout c1dd,239x73,0,0,0] @0
-# 1: mutt (1 panes) [239x73] [layout c1de,239x73,0,0,1] @1
-# 2: m1* (1 panes) [239x73] [layout c1df,239x73,0,0,2] @2 (active)
-# 3: work-1- (1 panes) [239x73] [layout 6125,239x73,0,0,35] @35
-last_window=$(tmux list-windows | \
-                     awk "/$NAME_PATTERN/ { print \$2 }" | \
-                     sed -e 's/[-\*]$//' | \
-                     sort -n | \
-                     tail -1)
-new_idx=1
-if [ -n "$last_window" ]; then
-    last_idx="${last_window#$NAME_PATTERN}"
-    new_idx=$(($last_idx + 1))
-fi
+guess_window_name() {
+    # tmux list-windows:
+    # 0: python (1 panes) [239x73] [layout c1dd,239x73,0,0,0] @0
+    # 1: mutt (1 panes) [239x73] [layout c1de,239x73,0,0,1] @1
+    # 2: m1* (1 panes) [239x73] [layout c1df,239x73,0,0,2] @2 (active)
+    # 3: work-1- (1 panes) [239x73] [layout 6125,239x73,0,0,35] @35
+    last_window=$(tmux list-windows | \
+                         awk "/$NAME_PATTERN/ { print \$2 }" | \
+                         sed -e 's/[-\*]$//' | \
+                         sort -n | \
+                         tail -1)
+    new_idx=1
+    if [ -n "$last_window" ]; then
+        last_idx="${last_window#$NAME_PATTERN}"
+        new_idx=$(($last_idx + 1))
+    fi
 
-window_name="${NAME_PATTERN}${new_idx}"
+    echo "${NAME_PATTERN}${new_idx}"
+}
 
-tmux new-window -n $window_name -c $PWD "source $ENV_SETUP && export WORKSPACE_CONF=$WORKSPACE_CONF && $SHELL"
+case "$1" in
+    "-h")
+        tmux_cmd='split-window -h'
+        ;;
+    "-v")
+        tmux_cmd='split-window -v'
+        ;;
+    *)
+        window_name=$(guess_window_name)
+        tmux_cmd="new-window -n $window_name"
+esac
+
+tmux $tmux_cmd -c $PWD "source $ENV_SETUP && export WORKSPACE_CONF=$WORKSPACE_CONF && $SHELL"
