@@ -1,0 +1,13 @@
+.ssd headerbar.titlebar {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    min-height: 0;
+    
+}
+
+.ssd headerbar.titlebar button.titlebutton {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    min-height: 0;
+    
+}
