@@ -5,16 +5,22 @@ import argparse
 import logging
 import threading
 
+# workaround warning in pykeyring when inporting GnomeKeyring
+import gi
+gi.require_version('GnomeKeyring', '1.0')
+
+from keyring.backends.Gnome import Keyring
+
+
 LOCK = threading.RLock()
 
 
 def get_password(user_name):
-    import keyring
 
     passwd = None
     try:
         with LOCK:
-            store = keyring.backends.SecretService.Keyring()
+            store = Keyring()
             passwd = store.get_password('mail', user_name)
     except Exception:
         logging.exception('failed getting password')
@@ -49,7 +55,7 @@ def set_password(user_name):
     if passwd:
         try:
             with LOCK:
-                store = keyring.backends.Gnome.Keyring()
+                store = Keyring()
                 store.set_password('mail', user_name, passwd)
         except Exception:
             logging.exception('failed setting password')
