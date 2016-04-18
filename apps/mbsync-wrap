@@ -17,9 +17,10 @@ class MbsyncMailFetcher(object):
 
     def fetch(self):
         logging.debug('mbsync args: %r', self.__args)
-        res = subprocess.check_call(self.__args)
-        if res != 0:
-            logging.warning('calling mbsync failed')
+        try:
+            subprocess.check_call(self.__args)
+        except subprocess.CalledProcessError:
+            logging.exception('calling mbsync failed')
 
 
 def parse_arguments():
