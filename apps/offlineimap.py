@@ -9,7 +9,7 @@ import threading
 import gi
 gi.require_version('GnomeKeyring', '1.0')
 
-from keyring.backends.Gnome import Keyring
+from keyring.backends.SecretService import Keyring
 
 
 LOCK = threading.RLock()
