@@ -1,0 +1,58 @@
+#!/usr/bin/python3
+
+import sys
+import argparse
+import subprocess
+import logging
+import time
+
+
+class MbsyncMailFetcher(object):
+
+    MBSYNC = 'mbsync'
+
+    def __init__(self, args):
+        self.__args = [self.MBSYNC]
+        self.__args += args.split(' ')
+
+    def fetch(self):
+        logging.debug('mbsync args: %r', self.__args)
+        res = subprocess.check_call(self.__args)
+        if res != 0:
+            logging.warning('calling mbsync failed')
+
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='mbsync wrapper')
+    parser.add_argument('-r', '--refresh-time', default=10,
+                        help='Mail refresh interval in seconds')
+    parser.add_argument('-m', '--mbsync-args', default='-a -q',
+                        help='Arguments to pass to mbsync invocation')
+    parser.add_argument('-d', '--debug', default=False, action='store_true',
+                        help='Debug logging')
+
+    return parser.parse_args()
+
+
+def main(opts):
+    fetcher = MbsyncMailFetcher(opts.mbsync_args)
+
+    while True:
+        logging.info('triggering mail refresh')
+        fetcher.fetch()
+        time.sleep(float(opts.refresh_time))
+
+
+if __name__ == '__main__':
+    opts = parse_arguments()
+
+    if opts.debug:
+        level = logging.DEBUG
+    else:
+        level = logging.INFO
+
+    logging.basicConfig(level=level,
+                        format='%(asctime)s-%(levelname)s %(message)s')
+    logging.info('starting up...')
+    main(opts)
+
