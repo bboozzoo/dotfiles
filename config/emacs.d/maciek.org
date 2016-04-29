@@ -1252,6 +1252,17 @@
                                      (auto-complete-mode)))))
    #+end_src
 
+** Go
+
+   #+begin_src emacs-lisp
+     (use-package go-mode
+       :config
+       (progn
+         (add-hook 'go-mode-hook (lambda ()
+                               (subword-mode)))
+         (add-hook 'before-save-hook 'gofmt-before-save)))
+   #+end_src
+
 * Other bindings
 
   Disable background mode.
