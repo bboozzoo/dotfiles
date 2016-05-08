@@ -167,6 +167,8 @@
                                    smex
                                    vala-mode
                                    dts-mode
+                                   go-mode
+                                   go-autocomplete
                                    ))
   #+end_src
 
