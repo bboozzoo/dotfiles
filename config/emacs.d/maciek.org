@@ -1260,6 +1260,7 @@
      (use-package go-mode
        :config
        (progn
+         (use-package go-autocomplete)
          (add-hook 'go-mode-hook (lambda ()
                                (subword-mode)))
          (add-hook 'before-save-hook 'gofmt-before-save)))
