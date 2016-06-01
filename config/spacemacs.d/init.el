@@ -38,7 +38,7 @@ values."
      rust
      go
      ibuffer
-     smex
+     ;; smex
      ;; customization layer
      bboozzoo
      )
