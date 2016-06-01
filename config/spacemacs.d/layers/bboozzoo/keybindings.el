@@ -7,3 +7,6 @@
 
 ;; bind file refresh to F5
 (global-set-key (kbd "<f5>") 'bboozzoo/refresh-file)
+
+;; bring up recent files with F12
+(global-set-key (kbd "<f12>") 'helm-recentf)
