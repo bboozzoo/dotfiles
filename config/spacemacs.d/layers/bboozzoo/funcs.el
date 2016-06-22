@@ -52,4 +52,5 @@
     scroll-preserve-screen-position t))
 
 (defun bboozzoo/init()
-  (bboozzoo/scroll-init))
+  (bboozzoo/scroll-init)
+  (global-subword-mode +1))
