@@ -39,6 +39,7 @@ values."
      go
      ibuffer
      ;; smex
+     vala
      ;; customization layer
      bboozzoo
      )
