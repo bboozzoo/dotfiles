@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo "-- remove these libraries, eg. $(basename $0) | rm -f" 1>&2
+find ~/.local/share/Steam/ \( -name "libgcc_s.so*" -o -name "libstdc++.so*" -o -name "libxcb.so*" \) -print
+find ~/.steam/root/ \( -name "libgcc_s.so*" -o -name "libstdc++.so*" -o -name "libxcb.so*" \) -print
+find ~/.steam/root/ -name "libgpg-error.so*" -print
