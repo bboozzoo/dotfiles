@@ -1,0 +1,43 @@
+#!/bin/sh
+
+log() {
+    echo "-- $(date) $*"
+}
+
+usage() {
+    echo "Usage:"
+    echo "  $(basename $0) [-h|--help] <litany>"
+    echo
+    echo "Litanies:"
+    echo " hate  - purge stale containers, volumes, images"
+}
+
+hate() {
+    echo "  Docker Litany of Hate"
+    echo
+
+    log "purging heretic containers"
+    exited=$(docker ps -a -f status=exited -q)
+    [ -n "$exited" ] && docker rm -v $exited
+
+    log "purging heretic volumes"
+    dangling=$(docker volume ls -f dangling=true -q)
+    [ -n "$dangling" ] && docker volume rm $dangling
+
+    log "purging heretic images"
+    none=$(docker images |grep -e '^<none' | awk '{print $3}')
+    [ -n "$none" ] && docker rmi -f $none
+}
+
+case $1 in
+    hate)
+        hate
+        ;;
+    -h|--help)
+        usage
+        ;;
+    *)
+        echo "ERROR: unknown litany $1, see --help"
+        exit 1
+        ;;
+esac
