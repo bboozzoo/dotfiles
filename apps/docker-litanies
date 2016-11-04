@@ -25,7 +25,7 @@ hate() {
     [ -n "$dangling" ] && docker volume rm $dangling
 
     log "purging heretic images"
-    none=$(docker images |grep -e '^<none' | awk '{print $3}')
+    none=$(docker images -q -f dangling=true)
     [ -n "$none" ] && docker rmi -f $none
 }
 
