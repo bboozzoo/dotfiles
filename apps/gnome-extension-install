@@ -6,7 +6,11 @@ import argparse
 import requests
 
 from gi.repository import Gio
-from bs4 import BeautifulSoup
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    print('beautifulsoup4 required, install it using your distribution\'s package manager or directly by calling `pip install --user beautifulsoup4`')
+    raise SystemExit(1)
 
 
 def parse_arguments():
