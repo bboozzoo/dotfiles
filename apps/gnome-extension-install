@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+
+import logging
+import argparse
+
+import requests
+
+from gi.repository import Gio
+from bs4 import BeautifulSoup
+
+
+def parse_arguments():
+    """returns parsed options"""
+    parser = argparse.ArgumentParser(description='gnome-extension-install')
+    parser.add_argument('url', help='extensions.gnome.org page link, eg. https://extensions.gnome.org/extension/6/applications-menu/')
+
+    return parser.parse_args()
+
+
+def install_extension(uuid):
+    """Install extension by invoking
+    org.gnome.Shell.Extensions.InstallRemoteExtension over session bus"""
+    logging.debug('establishing proxy to Gnome Shell')
+    extensions = Gio.DBusProxy.new_for_bus_sync(Gio.BusType.SESSION,
+                                                0, None,
+                                                'org.gnome.Shell',
+                                                '/org/gnome/Shell',
+                                                'org.gnome.Shell.Extensions',
+                                                None)
+
+    logging.info('requesting Gnome Shell to install extension %s', uuid)
+    res = extensions.InstallRemoteExtension('(s)', uuid)
+    logging.debug('result %s', res)
+
+
+def get_extension_uuid(url):
+    """Extract extension UUID from its extensions.gnome.org page. Returns UUID or
+    None if none was found"""
+    try:
+        rsp = requests.get(url)
+        rsp.raise_for_status()
+    except requests.exceptions.RequestException as rex:
+        logging.error('failed to download extension page: %s', rex)
+        return None
+
+    bs = BeautifulSoup(rsp.text, 'html.parser')
+    # locate tag that has uuid-data attribute, this attribute holds extension
+    # UUID
+    tag = bs.find(lambda tag: tag.has_attr('data-uuid'))
+    if not tag:
+        raise RuntimeError('failed to locate extension UUID tag')
+    uuid = tag.attrs.get('data-uuid', None)
+
+    return uuid
+
+
+def main():
+    opts = parse_arguments()
+    logging.debug('locating extension from URL %s', opts.url)
+    uuid = get_extension_uuid(opts.url)
+
+    if uuid:
+        logging.info('extension UUID: %s', uuid)
+        install_extension(uuid)
+    else:
+        raise SystemExit(1)
+
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s %(levelname)-8s: %(message)s')
+    main()
