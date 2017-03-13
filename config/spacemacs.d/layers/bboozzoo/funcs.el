@@ -53,4 +53,17 @@
 
 (defun bboozzoo/init()
   (bboozzoo/scroll-init)
+  (bboozzoo/tramp-controlmaster-disable)
   (global-subword-mode +1))
+
+(defun bboozzoo/tramp-controlmaster-disable()
+  "Disable tramp's ssh ControlMaster settings"
+  (setq tramp-ssh-controlmaster-options ""))
+
+(defun bboozzoo/magit-ssh-performance()
+  "Performance improvements for magith with ssh"
+  (interactive)
+  (setq magit-refresh-status-buffer nil
+        auto-revert-buffer-list-filter 'magit-auto-revert-repository-buffer-p
+        magit-refresh-verbose t)
+  (bboozzoo/tramp-controlmaster-disable))
