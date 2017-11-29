@@ -20,6 +20,7 @@
     lod = log --oneline --decorate
     lol = log --oneline --graph --decorate
     lou = log --oneline --graph --decorate --branches --not --remotes
+    lon = log --oneline --graph --decorate --no-merges
     loggr = log --grep
     last = log --oneline --graph --decorate -1
     really-clean = clean -fdx
@@ -29,6 +30,8 @@
     ls-not-added = ls-files --others --exclude-standard
     ls-staged = diff --cached --name-status
     branches = branch -vv
+    recent-branches = branch --sort=committerdate --format='%(HEAD) %(align:width=40)%(refname:short)%(end) %(objectname:short)%(if)%(upstream)%(then) %(color:blue)%(upstream:lstrip=2)%(color:reset) %(upstream:track):%(end) %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+
 [push]
     default = current
 
