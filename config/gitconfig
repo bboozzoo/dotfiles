@@ -32,6 +32,57 @@
     branches = branch -vv
     recent-branches = branch --sort=committerdate --format='%(HEAD) %(align:width=40)%(refname:short)%(end) %(objectname:short)%(if)%(upstream)%(then) %(color:blue)%(upstream:lstrip=2)%(color:reset) %(upstream:track):%(end) %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
 
+    # from https://gist.github.com/metlos/9368527
+    #lists all "tips" of branches - i.e. any commit appearing without
+    #an outgoing "edge" is represents a branch not merged anywhere else
+    #if no argument is given, shows all branches (local and remote).
+    #if an argument is given, limits the branches to the given remote.
+    unmerged = "!sh -c '\
+        if [ -z $1 ]; then \
+            what=\"--all\"; \
+        else \
+            what=\"--remotes=$1\"; \
+        fi; \
+        git log $what --graph --oneline --decorate --simplify-by-decoration --topo-order;' -"
+    # lists all open pull requests in the repo
+    # git pr-opened origin
+    pr-opened = "!sh -x -c '\
+        user_and_repo=`git remote show $1 | grep \"Fetch URL\" | sed -E \"s/.*github.com[:\\/]([a-zA-Z_\\-]+)\\/([a-zA-Z_\\-]+)\\.git$/\\1 \\2/\"`; \
+        user=`echo $user_and_repo | cut -d\" \" -f1`; \
+        repo=`echo $user_and_repo | cut -d\" \" -f2`; \
+        git ls-remote $1 \
+        | grep -E \"refs\\/pull\\/[[:digit:]]+\\/head\" \
+        | while read line; do \
+                commit=`echo $line | cut -d\" \" -f1`;\
+                ref=`echo $line | cut -d\" \" -f2`;\
+                exists=`git rev-list $1/$ref | grep $commit | wc -l`;\
+                if [ -z $exists -o $exists -eq 0 ]; then\
+                    merged=0;\
+                else\
+                    merged=`git branch -r --no-color --contains $commit | grep -E \"$1/master$\" | wc -l`; \
+                fi;\
+                if [ $merged -eq 0 ]; then \
+                    pull=`echo $ref | sed \"s/refs\\/pull\\///\" | sed \"s/\\/head//\"`; \
+                    title=`curl -si https://api.github.com/repos/$user/$repo/pulls/$pull | grep \"\\\"title\\\": \" | sed \"s/^ *\\\"title\\\": \\\"//\" | sed \"s/\\\",$//\"`; \
+                    echo \"pull/$pull: $title\"; \
+                fi \
+            done' -"
+
+    # checks out given pull request to a new local branch
+    # if branch name not specified it defaults to "pull/<number>"
+    #
+    # git pr-checkout origin 12 pull/12
+    pr-checkout = "!sh -c '\
+        if [ \"$1\" = \"\" -o \"$2\" = \"\" ]; then \
+            echo \"usage: git pr-checkout <remote> <pr#> [<branch>]\"; exit 1; \
+        fi; \
+        name=$3; \
+        if [ -z $name ]; then name="pull/$2"; fi; \
+        git fetch $1 pull/$2/head:$name; \
+        git checkout $name' -"
+    #prunes all remote branches
+    prune-all = !git remote | xargs -n 1 git remote prune
+
 [push]
     default = current
 
