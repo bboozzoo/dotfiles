@@ -10,3 +10,6 @@
 
 ;; bring up recent files with F12
 (global-set-key (kbd "<f12>") 'helm-recentf)
+
+(spacemacs/set-leader-keys-for-major-mode 'go-mode
+  "gb" 'pop-tag-mark)
