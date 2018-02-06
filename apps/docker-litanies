@@ -29,9 +29,19 @@ hate() {
     [ -n "$none" ] && docker rmi -f $none
 }
 
+iplist() {
+    net=$1
+    docker network inspect $net -f "{{range .Containers}}{{- .Name}}: {{ .IPv4Address -}} {{ .IPv6Address}}
+{{end}}"
+}
+
 case $1 in
     hate)
         hate
+        ;;
+    iplist)
+        shift
+        iplist $*
         ;;
     -h|--help)
         usage
