@@ -1,0 +1,13 @@
+[Unit]
+Description=tmux default session (detached)
+Documentation=man:tmux(1)
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/tmux new-session -d -s %I
+ExecStop=/usr/bin/tmux kill-session -t %I
+KillMode=none
+
+[Install]
+WantedBy=default.target
