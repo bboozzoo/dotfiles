@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# upgpkg: Upgrades package versions in PKGBUILD and starts build.
+# Author: Abhishek Dasgupta <abhidg at gmail.com>
+#         Thanks to cactus, profjim and daenyth for all the sed help!
+# Edited: Florian Pritz <flo at xinu.at>
+
+# I place this script in the public domain.
+
+VERSION=0.3
+
+die() {
+    local message="$1"
+    shift
+    printf "$(gettext "Error: $message")\n" "$@"
+    exit 1
+}
+
+warn() {
+    local message="$1"
+    shift
+    printf "$(gettext "Warning: $message")\n" "$@"
+}
+
+scriptlet() {
+  if [ -f "upgpkg" ]; then
+    upgpkg_$1 || die "\"$1\" scriptlet failed"
+  fi
+}
+
+help() {
+  echo "upgpkg $VERSION"
+  printf "$(gettext "usage: upgpkg [options] newver")\n"
+  printf "$(gettext "      -h     this help")\n"
+  printf "$(gettext "      -g     generate a template ./upgpkg file")\n"
+  exit 2
+}
+
+if [ -z "$1" ]; then
+  help
+fi
+
+while getopts "gh" OPTION; do
+  case $OPTION in
+    g)
+      cat > upgpkg <<EOF
+upgpkg_pre_upgrade() {
+  # You might want to remove old sources here
+  true
+}
+
+upgpkg_build() {
+  makepkg
+}
+EOF
+      exit;
+      ;;
+    h) help;
+  esac
+done
+
+# Main code follows
+
+[ ! -f PKGBUILD ] && die "No \"%s\" in %s" "PKGBUILD" "$PWD"
+
+if [ -f "upgpkg" ]; then
+  source ./upgpkg
+fi
+
+source PKGBUILD
+
+scriptlet pre_upgrade
+
+if [ $(vercmp $1 $pkgver) -ge 0 ]; then
+    warn "New version (%s) older or equal to current %s" "$1" "$pkgver"
+fi
+
+sed -i "s/pkgver=.*$/pkgver=$1/g" PKGBUILD
+sed -i "s/pkgrel=.*$/pkgrel=1/g" PKGBUILD
+awk <PKGBUILD '$0 ~ /^(md5|sha[0-9]+)sums/ {i = 1; if(!run==1) {system("makepkg -g 2>/dev/null")}; run=1; }; !i {print}; $0 ~ /\)/ {i = 0}' | sponge PKGBUILD
+
+scriptlet build
