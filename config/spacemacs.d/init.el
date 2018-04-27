@@ -34,6 +34,9 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     javascript
+     html
+     nginx
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -62,6 +65,7 @@ This function should only modify configuration layer settings."
      gtags
      yaml
      python
+     meson
      )
 
    ;; List of additional packages that will be installed without being
@@ -71,7 +75,9 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(
+                                      rpm-spec-mode
+                                      )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -116,7 +122,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
-   ;; lastest version of packages from MELPA. (default nil)
+   ;; latest version of packages from MELPA. (default nil)
    dotspacemacs-use-spacelpa nil
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
@@ -192,12 +198,20 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("xos4 Terminus"
-                               :size 13
-                               :weight normal
-                               :width normal
-                               :powerline-scale 1.0)
-
+   dotspacemacs-default-font (let ((host (system-name)))
+                               (cond ((string= host "galeon")
+                                      '("Ubuntu Mono"
+                                        :size 20
+                                        :weight normal
+                                        :width normal
+                                        :powerline-scale 1.0))
+                                     ;; default
+                                     (t
+                                      '("Ubuntu Mono"
+                                        :size 13
+                                        :weight normal
+                                        :width normal
+                                        :powerline-scale 1.0))))
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
 
@@ -386,10 +400,12 @@ It should only modify the values of Spacemacs settings."
    ;; emphasis the current one). (default 'all)
    dotspacemacs-highlight-delimiters 'all
 
+   ;; If non-nil, start an Emacs server if one is not already running.
+   dotspacemacs-enable-server t
+
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
    dotspacemacs-persistent-server nil
-
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
    ;; (default '("rg" "ag" "pt" "ack" "grep"))
