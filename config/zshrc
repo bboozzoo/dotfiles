@@ -1,9 +1,5 @@
 # -*- mode: sh -*-
 
-TMPPREFIX=/tmp/
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
 # emacs key bindings
 bindkey -e
 bindkey "^[[H" beginning-of-line
@@ -137,9 +133,6 @@ else
 fi
 export TERM
 
-# paths
-PATH="$PATH:$HOME/bin:$HOME/.local/bin"
-
 # aliases
 alias grep='grep --color=auto'
 alias ls='ls --color=auto'
@@ -168,8 +161,6 @@ PAGER='less'
 alias mwork='mutt -F ~/.config-custom/mutt/work'
 # locale
 #LC_ALL=C
-
-BOOKMARKFILE=~/.zsh-bookmarks
 
 # exports
 export PATH PAGER TERM LC_ALL

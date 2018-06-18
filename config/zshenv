@@ -1,0 +1,14 @@
+# basics
+TMPPREFIX=/tmp/
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+
+# paths
+PATH="$PATH:$HOME/bin:$HOME/.local/bin"
+
+# bookmarks
+BOOKMARKFILE=~/.zsh-bookmarks
+
+# exports
+export PATH PAGER
