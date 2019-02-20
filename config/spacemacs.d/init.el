@@ -68,6 +68,7 @@ This function should only modify configuration layer settings."
      python
      meson
      lua
+     selinux
      )
 
    ;; List of additional packages that will be installed without being
