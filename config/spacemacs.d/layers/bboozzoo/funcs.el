@@ -54,7 +54,8 @@
 (defun bboozzoo/init()
   (bboozzoo/scroll-init)
   (bboozzoo/tramp-controlmaster-disable)
-  (global-subword-mode +1))
+  (global-subword-mode +1)
+  (windmove-default-keybindings))
 
 (defun bboozzoo/tramp-controlmaster-disable()
   "Disable tramp's ssh ControlMaster settings"
