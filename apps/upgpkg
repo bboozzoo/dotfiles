@@ -7,24 +7,48 @@
 
 # I place this script in the public domain.
 
-VERSION=0.3
+VERSION=0.4
+
+# from makepkg
+unset ALL_OFF BOLD BLUE GREEN RED YELLOW
+if [[ -t 2 ]]; then
+	# prefer terminal safe colored and bold text when tput is supported
+	if tput setaf 0 &>/dev/null; then
+		ALL_OFF="$(tput sgr0)"
+		BOLD="$(tput bold)"
+		BLUE="${BOLD}$(tput setaf 4)"
+		GREEN="${BOLD}$(tput setaf 2)"
+		RED="${BOLD}$(tput setaf 1)"
+		YELLOW="${BOLD}$(tput setaf 3)"
+	else
+		ALL_OFF="\033[1;0m"
+		BOLD="\033[1;1m"
+		BLUE="${BOLD}\033[1;34m"
+		GREEN="${BOLD}\033[1;32m"
+		RED="${BOLD}\033[1;31m"
+		YELLOW="${BOLD}\033[1;33m"
+	fi
+fi
+readonly ALL_OFF BOLD BLUE GREEN RED YELLOW
 
 die() {
     local message="$1"
     shift
-    printf "$(gettext "Error: $message")\n" "$@"
+    printf "$RED==> $(gettext "Error"):$ALL_OFF $(gettext "$message")\n" "$@"
     exit 1
 }
 
 warn() {
     local message="$1"
     shift
-    printf "$(gettext "Warning: $message")\n" "$@"
+    printf "$YELLOW==> $(gettext "Warning"):$ALL_OFF $(gettext "$message")\n" "$@"
 }
 
 scriptlet() {
   if [ -f "upgpkg" ]; then
-    upgpkg_$1 || die "\"$1\" scriptlet failed"
+    if [[ $(type -t upgpkg_$1) = "function" ]]; then
+      upgpkg_$1 || die "\"%s\" scriptlet failed" $1
+    fi
   fi
 }
 
@@ -59,8 +83,6 @@ EOF
   esac
 done
 
-# Main code follows
-
 [ ! -f PKGBUILD ] && die "No \"%s\" in %s" "PKGBUILD" "$PWD"
 
 if [ -f "upgpkg" ]; then
@@ -71,12 +93,25 @@ source PKGBUILD
 
 scriptlet pre_upgrade
 
-if [ $(vercmp $1 $pkgver) -ge 0 ]; then
+if [[ $(vercmp $1 $pkgver) -le 0 ]]; then
     warn "New version (%s) older or equal to current %s" "$1" "$pkgver"
 fi
 
 sed -i "s/pkgver=.*$/pkgver=$1/g" PKGBUILD
 sed -i "s/pkgrel=.*$/pkgrel=1/g" PKGBUILD
 awk <PKGBUILD '$0 ~ /^(md5|sha[0-9]+)sums/ {i = 1; if(!run==1) {system("makepkg -g 2>/dev/null")}; run=1; }; !i {print}; $0 ~ /\)/ {i = 0}' | sponge PKGBUILD
+
+source PKGBUILD
+if [ -f "upgpkg" ]; then
+  source ./upgpkg
+fi
+
+for i in $gpgsource; do
+  sigfile="$(basename "$i")"
+  if [[ $sigfile != $i ]]; then
+    wget -nv  -O "$sigfile" "$i"
+  fi
+  gpg2 --verify "$sigfile" || die "Signature verification failed!"
+done
 
 scriptlet build
