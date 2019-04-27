@@ -68,3 +68,12 @@
         auto-revert-buffer-list-filter 'magit-auto-revert-repository-buffer-p
         magit-refresh-verbose t)
   (bboozzoo/tramp-controlmaster-disable))
+
+(defun bboozzoo/frame-decorate-toggle()
+  (interactive)
+  (let ((decorate (frame-parameter nil 'undecorate)))
+    (message "decorate %s, not %s" decorate (not decorate))
+    (set-frame-parameter nil 'undecorated (not decorate))))
+
+(defun bboozzoo/frame-tweaks-init()
+  (add-to-list 'default-frame-alist '(undecorated . t)))
