@@ -19,7 +19,7 @@
     fp = format-patch --full-index
     lod = log --oneline --decorate
     lol = log --oneline --graph --decorate
-    lou = log --oneline --graph --decorate --branches --not --remotes
+    lou = "!sh -x -c 'git log --oneline --graph --decorate \"${1-@}\" \"^$1@{upstream}\"' ${1-HEAD}"
     lon = log --oneline --graph --decorate --no-merges
     loggr = log --grep
     last = log --oneline --graph --decorate -1
@@ -31,6 +31,7 @@
     ls-staged = diff --cached --name-status
     branches = branch -vv
     recent-branches = branch --sort=committerdate --format='%(HEAD) %(align:width=40)%(refname:short)%(end) %(objectname:short)%(if)%(upstream)%(then) %(color:blue)%(upstream:lstrip=2)%(color:reset) %(upstream:track):%(end) %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+    diff-to-upstream = "!sh -x -c 'git diff $(git merge-base ${1-HEAD} \"$1@{upstream}\")..${1-HEAD}"'
 
     # from https://gist.github.com/metlos/9368527
     #lists all "tips" of branches - i.e. any commit appearing without
@@ -82,9 +83,13 @@
         git checkout $name' -"
     #prunes all remote branches
     prune-all = !git remote | xargs -n 1 git remote prune
+    prune-merged = !git branch --format='%(HEAD) %(refname:short)' --merged |grep -v -e master -e '*' | xargs -r git branch -d
 
 [push]
     default = current
+
+[pull]
+    rebase = false
 
 [include]
     path = ~/.gitconfig-local
