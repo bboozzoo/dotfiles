@@ -55,7 +55,8 @@
   (bboozzoo/scroll-init)
   (bboozzoo/tramp-controlmaster-disable)
   (global-subword-mode +1)
-  (windmove-default-keybindings))
+  (windmove-default-keybindings)
+  (bboozzoo/fix-c-c++-indent))
 
 (defun bboozzoo/tramp-controlmaster-disable()
   "Disable tramp's ssh ControlMaster settings"
@@ -77,3 +78,8 @@
 
 (defun bboozzoo/frame-tweaks-init()
   (add-to-list 'default-frame-alist '(undecorated . t)))
+
+(defun bboozzoo/fix-c-c++-indent()
+  ;; disable pasting with formatting in C/C++
+  (add-to-list 'spacemacs-indent-sensitive-modes 'c-mode)
+  (add-to-list 'spacemacs-indent-sensitive-modes 'c++-mode))

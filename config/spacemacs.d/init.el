@@ -74,7 +74,8 @@ This function should only modify configuration layer settings."
      ;; customization layer
      bboozzoo
      (c-c++ :variables
-            c-c++-enable-organize-includes-on-save nil)
+            c-c++-enable-organize-includes-on-save nil
+            c-c++-enable-clang-format-on-save nil)
      (gtags :variables
             gtags-enable-by-default nil)
      yaml
