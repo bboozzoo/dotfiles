@@ -80,7 +80,8 @@ This function should only modify configuration layer settings."
             gtags-enable-by-default nil)
      yaml
      (python :variables
-             python-backend 'lsp python-lsp-server 'pylsp)
+             python-backend 'lsp python-lsp-server 'pylsp
+             python-formatter 'black)
      meson
      lua
      selinux
