@@ -5,10 +5,11 @@ HISTSIZE=1000
 SAVEHIST=1000
 
 # paths
-PATH="$PATH:$HOME/bin:$HOME/.local/bin"
+PATH="$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.cargo/bin"
 
 # bookmarks
 BOOKMARKFILE=~/.zsh-bookmarks
 
 # exports
 export PATH PAGER
+[ -e "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
