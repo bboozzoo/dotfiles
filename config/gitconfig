@@ -91,6 +91,23 @@
     #prunes all remote branches
     prune-all = !git remote | xargs -n 1 git remote prune
     prune-merged = !git branch --format='%(HEAD) %(refname:short)' --merged |grep -v -e master -e '*' | xargs -r git branch -d
+    drop-stale-local-branches = "!sh -c '\
+        if [ \"$1\" = \"\" ]; then \
+            echo \"usage: git drop-stale-local-branches <remote> \"; exit 1; \
+        fi; \
+        for b in $(git branch | sed -e \"s|\\*||\") ; do \
+            echo \"--- local branch $b\"; \
+            if ! git rev-parse \"origin/$b\" > /dev/null 2>&1; \
+                then echo \"--- candidate $b\"; git log --oneline -10 $b ; \
+                printf \"Delete? y/n [n] \"; \
+                read -r resp; \
+                if [ \"$resp\" = \"y\" ]; then \
+                    echo \"Removing branch $b\"; \
+                    git branch -D \"$b\"; \
+                fi; \
+            fi; \
+        done \
+        ' -"
 
 [push]
     default = current
