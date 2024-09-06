@@ -14,6 +14,13 @@
 
 [diff]
         renames = true
+        algorithm = histogram
+
+[merge]
+        conflictstyle = zdiff3
+
+[branch]
+        sort = -committerdate
 
 [alias]
     fp = format-patch --full-index
@@ -90,6 +97,11 @@
 
 [pull]
     rebase = false
+    ff = only
 
 [include]
     path = ~/.gitconfig-local
+
+[url "git+ssh://maciek-borzecki@git.launchpad.net/"]
+     insteadof = lp:
+
