@@ -8,4 +8,25 @@
 
 (bboozzoo/frame-decorate-toggle)
 
-(load-theme 'naquadah t)
+;;(load-theme 'naquadah t)
+;; (setq doom-theme 'doom-dracula)
+
+;; from https://www.reddit.com/r/DoomEmacs/comments/jl6p9x/whitespacemode/
+(defun bboozzoo/see-all-whitespace () (interactive)
+       (setq whitespace-style (default-value 'whitespace-style))
+       (setq whitespace-display-mappings (default-value 'whitespace-display-mappings))
+       (whitespace-mode 'toggle))
+
+(global-set-key (kbd "C-<f4>") 'bboozzoo/see-all-whitespace)
+
+(defun bboozzoo/refresh-file ()
+  (interactive)
+  (revert-buffer t (not (buffer-modified-p)) t))
+
+;; bind file refresh to F5
+(global-set-key (kbd "C-<f5>") 'bboozzoo/refresh-file)
+
+;; enable subword mode for moving around
+(global-subword-mode +1)
+
+(windmove-default-keybindings)
