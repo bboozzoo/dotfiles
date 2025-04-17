@@ -69,6 +69,10 @@ if [ "$$" = "1" ] || [ -n "$container" ] || [ -n "$CONTAINER_ID" ]; then
     # maybe in a container
     machine_prompt="%{$fg_bold[green]%}%m%{$reset_color%}"
 fi
+if [ "${SPREAD_VENV-}" = "1" ]; then
+    # spread-venv?
+    machine_prompt="%{$fg_bold[green]%}[spread]%{$reset_color%}"
+fi
 PROMPT='${user_prompt}@${machine_prompt}:%3~ ${jhbuild_prompt}${jobs_prompt}${vcs_info_msg_0_}'
 RPS1='%(?..${dash_prompt} %{$fg_bold[red]%}%? ↵%{$reset_color%})'
 
