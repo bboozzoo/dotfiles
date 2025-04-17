@@ -176,5 +176,12 @@ alias mwork='mutt -F ~/.config-custom/mutt/work'
 export PATH PAGER TERM LC_ALL
 
 # source zaw if exists
-[[ -e ~/code/zaw/zaw.zsh ]] && source ~/code/zaw/zaw.zsh
-
+[[ -e ~/code/zaw/zaw.zsh ]] && source ~/code/zaw/zaw.zsh || true
+# and fzf integration
+_local_fzf_shell_dir=/usr/share/fzf
+if [[ -d /usr/share/fzf/shell ]]; then
+    # openSUSE?
+    _local_fzf_shell_dir=/usr/share/fzf/shell
+fi
+[[ -e "$_local_fzf_shell_dir/key-bindings.zsh" ]] && source "$_local_fzf_shell_dir/key-bindings.zsh" || true
+[[ -e "$_local_fzf_shell_dir/completion.zsh" ]] && source "$_local_fzf_shell_dir/completion.zsh" || true
