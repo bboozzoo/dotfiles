@@ -1,0 +1,43 @@
+# -*- mode: ansible; -*-
+
+- name: Update DEB host packages
+  hosts: apt
+  become: true
+
+  tasks:
+    - name: Update all installed packages
+      ansible.builtin.apt:
+        autoremove: true
+        update_cache: true
+        clean: true
+        upgrade: dist
+      register: apt_update_status
+
+    - name: Remove not needed packages
+      ansible.builtin.apt:
+        autoremove: true
+
+    - name: Check if reboot is needed
+      reboot:
+      when: apt_update_status.changed
+      
+- name: Update RPM host packages
+  hosts: yum
+  tasks:
+  - name: Update all installed packages
+    yum:
+      name: '*'
+      state: latest
+      update_cache: yes
+      update_only: yes
+    register: yum_update_status
+
+  - name: Remove packates not needed anymore
+    yum:
+      autoremove: yes
+
+  - name: Reboot when packages were updated
+    reboot:
+    when: yum_update_status.changed
+
+# TODO zypper?

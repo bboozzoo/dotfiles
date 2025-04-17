@@ -1,0 +1,59 @@
+- name: Bootstrap Pi
+  hosts: pi
+  become: true
+  gather_facts: true  # to get MAC address info
+
+  tasks:
+    - name: Get current hostname
+      ansible.builtin.command: hostname
+      register: current_hostname
+      changed_when: false
+
+    - name: Get MAC address of primary network interface
+      ansible.builtin.set_fact:
+        mac_address: "{{ ansible_facts['default_ipv4']['macaddress'] }}"
+
+    - name: Create hostname from MAC address (removing colons)
+      ansible.builtin.set_fact:
+        expected_hostname: "{{ mac_address | replace(':', '') }}"
+
+    - name: Display new hostname
+      ansible.builtin.debug:
+        msg: "Expected hostname: {{ expected_hostname }} current: {{ ansible_facts['nodename'] }}"
+
+    - name: Check if hostname needs to be changed
+      ansible.builtin.set_fact:
+        hostname_needs_change: "{{ ansible_facts['nodename'] != expected_hostname }}"
+
+    - name: Display hostname change status
+      ansible.builtin.debug:
+        msg: "Hostname will be changed: {{ hostname_needs_change }}"
+
+    - name: Set system hostname using ansible.builtin.hostname
+      ansible.builtin.hostname:
+        name: "{{ expected_hostname }}"
+        use: systemd
+      when: hostname_needs_change
+      register: hostname_changed
+
+    - name: Verify hostname was set correctly
+      ansible.builtin.command: hostname
+      register: hostname_result
+      changed_when: false
+
+    - name: Update hosts
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        regexp: "^127.0.1.1.* {{ inventory_hostname }}"
+        line: 127.0.1.1 {{ inventory_hostname }}
+
+    - name: Disable cloud-init
+      ansible.builtin.file:
+        path: /etc/cloud/cloud-init.disabled
+        state: touch
+
+    - name: Reboot system if hostname was changed
+      ansible.builtin.reboot:
+        reboot_timeout: 300  # 5 minutes timeout for reboot
+        msg: "Rebooting due to hostname change"
+      when: hostname_changed.changed

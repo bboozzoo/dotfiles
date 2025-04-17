@@ -1,0 +1,35 @@
+ungrouped:
+
+pi:
+  hosts:
+    # Pi 4B 8GB, MAC dc:a6:32:b7:b4:e2
+    dca632b7b4e2.local: &pi4b8gb
+
+pi_home_assistant_controller:
+  hosts:
+    dca632b7b4e2.local:
+      ha_config_path: "/srv/homeassistant"
+
+pi_ups_monitor:
+  hosts:
+    dca632b7b4e2.local:
+
+laptops:
+  hosts:
+    carrack.local:
+
+apt:
+  hosts:
+    dca632b7b4e2.local:
+
+zypper:
+  hosts:
+    carrack.local:
+
+yum:
+  hosts:
+    sloop.local:
+
+pacman:
+  hosts:
+    galeon.local:

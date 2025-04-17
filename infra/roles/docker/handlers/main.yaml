@@ -1,0 +1,7 @@
+- name: Restart Docker
+  ansible.builtin.service:
+    name: snap.docker.dockerd
+    state: restarted
+
+- name: Verify docker
+  ansible.builtin.command: docker info

@@ -1,0 +1,2 @@
+- name: Verify UPS is visible
+  ansible.builtin.command: upsc eaton
