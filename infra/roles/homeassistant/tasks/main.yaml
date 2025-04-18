@@ -1,0 +1,29 @@
+- name: Create directory for HA state
+  ansible.builtin.file:
+    path: "{{ ha_project_path }}"
+    state: directory
+    mode: '0755'
+
+- name: Create directory for HA config
+  ansible.builtin.file:
+    path: "{{ ha_project_path }}/config"
+    state: directory
+    mode: '0755'
+
+- name: Copy terraform project
+  ansible.builtin.copy:
+    src: ../../terraform/homeassistant/
+    dest: "{{ ha_project_path }}/terraform"
+
+- name: Start HA container
+  community.general.terraform:
+    project_path: "{{ ha_project_path }}/terraform"
+    force_init: true
+    state: "present"
+    variables:
+      local_config_path: "{{ ha_project_path }}/config"
+  register: terraform_output
+
+- name: Show terraform output
+  ansible.builtin.debug:
+    msg: "Terraform output: {{ terraform_output }}"

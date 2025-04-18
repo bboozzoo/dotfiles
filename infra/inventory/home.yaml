@@ -8,7 +8,8 @@ pi:
 pi_home_assistant_controller:
   hosts:
     dca632b7b4e2.local:
-      ha_config_path: "/srv/homeassistant"
+      # docker from a snap limits where the writable locations are
+      ha_project_path: "/root/homeassistant"
 
 pi_ups_monitor:
   hosts:
