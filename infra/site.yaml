@@ -1,0 +1,13 @@
+- hosts: all
+
+- hosts: pi_home_assistant_controller
+  become: true
+  roles:
+    - docker
+    - terraform
+    - homeassistant
+
+- hosts: pi_ups_monitor
+  become: true
+  roles:
+    - upsd
