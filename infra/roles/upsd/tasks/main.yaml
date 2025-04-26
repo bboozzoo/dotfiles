@@ -28,6 +28,16 @@
     block: |
       MODE=netserver
 
+- name: upsd mode
+  ansible.builtin.blockinfile:
+    path: /etc/nut/upsd.users
+    block: |
+      [monitor]
+          password = ups
+          upsmon primary
+          actions = SET
+          instcmds = ALL
+
 - name: Enable nut-driver-enumerator.service
   ansible.builtin.systemd:
     enabled: true
