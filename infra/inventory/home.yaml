@@ -15,6 +15,10 @@ pi_ups_monitor:
   hosts:
     dca632b7b4e2.local:
 
+tailscale_vpn_gw:
+  hosts:
+    dca632b7b4e2.local:
+
 laptops:
   hosts:
     carrack.local:

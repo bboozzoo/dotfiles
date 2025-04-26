@@ -1,0 +1,17 @@
+- name: Get Tailscale keyring
+  ansible.builtin.get_url:
+    url: https://pkgs.tailscale.com/stable/ubuntu/noble.noarmor.gpg
+    dest: /etc/apt/keyrings/tailscale-archive-keyring.gpg
+    mode: '0644'
+    force: true
+
+- name: Add Tailscale repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/ubuntu noble main"
+    filename: tailscale
+    state: present
+    update_cache: true
+
+- name: Install tailscale
+  ansible.builtin.apt:
+    name: tailscale
