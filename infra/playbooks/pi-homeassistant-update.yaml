@@ -1,0 +1,4 @@
+- hosts: pi_home_assistant_controller
+  become: true
+  roles:
+    - homeassistant
