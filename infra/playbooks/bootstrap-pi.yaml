@@ -1,5 +1,5 @@
 - name: Bootstrap Pi
-  hosts: pi
+  hosts: all
   become: true
   gather_facts: true  # to get MAC address info
 
