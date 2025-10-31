@@ -9,6 +9,7 @@
         coverLetter = auto
         signoff = true
         thread = true
+	    signOff = true
 [gc]
         auto = 1
 
