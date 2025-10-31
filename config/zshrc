@@ -194,3 +194,5 @@ if [[ -d /usr/share/fzf/shell ]]; then
 fi
 [[ -e "$_local_fzf_shell_dir/key-bindings.zsh" ]] && source "$_local_fzf_shell_dir/key-bindings.zsh" || true
 [[ -e "$_local_fzf_shell_dir/completion.zsh" ]] && source "$_local_fzf_shell_dir/completion.zsh" || true
+
+[[ -d ~/code/zsh-syntax-highlighting ]] && source ~/code/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
