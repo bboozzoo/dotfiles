@@ -149,14 +149,23 @@ alias ls='ls --color=auto'
 alias ll='ls --color=auto -l'
 alias lla='ls --color=auto -la'
 
-if which emacsclient &> /dev/null ; then
-    # set aliases
-    alias vi="emacsclient -t -a ''"
-    alias vim="emacsclient -t -a ''"
-    alias rvim=/usr/bin/vim
-    # set EDITOR
-    EDITOR="emacsclient -t -a ''"
-    export EDITOR
+EDITOR=vim
+# if which emacsclient &> /dev/null ; then
+#     # set aliases
+#     alias vi="emacsclient -t -a ''"
+#     alias vim="emacsclient -t -a ''"
+#     alias rvim=/usr/bin/vim
+#     # set EDITOR
+#     EDITOR="emacsclient -t -a ''"
+#     export EDITOR
+# fi
+
+if command -v helix &> /dev/null; then
+    EDITOR=helix
+fi
+
+if command -v bat &> /dev/null; then
+    alias cat=bat
 fi
 
 # for python
@@ -173,7 +182,7 @@ alias mwork='mutt -F ~/.config-custom/mutt/work'
 #LC_ALL=C
 
 # exports
-export PATH PAGER TERM LC_ALL
+export PATH PAGER TERM LC_ALL EDITOR
 
 # source zaw if exists
 [[ -e ~/code/zaw/zaw.zsh ]] && source ~/code/zaw/zaw.zsh || true
